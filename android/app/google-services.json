@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "368863981234",
+    "project_id": "cliff-b29b6",
+    "storage_bucket": "cliff-b29b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:368863981234:android:8de014c92de69045bee3ab",
+        "android_client_info": {
+          "package_name": "com.example.cliff"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "368863981234-air3vuup51klmrga5jpso8o2ijphi71e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbdkJm5cTfj127yCUX_IryeIInaYbc_Tg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "368863981234-air3vuup51klmrga5jpso8o2ijphi71e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
