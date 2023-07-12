@@ -1,6 +1,7 @@
 import 'package:cliff/firebase_options.dart';
 import 'package:cliff/screens/auth_screen.dart';
 import 'package:cliff/screens/home_screen.dart';
+import 'package:cliff/screens/singup_screen.dart';
 import 'package:cliff/screens/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,8 +25,14 @@ class MyApp extends StatelessWidget {
       title: 'CLIFF',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        fontFamily: 'Mufanpfs',
+        colorScheme:
+            ColorScheme.fromSwatch(primarySwatch: Colors.purple).copyWith(
+          primary: const Color.fromARGB(255, 2, 0, 17),
+          secondary: const Color.fromRGBO(76, 114, 115, 1.000),
+        ),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 157, 164, 166),
+        useMaterial3: false,
       ),
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
@@ -40,6 +47,10 @@ class MyApp extends StatelessWidget {
           return const AuthScreen();
         },
       ),
+      routes: {
+        SignUpScreen.routeName: (ctx) => const SignUpScreen(),
+        AuthScreen.routeName: (ctx) => const AuthScreen(),
+      },
     );
   }
 }
