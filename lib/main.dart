@@ -25,7 +25,8 @@ class MyApp extends StatelessWidget {
       title: 'CLIFF',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        fontFamily: 'Mufanpfs',
+        // inputDecorationTheme: ,
+        // fontFamily: 'Mufanpfs',
         colorScheme:
             ColorScheme.fromSwatch(primarySwatch: Colors.purple).copyWith(
           primary: const Color.fromARGB(255, 2, 0, 17),
