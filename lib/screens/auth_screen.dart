@@ -57,6 +57,11 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final font15 = screenWidth * 0.038;
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -76,36 +81,32 @@ class _AuthScreenState extends State<AuthScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                margin: const EdgeInsets.only(
-                  top: 100,
-                  bottom: 40,
-                  left: 20,
-                  right: 20,
-                ),
-                width: 200,
-                child: const Center(
-                  child: Text(
-                    'CLIFF',
-                    style: TextStyle(
-                      fontFamily: 'MoonbrightDemo',
-                      fontWeight: FontWeight.normal,
-                      fontSize: 110,
-                    ),
+              SizedBox(
+                height: screenHeight * 0.1,
+              ),
+              Center(
+                child: Text(
+                  'CLIFF',
+                  style: TextStyle(
+                    fontFamily: 'MoonbrightDemo',
+                    fontWeight: FontWeight.normal,
+                    fontSize: screenHeight * 0.13,
                   ),
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.only(
-                  top: 10,
-                  bottom: 0,
-                  left: 25,
-                  right: 25,
+              SizedBox(
+                height: screenHeight * 0.07,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: screenHeight * 0.025,
                 ),
-                width: 400,
-                child: const Text(
+                child: Text(
                   'Hello, \nWelcome to Silicon Institute of Technology',
-                  style: TextStyle(fontSize: 35),
+                  style: TextStyle(
+                      fontSize: screenHeight * 0.038,
+                      fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(
@@ -167,24 +168,29 @@ class _AuthScreenState extends State<AuthScreen> {
                       if (!_isAuthenticating)
                         ElevatedButton(
                           onPressed: _submit,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                          ),
-                          child: const Text(
+                          child: Text(
                             'Sign in',
-                            style: TextStyle(fontSize: 17),
+                            style: TextStyle(fontSize: font15+2),
                           ),
+                        ),
+
+                      const SizedBox(height: 30),
+
+                      //Dont have account text
+                      if (!_isAuthenticating)
+                        Text(
+                          'Don\'t have an account?',
+                          style: TextStyle(fontSize: font15),
                         ),
                       if (!_isAuthenticating)
                         TextButton(
                           onPressed: () {
                             Navigator.of(context)
-                                .popAndPushNamed(SignUpScreen.routeName);
+                                .pushNamed(SignUpScreen.routeName);
                           },
-                          child: const Text(
-                            'Don\'t have an account?\n      Create account',
-                            style: TextStyle(fontSize: 15),
+                          child: Text(
+                            'Create account',
+                            style: TextStyle(fontSize: font15),
                           ),
                         ),
                     ],
