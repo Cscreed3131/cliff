@@ -20,6 +20,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+
+
   final _form = GlobalKey<FormState>();
   var _enteredEmail = '';
   var _isAuthenticating = false;
@@ -108,6 +110,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    //Sizes
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final font15 = screenWidth * 0.038;
+
     return Scaffold(
       body: Container(
         height: double.infinity,
@@ -123,32 +131,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
             stops: const [0, 1],
           ),
         ),
-        child: Center(
-          child: SingleChildScrollView(
+        child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(
-                      top: 0, bottom: 5, left: 20, right: 20),
-                  width: 200,
-                  child: const Center(
-                    child: Text(
-                      'CLIFF',
-                      style: TextStyle(
-                        fontFamily: 'MoonbrightDemo',
-                        // color: Color.fromRGBO(132, 136, 181, 1),
-                        fontWeight: FontWeight.normal,
-                        fontSize: 95,
-                      ),
+                SizedBox(
+                  height: screenHeight * 0.1,
+                ),
+                Center(
+                  child: Text(
+                    'CLIFF',
+                    style: TextStyle(
+                      fontFamily: 'MoonbrightDemo',
+                      fontWeight: FontWeight.normal,
+                      fontSize: screenHeight * 0.13,
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: 20,
-                    left: 25,
-                    right: 25,
-                    top: 5,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
                   ),
                   child: Form(
                     key: _form,
@@ -408,11 +411,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                       .popAndPushNamed(
                                                           AuthScreen.routeName);
                                                 },
-                                                child: const Text(
+                                                child: Text(
                                                   'Okay',
                                                   style: TextStyle(
                                                     fontFamily: 'Barrbar',
-                                                    fontSize: 20,
+                                                    fontSize: font15+5,
                                                   ),
                                                 ),
                                               )
@@ -426,8 +429,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 },
                                 child: const Text('Sign Up'),
                               ),
-                            const SizedBox(
-                              width: 50,
+                            SizedBox(
+                              width: screenWidth * 0.13,
+                            ),
+                            Text(
+                              'Have an account?',
+                              style: TextStyle(
+                                fontSize: font15,
+                              ),
                             ),
                             TextButton(
                               onPressed: () {
@@ -435,10 +444,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     .pushNamed(AuthScreen.routeName);
                               },
                               // style: ButtonStyle(),
-                              child: const Text(
-                                'Have an account? Login instead',
+                              child: Text(
+                                'Login instead',
                                 style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: font15,
                                 ),
                               ),
                             ),
@@ -451,7 +460,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ],
             ),
           ),
-        ),
       ),
     );
   }
