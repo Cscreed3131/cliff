@@ -151,6 +151,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           border: OutlineInputBorder(),
                         ),
                         obscureText: true,
+                        keyboardType: TextInputType.visiblePassword,
                         focusNode: _passwordFocusNode,
                         validator: (value) {
                           if (value == null || value.length < 6) {
@@ -180,11 +181,13 @@ class _AuthScreenState extends State<AuthScreen> {
                         TextButton(
                           onPressed: () {
                             Navigator.of(context)
-                                .popAndPushNamed(SignUpScreen.routeName);
+                                .pushNamed(SignUpScreen.routeName);
                           },
                           child: const Text(
                             'Don\'t have an account?\n      Create account',
-                            style: TextStyle(fontSize: 15),
+                            style: TextStyle(
+                              fontSize: 15,
+                            ),
                           ),
                         ),
                     ],

@@ -432,7 +432,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             TextButton(
                               onPressed: () {
                                 Navigator.of(context)
-                                    .pushReplacementNamed(AuthScreen.routeName);
+                                    .pushNamed(AuthScreen.routeName);
                               },
                               // style: ButtonStyle(),
                               child: const Text(
