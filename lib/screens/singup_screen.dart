@@ -20,8 +20,6 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-
-
   final _form = GlobalKey<FormState>();
   var _enteredEmail = '';
   var _isAuthenticating = false;
@@ -110,7 +108,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     //Sizes
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
@@ -132,334 +129,330 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
         ),
         child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: screenHeight * 0.1,
-                ),
-                Center(
-                  child: Text(
-                    'CLIFF',
-                    style: TextStyle(
-                      fontFamily: 'MoonbrightDemo',
-                      fontWeight: FontWeight.normal,
-                      fontSize: screenHeight * 0.13,
-                    ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: screenHeight * 0.1,
+              ),
+              Center(
+                child: Text(
+                  'CLIFF',
+                  style: TextStyle(
+                    fontFamily: 'MoonbrightDemo',
+                    fontWeight: FontWeight.normal,
+                    fontSize: screenHeight * 0.13,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 10,
-                  ),
-                  child: Form(
-                    key: _form,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        UserImagePicker(
-                          onPickImage: (pickedImage) {
-                            _selectedImage = pickedImage;
-                          },
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+                child: Form(
+                  key: _form,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      UserImagePicker(
+                        onPickImage: (pickedImage) {
+                          _selectedImage = pickedImage;
+                        },
+                      ),
+                      const SizedBox(height: 5),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Name',
+                          border: OutlineInputBorder(),
                         ),
-                        const SizedBox(height: 5),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            labelText: 'Name',
-                            border: OutlineInputBorder(),
-                          ),
-                          keyboardType: TextInputType.emailAddress,
-                          autocorrect: false,
-                          textCapitalization: TextCapitalization.none,
-                          textInputAction: TextInputAction.next,
-                          onFieldSubmitted: (_) {
-                            FocusScope.of(context).requestFocus(_sicFocusNode);
-                          },
-                          validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
-                              return 'Please enter your name';
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _enteredUserName = value!;
-                          },
+                        keyboardType: TextInputType.emailAddress,
+                        autocorrect: false,
+                        textCapitalization: TextCapitalization.none,
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context).requestFocus(_sicFocusNode);
+                        },
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please enter your name';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          _enteredUserName = value!;
+                        },
+                      ),
+                      const SizedBox(height: 7),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Sic Number',
+                          border: OutlineInputBorder(),
                         ),
-                        const SizedBox(height: 7),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            labelText: 'Sic Number',
-                            border: OutlineInputBorder(),
-                          ),
-                          focusNode: _sicFocusNode,
-                          textInputAction: TextInputAction.next,
-                          onFieldSubmitted: (_) {
-                            FocusScope.of(context)
-                                .requestFocus(_branchFocusNode);
-                          },
-                          validator: (value) {
-                            if (value == null ||
-                                value.isEmpty ||
-                                value.trim().length < 4) {
-                              return 'please enter at least 4 characters.';
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _enteredSicNumber = value!;
-                          },
-                        ),
-                        const SizedBox(
-                          height: 7,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: DropdownButtonFormField<String>(
-                                decoration: const InputDecoration(
-                                  labelText: 'Branch',
-                                  border: OutlineInputBorder(),
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 10),
+                        focusNode: _sicFocusNode,
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context).requestFocus(_branchFocusNode);
+                        },
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.trim().length < 4) {
+                            return 'please enter at least 4 characters.';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          _enteredSicNumber = value!;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 7,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: DropdownButtonFormField<String>(
+                              decoration: const InputDecoration(
+                                labelText: 'Branch',
+                                border: OutlineInputBorder(),
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 10),
+                              ),
+                              value: _enteredbranch.isNotEmpty
+                                  ? _enteredbranch
+                                  : null,
+                              items: const [
+                                DropdownMenuItem<String>(
+                                  value: 'CSE',
+                                  child: Text('CSE'),
                                 ),
-                                value: _enteredbranch.isNotEmpty
-                                    ? _enteredbranch
-                                    : null,
-                                items: const [
-                                  DropdownMenuItem<String>(
-                                    value: 'CSE',
-                                    child: Text('CSE'),
-                                  ),
-                                  DropdownMenuItem<String>(
-                                    value: 'CST',
-                                    child: Text('CST'),
-                                  ),
-                                  DropdownMenuItem<String>(
-                                    value: 'CEN',
-                                    child: Text('CEN'),
-                                  ),
-                                  DropdownMenuItem<String>(
-                                    value: 'ECE',
-                                    child: Text('ECE'),
-                                  ),
-                                  DropdownMenuItem<String>(
-                                    value: 'EEE',
-                                    child: Text('EEE'),
-                                  ),
-                                  DropdownMenuItem<String>(
-                                    value: 'EIE',
-                                    child: Text('EIE'),
-                                  ),
-                                ],
-                                onChanged: (value) {
-                                  setState(() {
-                                    _enteredbranch = value!;
-                                  });
-                                },
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please select a branch';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: DropdownButtonFormField<String>(
-                                decoration: const InputDecoration(
-                                  labelText: 'Year',
-                                  border: OutlineInputBorder(),
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 10),
+                                DropdownMenuItem<String>(
+                                  value: 'CST',
+                                  child: Text('CST'),
                                 ),
-                                value: _enteredStudentYear.isNotEmpty
-                                    ? _enteredStudentYear
-                                    : null,
-                                items: const [
-                                  DropdownMenuItem<String>(
-                                    value: '1st',
-                                    child: Text('1st'),
-                                  ),
-                                  DropdownMenuItem<String>(
-                                    value: '2nd',
-                                    child: Text('2nd'),
-                                  ),
-                                  DropdownMenuItem<String>(
-                                    value: '3rd',
-                                    child: Text('3rd'),
-                                  ),
-                                  DropdownMenuItem<String>(
-                                    value: '4th',
-                                    child: Text('4th'),
-                                  ),
-                                ],
-                                onChanged: (value) {
-                                  setState(() {
-                                    _enteredStudentYear = value!;
-                                  });
-                                },
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please select a year';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 7,
-                        ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            labelText: 'Phone Number',
-                            border: OutlineInputBorder(),
-                          ),
-                          keyboardType: TextInputType.number,
-                          focusNode: _phoneNumberFocusNode,
-                          textInputAction: TextInputAction.next,
-                          onFieldSubmitted: (_) {
-                            FocusScope.of(context)
-                                .requestFocus(_emailFocusNode);
-                          },
-                          validator: (value) {
-                            if (value == null ||
-                                value.isEmpty ||
-                                value.trim().length != 10 ||
-                                value.trim().length > 10 ||
-                                value.trim().length < 10) {
-                              return 'Please enter correct Phone number';
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _enteredPhoneNumber = value!;
-                          },
-                        ),
-                        const SizedBox(height: 7),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            labelText: 'Email Address',
-                            border: OutlineInputBorder(),
-                          ),
-                          focusNode: _emailFocusNode,
-                          textInputAction: TextInputAction.next,
-                          onFieldSubmitted: (_) {
-                            FocusScope.of(context)
-                                .requestFocus(_passwordFocusNode);
-                          },
-                          keyboardType: TextInputType.visiblePassword,
-                          validator: (value) {
-                            if (value == null ||
-                                value.trim().isEmpty ||
-                                !value.contains('@')) {
-                              return 'Please enter a valid email address.';
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _enteredEmail = value!;
-                          },
-                        ),
-                        const SizedBox(height: 7),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            labelText: 'Password',
-                            border: OutlineInputBorder(),
-                          ),
-                          obscureText: true,
-                          validator: (value) {
-                            if (value == null || value.length < 6) {
-                              return 'password is to short';
-                            }
-                            return null;
-                          },
-                          focusNode: _passwordFocusNode,
-                          // onFieldSubmitted: (_) {},
-                          onSaved: (value) {
-                            _enteredpassword = value!;
-                          },
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            if (_isAuthenticating)
-                              const CircularProgressIndicator(),
-                            if (!_isAuthenticating)
-                              ElevatedButton(
-                                onPressed: () async {
-                                  if (await _submit()) {
-                                    if (context.mounted) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            title: const Text(
-                                                'SignUp Successfull'),
-                                            content: const Text(
-                                                'Please Sign-in with the email and password'),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                  Navigator.of(context)
-                                                      .popAndPushNamed(
-                                                          AuthScreen.routeName);
-                                                },
-                                                child: Text(
-                                                  'Okay',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Barrbar',
-                                                    fontSize: font15+5,
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    }
-                                  }
-                                  _isAuthenticating = false;
-                                },
-                                child: const Text('Sign Up'),
-                              ),
-                            SizedBox(
-                              width: screenWidth * 0.13,
-                            ),
-                            Text(
-                              'Have an account?',
-                              style: TextStyle(
-                                fontSize: font15,
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pushNamed(AuthScreen.routeName);
+                                DropdownMenuItem<String>(
+                                  value: 'CEN',
+                                  child: Text('CEN'),
+                                ),
+                                DropdownMenuItem<String>(
+                                  value: 'ECE',
+                                  child: Text('ECE'),
+                                ),
+                                DropdownMenuItem<String>(
+                                  value: 'EEE',
+                                  child: Text('EEE'),
+                                ),
+                                DropdownMenuItem<String>(
+                                  value: 'EIE',
+                                  child: Text('EIE'),
+                                ),
+                              ],
+                              onChanged: (value) {
+                                setState(() {
+                                  _enteredbranch = value!;
+                                });
                               },
-                              // style: ButtonStyle(),
-                              child: Text(
-                                'Login instead',
-                                style: TextStyle(
-                                  fontSize: font15,
-                                ),
-                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please select a branch';
+                                }
+                                return null;
+                              },
                             ),
-                          ],
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: DropdownButtonFormField<String>(
+                              decoration: const InputDecoration(
+                                labelText: 'Year',
+                                border: OutlineInputBorder(),
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 10),
+                              ),
+                              value: _enteredStudentYear.isNotEmpty
+                                  ? _enteredStudentYear
+                                  : null,
+                              items: const [
+                                DropdownMenuItem<String>(
+                                  value: '1st',
+                                  child: Text('1st'),
+                                ),
+                                DropdownMenuItem<String>(
+                                  value: '2nd',
+                                  child: Text('2nd'),
+                                ),
+                                DropdownMenuItem<String>(
+                                  value: '3rd',
+                                  child: Text('3rd'),
+                                ),
+                                DropdownMenuItem<String>(
+                                  value: '4th',
+                                  child: Text('4th'),
+                                ),
+                              ],
+                              onChanged: (value) {
+                                setState(() {
+                                  _enteredStudentYear = value!;
+                                });
+                              },
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please select a year';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 7,
+                      ),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Phone Number',
+                          border: OutlineInputBorder(),
                         ),
-                      ],
-                    ),
+                        keyboardType: TextInputType.number,
+                        focusNode: _phoneNumberFocusNode,
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context).requestFocus(_emailFocusNode);
+                        },
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.trim().length != 10 ||
+                              value.trim().length > 10 ||
+                              value.trim().length < 10) {
+                            return 'Please enter correct Phone number';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          _enteredPhoneNumber = value!;
+                        },
+                      ),
+                      const SizedBox(height: 7),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Email Address',
+                          border: OutlineInputBorder(),
+                        ),
+                        focusNode: _emailFocusNode,
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context)
+                              .requestFocus(_passwordFocusNode);
+                        },
+                        keyboardType: TextInputType.visiblePassword,
+                        validator: (value) {
+                          if (value == null ||
+                              value.trim().isEmpty ||
+                              !value.contains('@')) {
+                            return 'Please enter a valid email address.';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          _enteredEmail = value!;
+                        },
+                      ),
+                      const SizedBox(height: 7),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Password',
+                          border: OutlineInputBorder(),
+                        ),
+                        obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.length < 6) {
+                            return 'password is to short';
+                          }
+                          return null;
+                        },
+                        focusNode: _passwordFocusNode,
+                        // onFieldSubmitted: (_) {},
+                        onSaved: (value) {
+                          _enteredpassword = value!;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          if (_isAuthenticating)
+                            const CircularProgressIndicator(),
+                          if (!_isAuthenticating)
+                            ElevatedButton(
+                              onPressed: () async {
+                                if (await _submit()) {
+                                  if (context.mounted) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title:
+                                              const Text('SignUp Successfull'),
+                                          content: const Text(
+                                              'Please Sign-in with the email and password'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                                Navigator.of(context)
+                                                    .popAndPushNamed(
+                                                        AuthScreen.routeName);
+                                              },
+                                              child: Text(
+                                                'Okay',
+                                                style: TextStyle(
+                                                  fontFamily: 'Barrbar',
+                                                  fontSize: font15 + 5,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  }
+                                }
+                                _isAuthenticating = false;
+                              },
+                              child: const Text('Sign Up'),
+                            ),
+                          SizedBox(
+                            width: screenWidth * 0.13,
+                          ),
+                          Text(
+                            'Have an account?',
+                            style: TextStyle(
+                              fontSize: font15,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pushNamed(AuthScreen.routeName);
+                            },
+                            // style: ButtonStyle(),
+                            child: Text(
+                              'Login instead',
+                              style: TextStyle(fontSize: font15),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
+        ),
       ),
     );
   }

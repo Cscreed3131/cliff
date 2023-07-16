@@ -57,7 +57,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final font15 = screenWidth * 0.038;
@@ -99,13 +98,13 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: screenHeight * 0.025,
+                  horizontal: screenHeight * 0.025,
                 ),
                 child: Text(
                   'Hello, \nWelcome to Silicon Institute of Technology',
                   style: TextStyle(
-                      fontSize: screenHeight * 0.038,
-                      fontWeight: FontWeight.bold,
+                    fontSize: screenHeight * 0.038,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -171,7 +170,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           onPressed: _submit,
                           child: Text(
                             'Sign in',
-                            style: TextStyle(fontSize: font15+2),
+                            style: TextStyle(fontSize: font15 + 2),
                           ),
                         ),
 
@@ -189,17 +188,9 @@ class _AuthScreenState extends State<AuthScreen> {
                             Navigator.of(context)
                                 .pushNamed(SignUpScreen.routeName);
                           },
-<<<<<<< HEAD
-                          child: const Text(
-                            'Don\'t have an account?\n      Create account',
-                            style: TextStyle(
-                              fontSize: 15,
-                            ),
-=======
                           child: Text(
                             'Create account',
                             style: TextStyle(fontSize: font15),
->>>>>>> 1ac8ca3b1d7fe6beebff9724f9f121e867803a50
                           ),
                         ),
                     ],
