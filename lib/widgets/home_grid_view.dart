@@ -8,7 +8,7 @@ class HomeGridView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final gridItems = ref.watch(gridItemsProvider);
+    final gridItems = ref.read(gridItemsProvider);
 
     return GridView.builder(
       shrinkWrap: true,
