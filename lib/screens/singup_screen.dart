@@ -1,12 +1,11 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
 import 'package:cliff/screens/auth_screen.dart';
 import 'package:cliff/widgets/user_image_picker.dart';
+import '../global_varibales.dart';
 
 final _firebase = FirebaseAuth.instance;
 
@@ -118,15 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         height: double.infinity,
         width: double.infinity,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              const Color.fromRGBO(225, 218, 230, 1).withOpacity(0.5),
-              const Color.fromRGBO(246, 196, 237, 1).withOpacity(0.9),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: const [0, 1],
-          ),
+          gradient: pageGradient,
         ),
         child: SingleChildScrollView(
           child: Column(

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cliff/screens/singup_screen.dart';
 
+import '../global_varibales.dart';
+
 final _firebase = FirebaseAuth.instance;
 
 class AuthScreen extends StatefulWidget {
@@ -66,15 +68,7 @@ class _AuthScreenState extends State<AuthScreen> {
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              const Color.fromRGBO(225, 218, 230, 1).withOpacity(0.5),
-              const Color.fromRGBO(246, 196, 237, 1).withOpacity(0.9),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: const [0, 1],
-          ),
+          gradient: pageGradient,
         ),
         child: SingleChildScrollView(
           child: Column(

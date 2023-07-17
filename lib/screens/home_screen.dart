@@ -1,3 +1,4 @@
+import 'package:cliff/global_varibales.dart';
 import 'package:cliff/widgets/app_drawer.dart';
 import 'package:cliff/widgets/home_grid_view.dart';
 import 'package:cliff/widgets/image_slider.dart';
@@ -32,15 +33,7 @@ class HomeScreen extends StatelessWidget {
       drawer: const AppDrawer(),
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              const Color.fromRGBO(225, 218, 230, 1).withOpacity(0.5),
-              const Color.fromRGBO(246, 196, 237, 1).withOpacity(0.9),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: const [0, 1],
-          ),
+          gradient: pageGradient,
         ),
         height: double.infinity,
         width: double.infinity,
