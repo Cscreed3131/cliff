@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cliff/screens/singup_screen.dart';
+import 'package:cliff/screens/Auth/singup_screen.dart';
 
-import '../global_varibales.dart';
+import '../../global_varibales.dart';
 
 final _firebase = FirebaseAuth.instance;
 
@@ -174,17 +174,22 @@ class _AuthScreenState extends State<AuthScreen> {
                       if (!_isAuthenticating)
                         Text(
                           'Don\'t have an account?',
-                          style: TextStyle(fontSize: font15),
+                          style: TextStyle(
+                            fontSize: font15,
+                          ),
                         ),
                       if (!_isAuthenticating)
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context)
-                                .pushNamed(SignUpScreen.routeName);
+                            Navigator.of(context).pushNamed(
+                              SignUpScreen.routeName,
+                            );
                           },
                           child: Text(
                             'Create account',
-                            style: TextStyle(fontSize: font15),
+                            style: TextStyle(
+                              fontSize: font15,
+                            ),
                           ),
                         ),
                     ],

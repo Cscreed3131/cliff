@@ -1,3 +1,4 @@
+import 'package:cliff/screens/Admin/admin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -41,6 +42,23 @@ class AppDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/');
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(
+              Icons.add,
+              color: iconColor,
+            ),
+            title: const Text(
+              'Add Events',
+              style: TextStyle(
+                fontSize: 20,
+                color: textBackgroundColor,
+              ),
+            ),
+            onTap: () {
+              Navigator.of(context).pushNamed(AdminScreen.routeName);
             },
           ),
           const Divider(),

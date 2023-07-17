@@ -13,13 +13,14 @@ class ImageSlider extends ConsumerWidget {
     return CarouselSlider(
       options: CarouselOptions(
         height: 200.0,
-        autoPlay: true,
+        autoPlay: false,
+        autoPlayInterval: const Duration(seconds: 10),
         enlargeCenterPage: false,
         aspectRatio: 16 / 9,
         // enlargeFactor:,
         autoPlayCurve: Curves.fastOutSlowIn,
         enableInfiniteScroll: true,
-        autoPlayAnimationDuration: const Duration(milliseconds: 800),
+        autoPlayAnimationDuration: const Duration(milliseconds: 1000),
         viewportFraction: 0.85,
 
         // animateToClosest: true,

@@ -1,12 +1,21 @@
 import 'package:cliff/firebase_options.dart';
-import 'package:cliff/screens/auth_screen.dart';
-import 'package:cliff/screens/home_screen.dart';
-import 'package:cliff/screens/singup_screen.dart';
-import 'package:cliff/screens/splash_screen.dart';
+import 'package:cliff/screens/Admin/admin_screen.dart';
+import 'package:cliff/screens/Admin/create_event_screens.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:cliff/screens/splash_screen.dart';
+import 'package:cliff/screens/Auth/auth_screen.dart';
+import 'package:cliff/screens/alumni_screen.dart';
+import 'package:cliff/screens/buy_merch_screen.dart';
+import 'package:cliff/screens/event_screen.dart';
+import 'package:cliff/screens/history_screen.dart';
+import 'package:cliff/screens/home_screen.dart';
+import 'package:cliff/screens/Auth/singup_screen.dart';
+import 'package:cliff/screens/memories.dart';
+import 'package:cliff/screens/polls.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,6 +62,14 @@ class MyApp extends StatelessWidget {
       routes: {
         SignUpScreen.routeName: (ctx) => const SignUpScreen(),
         AuthScreen.routeName: (ctx) => const AuthScreen(),
+        EventsScreen.routeName: (ctx) => const EventsScreen(),
+        HistoryScreen.routeName: (ctx) => const HistoryScreen(),
+        BuyMerchScreen.routeName: (ctx) => const BuyMerchScreen(),
+        AlumniScreen.routeName: (ctx) => const AlumniScreen(),
+        Memories.routeName: (ctx) => const Memories(),
+        Polls.routeName: (ctx) => const Polls(),
+        AdminScreen.routeName: (ctx) => const AdminScreen(),
+        CreateEventScreen.routeName: (ctx) => const CreateEventScreen(),
       },
     );
   }

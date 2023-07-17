@@ -3,9 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:cliff/screens/auth_screen.dart';
+import 'package:cliff/screens/Auth/auth_screen.dart';
 import 'package:cliff/widgets/user_image_picker.dart';
-import '../global_varibales.dart';
+import '../../global_varibales.dart';
 
 final _firebase = FirebaseAuth.instance;
 
