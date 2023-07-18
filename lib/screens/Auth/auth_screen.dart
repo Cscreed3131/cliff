@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cliff/screens/Auth/singup_screen.dart';
 
-import '../../global_varibales.dart';
+// import '../../global_varibales.dart';
 
 final _firebase = FirebaseAuth.instance;
 
@@ -64,7 +64,6 @@ class _AuthScreenState extends State<AuthScreen> {
     final font15 = screenWidth * 0.038;
 
     return Scaffold(
-
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -88,7 +87,7 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
               CircleAvatar(
                 radius: screenHeight * 0.035,
-                backgroundImage: AssetImage('assets/images/logo.png'),
+                backgroundImage: const AssetImage('assets/images/logo.png'),
               ),
               Text(
                 'Cliff',

@@ -7,7 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:cliff/screens/splash_screen.dart';
+// import 'package:cliff/screens/splash_screen.dart';
 import 'package:cliff/screens/Auth/auth_screen.dart';
 import 'package:cliff/screens/alumni_screen.dart';
 import 'package:cliff/screens/buy_merch_screen.dart';
@@ -26,7 +26,7 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-Color brandColor = Color(0xFF4166f5);
+Color brandColor = const Color(0xFF4166f5);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -52,9 +52,8 @@ class MyApp extends StatelessWidget {
               seedColor: brandColor, brightness: Brightness.dark);
         }
 
-        final colorScheme = brightness == Brightness.dark
-            ? darkColorScheme
-            : lightColorScheme;
+        final colorScheme =
+            brightness == Brightness.dark ? darkColorScheme : lightColorScheme;
 
         return MaterialApp(
           title: 'CLIFF',

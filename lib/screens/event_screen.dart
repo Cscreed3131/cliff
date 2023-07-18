@@ -1,4 +1,4 @@
-import 'package:cliff/global_varibales.dart';
+// import 'package:cliff/global_varibales.dart';
 import 'package:cliff/widgets/events_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +11,7 @@ class EventsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
+    // final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       endDrawer: const AppDrawer(),
       body: CustomScrollView(
@@ -38,7 +38,6 @@ class EventsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   //event image container, this will not change (probably)
                   Container(
                       height: screenHeight * 0.2,
@@ -53,37 +52,38 @@ class EventsScreen extends StatelessWidget {
                           image: AssetImage('assets/images/events.png'),
                           fit: BoxFit.fitWidth,
                         ),
-                      )
-                  ),
+                      )),
 
-                  const SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   //Ongoing Events Section
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
                       "Ongoing Events",
-                      style: TextStyle(
-                        fontSize: 24
-                      ),
+                      style: TextStyle(fontSize: 24),
                     ),
                   ),
 
-                  const EventsWidget(title: 'Vikalp', imgPath: 'assets/images/vikalp.jpg'),
+                  const EventsWidget(
+                      title: 'Vikalp', imgPath: 'assets/images/vikalp.jpg'),
 
-                  const SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
 
                   //Upcoming Events Section
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
                       "Upcoming Events",
-                      style: TextStyle(
-                          fontSize: 24
-                      ),
+                      style: TextStyle(fontSize: 24),
                     ),
                   ),
 
-                  const EventsWidget(title: 'Vikalp', imgPath: 'assets/images/vikalp.jpg'),
+                  const EventsWidget(
+                      title: 'Vikalp', imgPath: 'assets/images/vikalp.jpg'),
                 ],
               ),
             ),
