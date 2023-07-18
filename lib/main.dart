@@ -1,11 +1,11 @@
 import 'package:cliff/firebase_options.dart';
-import 'package:cliff/screens/Admin/admin_screen.dart';
-import 'package:cliff/screens/Admin/create_event_screens.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:cliff/screens/Admin/admin_screen.dart';
+import 'package:cliff/screens/Admin/create_event_screens.dart';
 import 'package:cliff/screens/splash_screen.dart';
 import 'package:cliff/screens/Auth/auth_screen.dart';
 import 'package:cliff/screens/alumni_screen.dart';
@@ -62,6 +62,7 @@ class MyApp extends StatelessWidget {
       routes: {
         SignUpScreen.routeName: (ctx) => const SignUpScreen(),
         AuthScreen.routeName: (ctx) => const AuthScreen(),
+        HomeScreen.routeName: (ctx) => const HomeScreen(),
         EventsScreen.routeName: (ctx) => const EventsScreen(),
         HistoryScreen.routeName: (ctx) => const HistoryScreen(),
         BuyMerchScreen.routeName: (ctx) => const BuyMerchScreen(),

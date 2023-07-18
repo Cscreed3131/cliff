@@ -5,9 +5,14 @@ import 'package:cliff/widgets/image_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+  static const routeName = 'home';
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,21 +42,19 @@ class HomeScreen extends StatelessWidget {
         ),
         height: double.infinity,
         width: double.infinity,
-        child: const SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 30, bottom: 20),
-                child: ImageSlider(),
-              ),
-              Padding(
-                padding:
-                    EdgeInsets.only(top: 20, bottom: 30, right: 20, left: 20),
-                child: HomeGridView(),
-              ),
-            ],
-          ),
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 30, bottom: 20),
+              child: ImageSlider(),
+            ),
+            Padding(
+              padding:
+                  EdgeInsets.only(top: 20, bottom: 30, right: 20, left: 20),
+              child: HomeGridView(),
+            ),
+          ],
         ),
       ),
     );

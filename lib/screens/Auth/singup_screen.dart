@@ -374,47 +374,47 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       Row(
                         children: [
-                          if (_isAuthenticating)
-                            const CircularProgressIndicator(),
-                          if (!_isAuthenticating)
-                            ElevatedButton(
-                              onPressed: () async {
-                                if (await _submit()) {
-                                  if (context.mounted) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title:
-                                              const Text('SignUp Successfull'),
-                                          content: const Text(
-                                              'Please Sign-in with the email and password'),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                                Navigator.of(context)
-                                                    .popAndPushNamed(
-                                                        AuthScreen.routeName);
-                                              },
-                                              child: Text(
-                                                'Okay',
-                                                style: TextStyle(
-                                                  fontFamily: 'Barrbar',
-                                                  fontSize: font15 + 5,
-                                                ),
-                                              ),
-                                            )
-                                          ],
+                          _isAuthenticating
+                              ? const CircularProgressIndicator()
+                              : ElevatedButton(
+                                  onPressed: () async {
+                                    if (await _submit()) {
+                                      if (context.mounted) {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: const Text(
+                                                  'SignUp Successfull'),
+                                              content: const Text(
+                                                  'Please Sign-in with the email and password'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                    Navigator.of(context)
+                                                        .popAndPushNamed(
+                                                      AuthScreen.routeName,
+                                                    );
+                                                  },
+                                                  child: Text(
+                                                    'Okay',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Barrbar',
+                                                      fontSize: font15 + 5,
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            );
+                                          },
                                         );
-                                      },
-                                    );
-                                  }
-                                }
-                                _isAuthenticating = false;
-                              },
-                              child: const Text('Sign Up'),
-                            ),
+                                      }
+                                    }
+                                    _isAuthenticating = false;
+                                  },
+                                  child: const Text('Sign Up'),
+                                ),
                           SizedBox(
                             width: screenWidth * 0.13,
                           ),
