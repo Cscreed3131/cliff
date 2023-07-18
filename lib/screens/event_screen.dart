@@ -1,8 +1,6 @@
-// import 'package:cliff/global_varibales.dart';
+
 import 'package:cliff/widgets/events_widget.dart';
 import 'package:flutter/material.dart';
-
-import '../Widgets/app_drawer.dart';
 
 class EventsScreen extends StatelessWidget {
   const EventsScreen({super.key});
@@ -11,9 +9,7 @@ class EventsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    // final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      endDrawer: const AppDrawer(),
       body: CustomScrollView(
         slivers: [
           SliverAppBar.large(
@@ -65,12 +61,18 @@ class EventsScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 24),
                     ),
                   ),
-
+                  const SizedBox(
+                    height: 10,
+                  ),
                   const EventsWidget(
-                      title: 'Vikalp', imgPath: 'assets/images/vikalp.jpg'),
+                      title: 'Vikalp',
+                      imgPath: 'assets/images/vikalp.jpg',
+                      isOngoing: true,
+                      itemCount: 1
+                  ),
 
                   const SizedBox(
-                    height: 20,
+                    height: 30,
                   ),
 
                   //Upcoming Events Section
@@ -81,9 +83,18 @@ class EventsScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 24),
                     ),
                   ),
-
+                  const SizedBox(
+                    height: 10,
+                  ),
                   const EventsWidget(
-                      title: 'Vikalp', imgPath: 'assets/images/vikalp.jpg'),
+                      title: 'Vikalp',
+                      imgPath: 'assets/images/vikalp.jpg',
+                      isOngoing: false,
+                      itemCount: 3
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                 ],
               ),
             ),
