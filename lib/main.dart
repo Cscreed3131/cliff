@@ -1,6 +1,7 @@
 import 'package:cliff/firebase_options.dart';
 import 'package:cliff/screens/Admin/admin_screen.dart';
 import 'package:cliff/screens/Admin/create_event_screens.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -25,51 +26,69 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
+Color brandColor = Color(0xFF4166f5);
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'CLIFF',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        // inputDecorationTheme: ,
-        // fontFamily: 'Mufanpfs',
-        colorScheme:
-            ColorScheme.fromSwatch(primarySwatch: Colors.purple).copyWith(
-          primary: const Color.fromARGB(255, 2, 0, 17),
-          secondary: const Color.fromRGBO(76, 114, 115, 1.000),
-        ),
-        scaffoldBackgroundColor: Colors.grey.withOpacity(0.7),
+    return DynamicColorBuilder(
+      builder: (ColorScheme? lightDynamic, ColorScheme? dark) {
+        ColorScheme lightColorScheme;
+        ColorScheme darkColorScheme;
 
-        useMaterial3: false,
-      ),
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SplashScreen();
-          }
-          // snapshot.hasData ? const HomeScreen() : const AuthScreen();
-          if (snapshot.hasData) {
-            return const HomeScreen();
-          }
-          return const AuthScreen();
-        },
-      ),
-      routes: {
-        SignUpScreen.routeName: (ctx) => const SignUpScreen(),
-        AuthScreen.routeName: (ctx) => const AuthScreen(),
-        EventsScreen.routeName: (ctx) => const EventsScreen(),
-        HistoryScreen.routeName: (ctx) => const HistoryScreen(),
-        BuyMerchScreen.routeName: (ctx) => const BuyMerchScreen(),
-        AlumniScreen.routeName: (ctx) => const AlumniScreen(),
-        Memories.routeName: (ctx) => const Memories(),
-        Polls.routeName: (ctx) => const Polls(),
-        AdminScreen.routeName: (ctx) => const AdminScreen(),
-        CreateEventScreen.routeName: (ctx) => const CreateEventScreen(),
+        final brightness = MediaQuery.of(context).platformBrightness;
+
+        if (lightDynamic != null && dark != null) {
+          lightColorScheme = lightDynamic.harmonized()..copyWith();
+          lightColorScheme = lightColorScheme.copyWith(secondary: brandColor);
+          darkColorScheme = dark.copyWith(secondary: brandColor);
+        } else {
+          lightColorScheme = ColorScheme.fromSeed(
+              seedColor: brandColor, brightness: Brightness.light);
+          darkColorScheme = ColorScheme.fromSeed(
+              seedColor: brandColor, brightness: Brightness.dark);
+        }
+
+        final colorScheme = brightness == Brightness.dark
+            ? darkColorScheme
+            : lightColorScheme;
+
+        return MaterialApp(
+          title: 'CLIFF',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            colorScheme: colorScheme,
+            useMaterial3: true,
+          ),
+          home: StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              // if (snapshot.connectionState == ConnectionState.waiting) {
+              //   return const SplashScreen();
+              // }
+              // snapshot.hasData ? const HomeScreen() : const AuthScreen();
+              if (snapshot.hasData) {
+                return const HomeScreen();
+              }
+              return const AuthScreen();
+            },
+          ),
+          routes: {
+            SignUpScreen.routeName: (ctx) => const SignUpScreen(),
+            AuthScreen.routeName: (ctx) => const AuthScreen(),
+            EventsScreen.routeName: (ctx) => const EventsScreen(),
+            HistoryScreen.routeName: (ctx) => const HistoryScreen(),
+            BuyMerchScreen.routeName: (ctx) => const BuyMerchScreen(),
+            AlumniScreen.routeName: (ctx) => const AlumniScreen(),
+            Memories.routeName: (ctx) => const Memories(),
+            Polls.routeName: (ctx) => const Polls(),
+            AdminScreen.routeName: (ctx) => const AdminScreen(),
+            CreateEventScreen.routeName: (ctx) => const CreateEventScreen(),
+          },
+        );
       },
     );
   }

@@ -8,17 +8,22 @@ class BuyMerchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Merchandise',
-          style: TextStyle(
-            fontFamily: 'Barrbar',
-            fontSize: 30,
-          ),
-        ),
-        centerTitle: true,
+      endDrawer: const AppDrawer(),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar.large(
+            title: const Text(
+              "Merch",
+              style: TextStyle(
+                fontFamily: 'IBMPlexMono',
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                // color: textColor,
+              ),
+            ),
+          )
+        ],
       ),
-      drawer: const AppDrawer(),
     );
   }
 }

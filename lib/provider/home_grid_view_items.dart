@@ -6,9 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ImageItem {
   final int id;
   final String title;
-  final AssetImage image;
+  final IconData icon;
 
-  ImageItem(this.id, this.title, this.image);
+  ImageItem(this.id, this.title, this.icon);
 }
 
 final gridItemsProvider = Provider<List<ImageItem>>(
@@ -18,32 +18,32 @@ final gridItemsProvider = Provider<List<ImageItem>>(
       ImageItem(
         1,
         "Events",
-        const AssetImage('assets/images/events.jpg'),
+        Icons.event_outlined,
       ),
       ImageItem(
         2,
         "History",
-        const AssetImage('assets/images/history.jpg'),
+        Icons.history_outlined,
       ),
       ImageItem(
         3,
         "Merchendise",
-        const AssetImage('assets/images/merchandise.jpg'),
+        Icons.checkroom_outlined,
       ),
       ImageItem(
         4,
         "Alumni",
-        const AssetImage('assets/images/alumni.jpg'),
+        Icons.person_outline,
       ),
       ImageItem(
         5,
         "Memories",
-        const AssetImage('assets/images/p5.jpg'),
+        Icons.photo_album_outlined,
       ),
       ImageItem(
         6,
         "Polls",
-        const AssetImage('assets/images/p6.jpg'),
+        Icons.poll_outlined,
       ),
     ];
   },

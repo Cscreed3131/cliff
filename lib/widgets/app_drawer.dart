@@ -1,4 +1,5 @@
 import 'package:cliff/screens/Admin/admin_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,37 +8,58 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color drawerBackgroundColor = Color.fromRGBO(89, 86, 116, 1);
-    const Color textBackgroundColor = Color.fromRGBO(208, 214, 214, 1);
-    const Color iconColor = Color.fromRGBO(208, 214, 214, 1);
     return Drawer(
-      backgroundColor: drawerBackgroundColor,
+      //backgroundColor: drawerBackgroundColor,
       width: 250,
       // shape: ShapeBorder.lerp(a, b, t),
       child: Column(
         children: <Widget>[
-          AppBar(
-            title: const Text(
-              'Legendary Creed',
-              style: TextStyle(
-                fontSize: 30,
-                fontFamily: 'Barrbar',
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(20),
+            color: Theme.of(context).colorScheme.primaryContainer,
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    width: 100,
+                    height: 100,
+                    margin: const EdgeInsets.only(top: 30, bottom: 10),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: FirebaseAuth.instance.currentUser!.photoURL != null ?
+                        NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!)
+                            : const AssetImage('assets/images/logo.png') as ImageProvider,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                  const Text(
+                    'Anubhav Kumar',
+                    style: TextStyle(
+                      fontSize: 22,
+                    ),
+                  ),
+                  const Text(
+                    'Student',
+                    style: TextStyle(
+                    ),
+                  ),
+                ],
               ),
             ),
-            automaticallyImplyLeading: false,
-            centerTitle: true,
           ),
-          const Divider(),
           ListTile(
             leading: const Icon(
               Icons.home,
-              color: iconColor,
+
             ),
             title: const Text(
               'Home',
               style: TextStyle(
                 fontSize: 20,
-                color: textBackgroundColor,
+
               ),
             ),
             onTap: () {
@@ -48,13 +70,11 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(
               Icons.add,
-              color: iconColor,
             ),
             title: const Text(
               'Add Events',
               style: TextStyle(
                 fontSize: 20,
-                color: textBackgroundColor,
               ),
             ),
             onTap: () {
@@ -65,13 +85,11 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(
               Icons.shopping_bag,
-              color: iconColor,
             ),
             title: const Text(
               'Orders',
               style: TextStyle(
                 fontSize: 20,
-                color: textBackgroundColor,
               ),
             ),
             onTap: () {},
@@ -80,12 +98,10 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(
               Icons.contact_mail,
-              color: iconColor,
             ),
             title: const Text(
               'Contact Us',
               style: TextStyle(
-                color: textBackgroundColor,
                 fontSize: 20,
               ),
             ),
@@ -95,13 +111,11 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(
               Icons.settings,
-              color: iconColor,
             ),
             title: const Text(
-              'settings',
+              'Settings',
               style: TextStyle(
                 fontSize: 20,
-                color: textBackgroundColor,
               ),
             ),
             onTap: () {},
@@ -109,44 +123,37 @@ class AppDrawer extends StatelessWidget {
           const Divider(),
           ListTile(
             leading: const Icon(
-              Icons.info,
-              color: iconColor,
+              Icons.arrow_back_rounded,
             ),
             title: const Text(
-              'about',
+              'Exit',
               style: TextStyle(
                 fontSize: 20,
-                color: textBackgroundColor,
+              ),
+            ),
+            onTap: () {
+              SystemNavigator.pop();
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(
+              Icons.info,
+            ),
+            title: const Text(
+              'About',
+              style: TextStyle(
+                fontSize: 20,
               ),
             ),
             subtitle: const Text(
               '1.0.0',
               style: TextStyle(
                 fontSize: 12,
-                color: textBackgroundColor,
               ),
             ),
             onTap: () {},
           ),
-          const Divider(
-            height: 0,
-          ),
-          ListTile(
-            leading: const Icon(
-              Icons.arrow_back_rounded,
-              color: iconColor,
-            ),
-            title: const Text(
-              'Exit',
-              style: TextStyle(
-                fontSize: 20,
-                color: textBackgroundColor,
-              ),
-            ),
-            onTap: () {
-              SystemNavigator.pop();
-            },
-          )
         ],
       ),
     );

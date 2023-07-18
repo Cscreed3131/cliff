@@ -33,12 +33,35 @@ class ImageSlider extends ConsumerWidget {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: const BoxDecoration(
-                  color: Colors.grey,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.5),
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.outline
+                  ),
+                  borderRadius: BorderRadius.circular(30),
+                  image: DecorationImage(
+                    image: item.image,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                child: Image(
-                  image: item.image,
-                  fit: BoxFit.cover,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Text(
+                    item.title,
+                    style: TextStyle(
+                      fontSize: 30,
+                      height: 2,
+                      color: Colors.white70,
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.8),
+                          blurRadius: 10,
+                          offset: const Offset(0, 0),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             );

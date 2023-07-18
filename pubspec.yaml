@@ -42,6 +42,7 @@ dependencies:
   image_picker: ^1.0.0
   flutter_riverpod: ^2.3.6
   carousel_slider: ^4.2.1
+  dynamic_color: any
 
 dev_dependencies:
   flutter_test:
@@ -67,27 +68,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/p1.jpg
-    - assets/images/p2.jpg
-    - assets/images/p3.jpg
-    - assets/images/p4.jpg
-    - assets/images/p5.jpg
-    - assets/images/p6.jpg
-    - assets/images/p7.jpg
-    - assets/images/p8.jpg
-    - assets/images/p9.jpg
-    - assets/images/p10.jpg
-    - assets/images/p11.jpg
-    - assets/images/p12.jpg
-    - assets/images/p13.jpg
-    - assets/images/events.jpg
-    - assets/images/history.jpg
-    - assets/images/alumni.jpg
-    - assets/images/merchandise.jpg
-    - assets/images/homeScreenbackground.jpg
-    - assets/images/efest.jpg
-    - assets/images/cosmicquest.jpg
-    - assets/images/vikalp.jpg
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -122,5 +103,8 @@ flutter:
     - family: EdhanMartine
       fonts:
         - asset: assets/fonts/EdhanMartine.ttf
+    - family: IBMPlexMono
+      fonts:
+        - asset: assets/fonts/IBMPlexMono-Regular.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
