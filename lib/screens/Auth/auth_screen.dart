@@ -64,11 +64,20 @@ class _AuthScreenState extends State<AuthScreen> {
     final font15 = screenWidth * 0.038;
 
     return Scaffold(
+
       body: Container(
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-          gradient: pageGradient,
+          gradient: LinearGradient(
+            colors: [
+              Theme.of(context).colorScheme.primaryContainer,
+              Theme.of(context).colorScheme.secondaryContainer,
+              Theme.of(context).colorScheme.tertiaryContainer,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -77,14 +86,16 @@ class _AuthScreenState extends State<AuthScreen> {
               SizedBox(
                 height: screenHeight * 0.1,
               ),
-              Center(
-                child: Text(
-                  'CLIFF',
-                  style: TextStyle(
-                    fontFamily: 'MoonbrightDemo',
-                    fontWeight: FontWeight.normal,
-                    fontSize: screenHeight * 0.13,
-                  ),
+              CircleAvatar(
+                radius: screenHeight * 0.035,
+                backgroundImage: AssetImage('assets/images/logo.png'),
+              ),
+              Text(
+                'Cliff',
+                style: TextStyle(
+                  fontFamily: 'IBMPlexMono',
+                  fontWeight: FontWeight.w900,
+                  fontSize: screenHeight * 0.07,
                 ),
               ),
               SizedBox(
@@ -160,12 +171,18 @@ class _AuthScreenState extends State<AuthScreen> {
                       const SizedBox(height: 15),
                       if (_isAuthenticating) const CircularProgressIndicator(),
                       if (!_isAuthenticating)
-                        ElevatedButton(
-                          onPressed: _submit,
-                          child: Text(
-                            'Sign in',
-                            style: TextStyle(fontSize: font15 + 2),
-                          ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: FilledButton(
+                                onPressed: _submit,
+                                child: Text(
+                                  'Sign in',
+                                  style: TextStyle(fontSize: font15 + 2),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
 
                       const SizedBox(height: 30),
@@ -175,6 +192,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         Text(
                           'Don\'t have an account?',
                           style: TextStyle(
+                            height: 0.5,
                             fontSize: font15,
                           ),
                         ),

@@ -5,58 +5,81 @@ import 'package:cliff/widgets/image_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-  static const routeName = 'home';
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
 
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    bool _isDrawerOpen = false;
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Cliff',
-          style: TextStyle(
-            fontFamily: 'MoonbrightDemo', fontSize: 40,
-            // color: textColor,
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-            },
-            icon: const Icon(Icons.exit_to_app),
-            color: Theme.of(context).colorScheme.secondary,
-          )
-        ],
-      ),
       drawer: const AppDrawer(),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: pageGradient,
-        ),
-        height: double.infinity,
-        width: double.infinity,
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 30, bottom: 20),
-              child: ImageSlider(),
+      body: Builder(
+        builder: (context){
+          return Transform.scale(
+            scale: 0.9,
+            alignment: Alignment.centerRight,
+            child: CustomScrollView(
+              slivers: [
+                SliverAppBar.large(
+                  leading: IconButton(
+                    icon: const Icon(Icons.menu),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                  ),
+                  actions: [
+                    IconButton(
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                      },
+                      icon: const Icon(Icons.logout),
+                    ),
+                    SizedBox(width: screenWidth * 0.1,),
+                  ],
+                  title: const Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundImage: AssetImage('assets/images/logo.png'),
+                      ),
+                      SizedBox(width: 10,),
+                      Text(
+                        'Cliff',
+                        style: TextStyle(
+                          fontFamily: 'IBMPlexMono',
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          // color: textColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SliverToBoxAdapter(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 30, bottom: 20),
+                            child: ImageSlider(),
+                          ),
+                          Padding(
+                            padding:
+                            EdgeInsets.only(top: 20, bottom: 30, right: 20, left: 20),
+                            child: HomeGridView(),
+                          ),
+                        ],
+                      ),
+                    )
+                ),
+              ],
             ),
-            Padding(
-              padding:
-                  EdgeInsets.only(top: 20, bottom: 30, right: 20, left: 20),
-              child: HomeGridView(),
-            ),
-          ],
-        ),
-      ),
+          );
+        },
+      )
     );
   }
 }

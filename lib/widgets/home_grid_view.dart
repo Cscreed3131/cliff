@@ -14,51 +14,89 @@ class HomeGridView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final gridItems = ref.read(gridItemsProvider);
+    final gridItems = ref.watch(gridItemsProvider);
 
-    return GridView.builder(
-      shrinkWrap: true,
-      itemCount: gridItems.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 3 / 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        mainAxisExtent: 150,
-      ),
-      itemBuilder: (context, index) {
-        final item = gridItems[index];
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: GestureDetector(
-            onTap: () {
-              if (item.id == 1) {
-                Navigator.of(context).pushNamed(EventsScreen.routeName);
-              } else if (item.id == 2) {
-                Navigator.of(context).pushNamed(HistoryScreen.routeName);
-              } else if (item.id == 3) {
-                Navigator.of(context).pushNamed(BuyMerchScreen.routeName);
-              } else if (item.id == 4) {
-                Navigator.of(context).pushNamed(AlumniScreen.routeName);
-              } else if (item.id == 5) {
-                Navigator.of(context).pushNamed(Memories.routeName);
-              } else if (item.id == 6) {
-                Navigator.of(context).pushNamed(Polls.routeName);
-              }
-            },
-            child: GridTile(
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: item.image,
-                    fit: BoxFit.cover,
+    return MediaQuery.removePadding(
+      context: context,
+      removeTop: true,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: gridItems.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 5,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            mainAxisExtent: MediaQuery.of(context).size.height * 0.24,
+          ),
+          itemBuilder: (context, index) {
+            final item = gridItems[index];
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: GestureDetector(
+                onTap: () {
+                  if (item.id == 1) {
+                    Navigator.of(context).pushNamed(EventsScreen.routeName);
+                  } else if (item.id == 2) {
+                    Navigator.of(context).pushNamed(HistoryScreen.routeName);
+                  } else if (item.id == 3) {
+                    Navigator.of(context).pushNamed(BuyMerchScreen.routeName);
+                  } else if (item.id == 4) {
+                    Navigator.of(context).pushNamed(AlumniScreen.routeName);
+                  } else if (item.id == 5) {
+                    Navigator.of(context).pushNamed(Memories.routeName);
+                  } else if (item.id == 6) {
+                    Navigator.of(context).pushNamed(Polls.routeName);
+                  }
+                },
+                child: GridTile(
+                  footer: Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Text(
+                      item.title,
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        height: 2.5,
+                        fontSize: 20,
+                        fontFamily: 'IBMPlexMono',
+                        fontWeight: FontWeight.bold,
+                      )
+                    ),
                   ),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.4),
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Align(
+                            child: IconButton.filledTonal(
+                                onPressed: (){},
+                                icon: Icon(
+                                  item.icon,
+                                  size: 50,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                            )
+                          ),
+                        ],
+                      ),
+                  )
                 ),
               ),
-            ),
-          ),
-        );
-      },
+            );
+          },
+        ),
+      ),
     );
   }
 }
