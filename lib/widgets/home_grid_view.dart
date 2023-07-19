@@ -15,6 +15,8 @@ class HomeGridView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final gridItems = ref.watch(gridItemsProvider);
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
 
     return MediaQuery.removePadding(
       context: context,
@@ -61,7 +63,7 @@ class HomeGridView extends ConsumerWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         height: 2.5,
-                        fontSize: 20,
+                        fontSize: screenWidth * 0.045,
                         fontFamily: 'IBMPlexMono',
                         fontWeight: FontWeight.bold,
                       )
@@ -80,10 +82,10 @@ class HomeGridView extends ConsumerWidget {
                         children: [
                           Align(
                             child: IconButton.filledTonal(
-                                onPressed: (){},
+                                onPressed: null,
                                 icon: Icon(
                                   item.icon,
-                                  size: 50,
+                                  size: screenHeight * 0.06,
                                   color: Theme.of(context).colorScheme.primary,
                                 ),
                             )

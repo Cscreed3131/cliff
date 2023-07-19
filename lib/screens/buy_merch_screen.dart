@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../Widgets/app_drawer.dart';
+
 
 class BuyMerchScreen extends StatelessWidget {
   const BuyMerchScreen({super.key});
@@ -8,7 +8,6 @@ class BuyMerchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: const AppDrawer(),
       body: CustomScrollView(
         slivers: [
           SliverAppBar.large(

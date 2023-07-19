@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../Widgets/app_drawer.dart';
 
 class AlumniScreen extends StatelessWidget {
   const AlumniScreen({super.key});
@@ -9,7 +8,6 @@ class AlumniScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: const AppDrawer(),
       body: CustomScrollView(
         slivers: [
           SliverAppBar.large(

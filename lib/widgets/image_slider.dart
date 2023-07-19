@@ -9,10 +9,13 @@ class ImageSlider extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final imageItems = ref.watch(imageItemsProvider);
+    final screenHeight = MediaQuery.of(context).size.height;
+    final containerBorderRadius = BorderRadius.circular(screenHeight * 0.02);
+    final font30 = screenHeight * 0.03;
 
     return CarouselSlider(
       options: CarouselOptions(
-        height: 200.0,
+        height: screenHeight * 0.2,
         autoPlay: false,
         autoPlayInterval: const Duration(seconds: 10),
         enlargeCenterPage: false,
@@ -29,7 +32,7 @@ class ImageSlider extends ConsumerWidget {
         return Builder(
           builder: (BuildContext context) {
             return ClipRRect(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: containerBorderRadius,
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -38,7 +41,7 @@ class ImageSlider extends ConsumerWidget {
                   border: Border.all(
                     color: Theme.of(context).colorScheme.outline
                   ),
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: containerBorderRadius,
                   image: DecorationImage(
                     image: item.image,
                     fit: BoxFit.cover,
@@ -49,7 +52,7 @@ class ImageSlider extends ConsumerWidget {
                   child: Text(
                     item.title,
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: font30,
                       height: 2,
                       color: Colors.white70,
                       fontWeight: FontWeight.bold,

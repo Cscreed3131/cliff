@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../Widgets/app_drawer.dart';
+
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -13,7 +13,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: const AppDrawer(),
       body: CustomScrollView(
         slivers: [
           SliverAppBar.large(
