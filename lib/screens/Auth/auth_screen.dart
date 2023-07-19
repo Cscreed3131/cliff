@@ -38,6 +38,9 @@ class _AuthScreenState extends State<AuthScreen> {
         email: _enteredEmail,
         password: _enteredpassword,
       );
+      setState(() {
+        _isAuthenticating = false;
+      });
     } on FirebaseAuthException catch (error) {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
@@ -168,22 +171,21 @@ class _AuthScreenState extends State<AuthScreen> {
                         },
                       ),
                       const SizedBox(height: 15),
-                      if (_isAuthenticating) const CircularProgressIndicator(),
-                      if (!_isAuthenticating)
-                        Row(
-                          children: [
-                            Expanded(
-                              child: FilledButton(
-                                onPressed: _submit,
-                                child: Text(
-                                  'Sign in',
-                                  style: TextStyle(fontSize: font15 + 2),
+                      _isAuthenticating
+                          ? const CircularProgressIndicator()
+                          : Row(
+                              children: [
+                                Expanded(
+                                  child: FilledButton(
+                                    onPressed: _submit,
+                                    child: Text(
+                                      'Sign in',
+                                      style: TextStyle(fontSize: font15 + 2),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-
                       const SizedBox(height: 30),
 
                       //Dont have account text

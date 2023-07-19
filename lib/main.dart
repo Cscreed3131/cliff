@@ -87,6 +87,7 @@ class MyApp extends StatelessWidget {
             Polls.routeName: (ctx) => const Polls(),
             AdminScreen.routeName: (ctx) => const AdminScreen(),
             CreateEventScreen.routeName: (ctx) => const CreateEventScreen(),
+            HomeScreen.routeName: (ctx) => const HomeScreen(),
           },
         );
       },

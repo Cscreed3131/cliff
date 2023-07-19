@@ -347,7 +347,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           FocusScope.of(context)
                               .requestFocus(_passwordFocusNode);
                         },
-                        keyboardType: TextInputType.visiblePassword,
+                        keyboardType: TextInputType.emailAddress,
                         validator: (value) {
                           if (value == null ||
                               value.trim().isEmpty ||
@@ -366,6 +366,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           labelText: 'Password',
                           border: OutlineInputBorder(),
                         ),
+                        keyboardType: TextInputType.visiblePassword,
                         obscureText: true,
                         validator: (value) {
                           if (value == null || value.length < 6) {
@@ -396,9 +397,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             builder: (context) {
                                               return AlertDialog(
                                                 title: const Text(
-                                                    'SignUp Successfull'),
+                                                  'SignUp Successfull ',
+                                                ),
                                                 content: const Text(
-                                                    'Please Sign-in with the email and password'),
+                                                  'Please Sign-in with the email and password',
+                                                ),
                                                 actions: [
                                                   TextButton(
                                                     onPressed: () {

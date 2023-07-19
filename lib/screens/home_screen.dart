@@ -1,4 +1,3 @@
-
 import 'package:cliff/widgets/app_drawer.dart';
 import 'package:cliff/widgets/home_grid_view.dart';
 import 'package:cliff/widgets/image_slider.dart';
@@ -7,6 +6,8 @@ import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
+  static const routeName = '/home';
 
   @override
   Widget build(BuildContext context) {
@@ -26,22 +27,26 @@ class HomeScreen extends StatelessWidget {
                 icon: const Icon(Icons.menu),
               ),
             ),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                },
-                icon: const Icon(Icons.logout),
-              ),
-              SizedBox(width: screenWidth * 0.1,),
-            ],
+            // actions: [
+            //   IconButton(
+            //     onPressed: () {
+            //       FirebaseAuth.instance.signOut();
+            //     },
+            //     icon: const Icon(Icons.logout),
+            //   ),
+            //   SizedBox(
+            //     width: screenWidth * 0.1,
+            //   ),
+            // ],
             title: Row(
               children: [
                 CircleAvatar(
                   radius: screenWidth * 0.05,
                   backgroundImage: const AssetImage('assets/images/logo.png'),
                 ),
-                const SizedBox(width: 10,),
+                const SizedBox(
+                  width: 10,
+                ),
                 Text(
                   'Cliff',
                   style: TextStyle(
@@ -56,22 +61,21 @@ class HomeScreen extends StatelessWidget {
           ),
           const SliverToBoxAdapter(
               child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 30, bottom: 20),
-                      child: ImageSlider(),
-                    ),
-                    Padding(
-                      padding:
-                      EdgeInsets.only(top: 20, bottom: 30, right: 20, left: 20),
-                      child: HomeGridView(),
-                    ),
-                  ],
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 30, bottom: 20),
+                  child: ImageSlider(),
                 ),
-              )
-          ),
+                Padding(
+                  padding:
+                      EdgeInsets.only(top: 20, bottom: 30, right: 20, left: 20),
+                  child: HomeGridView(),
+                ),
+              ],
+            ),
+          )),
         ],
       ),
     );
