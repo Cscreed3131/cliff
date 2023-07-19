@@ -26,10 +26,15 @@ class AdminScreen extends StatefulWidget {
 class AdminScreenState extends State<AdminScreen> {
   @override
   Widget build(BuildContext context) {
+
+    final screenHeight = MediaQuery.of(context).size.height;
+    final containerBorderRadius = BorderRadius.circular(screenHeight * 0.02);
+    final font30 = screenHeight * 0.05;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Add Events',
+          'Admin Panel',
         ),
         centerTitle: true,
       ),
@@ -54,22 +59,42 @@ class AdminScreenState extends State<AdminScreen> {
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: GridTile(
-                  child: Container(
-                    color: Colors.grey,
-                    child: Center(
-                      child: Text(
-                        item.value,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
+                borderRadius: containerBorderRadius,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.5),
+                    border: Border.all(
+                        color: Theme.of(context).colorScheme.outline
+                    ),
+                    borderRadius: containerBorderRadius,
+                    image: const DecorationImage(
+                      image: AssetImage("assets/images/events.png"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Create Event",
+                      style: TextStyle(
+                        fontSize: font30,
+                        height: 2,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        shadows: const [
+                          Shadow(
+                            color: Colors.black,
+                            blurRadius: 30,
+                            offset: Offset(0, 0),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
-              ),
+              )
             ),
           );
         },

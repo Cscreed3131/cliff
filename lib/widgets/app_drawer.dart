@@ -4,15 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AppDrawer extends StatefulWidget {
+class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
-  @override
-  State<AppDrawer> createState() => _AppDrawerState();
-}
-
-class _AppDrawerState extends State<AppDrawer>
-    with SingleTickerProviderStateMixin {
 /*  static Duration duration = const Duration(milliseconds: 300);
   AnimationController? _controller;
   static const double maxSlide = 255;
@@ -75,7 +69,6 @@ class _AppDrawerState extends State<AppDrawer>
       open();
     }
   }*/
-
   @override
   Widget build(BuildContext context) {
     // final screenWidth = MediaQuery.of(context).size.width;

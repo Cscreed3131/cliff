@@ -17,7 +17,7 @@ final imageItemsProvider = Provider<List<SliderImage>>(
     return [
       SliderImage(
         1,
-        const AssetImage('assets/images/image1.png'),
+        const AssetImage('assets/images/events.png'),
         'Events'
       ),
       SliderImage(
