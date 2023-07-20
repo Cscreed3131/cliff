@@ -1,3 +1,5 @@
+import 'package:cliff/screens/home_page.dart';
+import 'package:cliff/screens/merch/merch_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +13,7 @@ import 'package:cliff/screens/Admin/create_event_screens.dart';
 import 'package:cliff/screens/Admin/admin_screen.dart';
 import 'package:cliff/screens/Auth/auth_screen.dart';
 import 'package:cliff/screens/alumni_screen.dart';
-import 'package:cliff/screens/buy_merch_screen.dart';
+import 'package:cliff/screens/merch/buy_merch_screen.dart';
 import 'package:cliff/screens/event_screen.dart';
 import 'package:cliff/screens/history_screen.dart';
 import 'package:cliff/screens/home_screen.dart';
@@ -75,7 +77,7 @@ class MyApp extends StatelessWidget {
               // }
               // snapshot.hasData ? const HomeScreen() : const AuthScreen();
               if (snapshot.hasData) {
-                return const HomeScreen();
+                return const HomePage();
               }
               return const AuthScreen();
             },
@@ -92,6 +94,16 @@ class MyApp extends StatelessWidget {
             AdminScreen.routeName: (ctx) => const AdminScreen(),
             CreateEventScreen.routeName: (ctx) => const CreateEventScreen(),
             HomeScreen.routeName: (ctx) => const HomeScreen(),
+            MerchDetails.routeName: (ctx) {
+              final Map<String, dynamic>? args =
+              ModalRoute.of(ctx)!.settings.arguments as Map<String, dynamic>?;
+              return MerchDetails(
+                merchName: args?['merchName'] ?? 'Default Name',
+                merchPrice: args?['merchPrice'] ?? 0,
+                merchDesc: args?['merchDesc'] ?? 'Default Description',
+                photoUrl: args?['photoUrl'] ?? 'Default Url',
+              );
+            },
           },
         );
       },
