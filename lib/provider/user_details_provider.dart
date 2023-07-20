@@ -13,7 +13,6 @@ final userDataProvider = FutureProvider((ref) async {
     if (documentSnapshot.exists) {
       Map<String, dynamic> userDataMap =
           documentSnapshot.data()! as Map<String, dynamic>;
-      print(userDataMap);
       return UserDetails(
         name: userDataMap['name'],
         sic: userDataMap['sic'],

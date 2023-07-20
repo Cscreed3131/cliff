@@ -1,20 +1,29 @@
 import 'package:cliff/models/userdetails.dart';
 import 'package:cliff/screens/Admin/admin_screen.dart';
 import 'package:cliff/screens/home_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../provider/user_details_provider.dart';
 
-class AppDrawer extends ConsumerWidget {
+class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  State<AppDrawer> createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<AppDrawer> {
+  @override
+  // void initState() {
+  //   UserDetails;
+  //   super.initState();
+  // }
+
+  @override
+  Widget build(BuildContext context) {
     // final screenWidth = MediaQuery.of(context).size.width;
     // final font15 = screenWidth * 0.038;
     return Drawer(
@@ -33,7 +42,7 @@ class AppDrawer extends ConsumerWidget {
                 ),
               ),
               child: Center(
-                child: Builder(builder: (context) {
+                child: Consumer(builder: (context, ref, _) {
                   final dataItem = ref.watch(userDataProvider);
                   return dataItem.when(
                     data: (userDetails) {
@@ -170,6 +179,15 @@ class AppDrawer extends ConsumerWidget {
                             onPressed: () async {
                               Navigator.of(context).pop();
                               await FirebaseAuth.instance.signOut();
+                              UserDetails(
+                                name: '',
+                                sic: '',
+                                branch: '',
+                                email: '',
+                                year: '',
+                                phoneNumber: null,
+                                imageUrl: '',
+                              );
                             },
                           ),
                           TextButton(

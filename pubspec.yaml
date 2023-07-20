@@ -43,6 +43,7 @@ dependencies:
   flutter_riverpod: ^2.3.6
   carousel_slider: ^4.2.1
   dynamic_color: any
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

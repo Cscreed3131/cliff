@@ -1,6 +1,6 @@
 import 'package:cliff/screens/alumni_screen.dart';
 import 'package:cliff/screens/merch/buy_merch_screen.dart';
-import 'package:cliff/screens/event_screen.dart';
+import 'package:cliff/screens/events/event_screen.dart';
 import 'package:cliff/screens/history_screen.dart';
 import 'package:cliff/screens/memories.dart';
 import 'package:cliff/screens/polls.dart';
@@ -55,45 +55,44 @@ class HomeGridView extends ConsumerWidget {
                   }
                 },
                 child: GridTile(
-                  footer: Padding(
-                    padding: const EdgeInsets.only(left: 16.0),
-                    child: Text(
-                      item.title,
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        height: 2.5,
-                        fontSize: screenWidth * 0.045,
-                        fontFamily: 'IBMPlexMono',
-                        fontWeight: FontWeight.bold,
-                      )
+                    footer: Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: Text(item.title,
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            height: 2.5,
+                            fontSize: screenWidth * 0.045,
+                            fontFamily: 'IBMPlexMono',
+                            fontWeight: FontWeight.bold,
+                          )),
                     ),
-                  ),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.4),
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.primary,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primaryContainer
+                            .withOpacity(0.4),
+                        border: Border.all(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Align(
-                            child: IconButton.filledTonal(
-                                onPressed: null,
-                                icon: Icon(
-                                  item.icon,
-                                  size: screenHeight * 0.06,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                            )
-                          ),
+                              child: IconButton.filledTonal(
+                            onPressed: null,
+                            icon: Icon(
+                              item.icon,
+                              size: screenHeight * 0.06,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          )),
                         ],
                       ),
-                  )
-                ),
+                    )),
               ),
             );
           },

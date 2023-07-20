@@ -4,7 +4,7 @@ class UserDetails {
   final String branch;
   final String email;
   final String year;
-  final int phoneNumber;
+  final int? phoneNumber;
   final String imageUrl;
 
   UserDetails({

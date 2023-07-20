@@ -14,7 +14,7 @@ import 'package:cliff/screens/Admin/admin_screen.dart';
 import 'package:cliff/screens/Auth/auth_screen.dart';
 import 'package:cliff/screens/alumni_screen.dart';
 import 'package:cliff/screens/merch/buy_merch_screen.dart';
-import 'package:cliff/screens/event_screen.dart';
+import 'package:cliff/screens/events/event_screen.dart';
 import 'package:cliff/screens/history_screen.dart';
 import 'package:cliff/screens/home_screen.dart';
 import 'package:cliff/screens/Auth/singup_screen.dart';
@@ -72,10 +72,6 @@ class MyApp extends StatelessWidget {
           home: StreamBuilder(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
-              // if (snapshot.connectionState == ConnectionState.waiting) {
-              //   return const SplashScreen();
-              // }
-              // snapshot.hasData ? const HomeScreen() : const AuthScreen();
               if (snapshot.hasData) {
                 return const HomePage();
               }
@@ -95,8 +91,9 @@ class MyApp extends StatelessWidget {
             CreateEventScreen.routeName: (ctx) => const CreateEventScreen(),
             HomeScreen.routeName: (ctx) => const HomeScreen(),
             MerchDetails.routeName: (ctx) {
-              final Map<String, dynamic>? args =
-              ModalRoute.of(ctx)!.settings.arguments as Map<String, dynamic>?;
+              final Map<String, dynamic>? args = ModalRoute.of(ctx)!
+                  .settings
+                  .arguments as Map<String, dynamic>?;
               return MerchDetails(
                 merchName: args?['merchName'] ?? 'Default Name',
                 merchPrice: args?['merchPrice'] ?? 0,
