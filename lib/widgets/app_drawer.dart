@@ -81,7 +81,13 @@ class AppDrawer extends StatelessWidget {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(20),
-              color: Theme.of(context).colorScheme.primaryContainer,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondaryContainer,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+              ),
               child: Center(
                 child: Column(
                   children: <Widget>[
@@ -131,7 +137,6 @@ class AppDrawer extends StatelessWidget {
                     .pushReplacementNamed(HomeScreen.routeName);
               },
             ),
-            const Divider(),
             ListTile(
               leading: const Icon(
                 Icons.admin_panel_settings_rounded,
@@ -146,7 +151,6 @@ class AppDrawer extends StatelessWidget {
                 Navigator.of(context).pushNamed(AdminScreen.routeName);
               },
             ),
-            const Divider(),
             ListTile(
               leading: const Icon(
                 Icons.shopping_bag,
@@ -159,7 +163,6 @@ class AppDrawer extends StatelessWidget {
               ),
               onTap: () {},
             ),
-            const Divider(),
             ListTile(
               leading: const Icon(
                 Icons.contact_mail,
@@ -172,7 +175,6 @@ class AppDrawer extends StatelessWidget {
               ),
               onTap: () {},
             ),
-            const Divider(),
             ListTile(
               leading: const Icon(
                 Icons.settings,
@@ -250,7 +252,6 @@ class AppDrawer extends StatelessWidget {
                 }
               },
             ),
-            const Divider(),
             ListTile(
               leading: const Icon(
                 Icons.arrow_back_rounded,
@@ -265,7 +266,6 @@ class AppDrawer extends StatelessWidget {
                 SystemNavigator.pop();
               },
             ),
-            const Divider(),
             ListTile(
               leading: const Icon(
                 Icons.info,

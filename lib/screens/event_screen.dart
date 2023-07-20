@@ -9,6 +9,7 @@ class EventsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    final font20 = screenHeight * 0.02;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -54,11 +55,16 @@ class EventsScreen extends StatelessWidget {
                     height: 20,
                   ),
                   //Ongoing Events Section
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
                       "Ongoing Events",
-                      style: TextStyle(fontSize: 24),
+                        style: TextStyle(
+                          fontFamily: 'IBMPlexMono',
+                          fontSize: font20,
+                          fontWeight: FontWeight.bold,
+                          // color: textColor,
+                        ),
                     ),
                   ),
                   const SizedBox(
@@ -76,11 +82,17 @@ class EventsScreen extends StatelessWidget {
                   ),
 
                   //Upcoming Events Section
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
                       "Upcoming Events",
-                      style: TextStyle(fontSize: 24),
+
+                        style: TextStyle(
+                          fontFamily: 'IBMPlexMono',
+                          fontSize: font20,
+                          fontWeight: FontWeight.bold,
+                          // color: textColor,
+                        ),
                     ),
                   ),
                   const SizedBox(

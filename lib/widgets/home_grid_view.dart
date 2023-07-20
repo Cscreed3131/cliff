@@ -1,5 +1,5 @@
 import 'package:cliff/screens/alumni_screen.dart';
-import 'package:cliff/screens/buy_merch_screen.dart';
+import 'package:cliff/screens/merch/buy_merch_screen.dart';
 import 'package:cliff/screens/event_screen.dart';
 import 'package:cliff/screens/history_screen.dart';
 import 'package:cliff/screens/memories.dart';
