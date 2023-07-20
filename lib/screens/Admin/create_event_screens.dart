@@ -189,44 +189,49 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                       _eventDescirption = value!;
                     },
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Row(
                     children: [
                       _isSubmitting
                           ? const CircularProgressIndicator()
-                          : ElevatedButton(
-                              onPressed: () async {
-                                await _submit()
-                                    ? context.mounted
-                                        ? {
-                                            ScaffoldMessenger.of(context)
-                                                .clearSnackBars(),
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                content: Text(
-                                                    'Event Created,redirecting to ongoing events page'),
+                          : Expanded(
+                            child: ElevatedButton(
+                                onPressed: () async {
+                                  await _submit()
+                                      ? context.mounted
+                                          ? {
+                                              ScaffoldMessenger.of(context)
+                                                  .clearSnackBars(),
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  content: Text(
+                                                      'Event Created,redirecting to ongoing events page'),
+                                                ),
                                               ),
+                                              // Navigator.of(context).pushNamed();
+                                            }
+                                          : print('context not mounted')
+                                      : {
+                                          ScaffoldMessenger.of(context)
+                                              .clearSnackBars(),
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                  'Event Creation was unsuccessful, Try again.'),
                                             ),
-                                            // Navigator.of(context).pushNamed();
-                                          }
-                                        : print('context not mounted')
-                                    : {
-                                        ScaffoldMessenger.of(context)
-                                            .clearSnackBars(),
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                                'Event Creation was unsuccessful, Try again.'),
                                           ),
-                                        ),
-                                      };
-                                _isSubmitting = false;
-                              },
-                              child: const Text(
-                                'Submit',
+                                        };
+                                  _isSubmitting = false;
+                                },
+                                child: const Text(
+                                  'Submit',
+                                ),
                               ),
-                            ),
+                          ),
                     ],
                   ),
                 ],
