@@ -1,7 +1,7 @@
 import 'package:cliff/widgets/app_drawer.dart';
 import 'package:cliff/widgets/home_grid_view.dart';
 import 'package:cliff/widgets/image_slider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {

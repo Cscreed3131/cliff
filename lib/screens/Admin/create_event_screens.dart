@@ -197,7 +197,7 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                       _isSubmitting
                           ? const CircularProgressIndicator()
                           : Expanded(
-                            child: ElevatedButton(
+                              child: ElevatedButton(
                                 onPressed: () async {
                                   await _submit()
                                       ? context.mounted
@@ -214,6 +214,7 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                                               // Navigator.of(context).pushNamed();
                                             }
                                           : print('context not mounted')
+                                      // add a exceptiion class so that the get exception and we dont have to print this in the terminal
                                       : {
                                           ScaffoldMessenger.of(context)
                                               .clearSnackBars(),
@@ -231,7 +232,7 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                                   'Submit',
                                 ),
                               ),
-                          ),
+                            ),
                     ],
                   ),
                 ],

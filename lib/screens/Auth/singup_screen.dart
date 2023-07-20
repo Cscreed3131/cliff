@@ -53,7 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() {
         _isAuthenticating = true;
       });
-      final userCredentials = await _firebase.createUserWithEmailAndPassword(
+      await _firebase.createUserWithEmailAndPassword(
         email: _enteredEmail,
         password: _enteredpassword,
       );
@@ -61,14 +61,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
       final storageRef = FirebaseStorage.instance
           .ref()
           .child('user_images')
-          .child('${userCredentials.user!.uid}.jpg');
+          .child('$_enteredSicNumber.jpg');
       await storageRef.putFile(_selectedImage!);
       final imageUrl = await storageRef.getDownloadURL();
 
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(userCredentials.user!.uid)
-          .set(
+      FirebaseFirestore.instance.collection('users').doc(_enteredSicNumber).set(
         {
           'image_url': imageUrl,
           'name': _enteredUserName,
