@@ -1,3 +1,4 @@
+import 'package:cliff/screens/events/event_details_screen.dart';
 import 'package:cliff/screens/home_page.dart';
 import 'package:cliff/screens/merch/merch_details_screen.dart';
 import 'package:flutter/material.dart';
@@ -99,6 +100,14 @@ class MyApp extends StatelessWidget {
                 merchPrice: args?['merchPrice'] ?? 0,
                 merchDesc: args?['merchDesc'] ?? 'Default Description',
                 photoUrl: args?['photoUrl'] ?? 'Default Url',
+              );
+            },
+            EventDetailsScreen.routeName: (ctx) {
+              final Map<String, dynamic>? args = ModalRoute.of(ctx)!
+                  .settings
+                  .arguments as Map<String, dynamic>?;
+              return EventDetailsScreen(
+                title: args?['title'] ?? 'Default Title',
               );
             },
           },

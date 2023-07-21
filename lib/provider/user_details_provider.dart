@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../models/userdetails.dart';
 
 final userDataProvider = FutureProvider((ref) async {
@@ -28,4 +27,6 @@ final userDataProvider = FutureProvider((ref) async {
   } catch (e) {
     throw Exception('Error fetching user data: $e');
   }
+
+
 });
