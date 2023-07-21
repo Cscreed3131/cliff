@@ -107,20 +107,24 @@ class MerchDetails extends StatelessWidget {
       ),
 
       bottomNavigationBar: BottomAppBar(
-        child: Expanded(
-          child: FilledButton(
-            child: const Text(
-              "Buy Now",
-              style: TextStyle(
-                fontFamily: 'IBMPlexMono',
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                // color: textColor,
+        child: Row(
+          children: [
+            Expanded(
+              child: FilledButton(
+                child: const Text(
+                  "Buy Now",
+                  style: TextStyle(
+                    fontFamily: 'IBMPlexMono',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    // color: textColor,
+                  ),
+                ),
+                onPressed: () {},
               ),
             ),
-            onPressed: () {},
-          ),
-        ),
+          ],
+        )
       ),
     );
   }
