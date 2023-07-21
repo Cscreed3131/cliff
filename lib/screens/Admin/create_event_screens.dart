@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -24,27 +26,24 @@ class CreateEventScreenState extends State<CreateEventScreen> {
   DateTime? _eventStartDate;
   DateTime? _eventFinishDate;
 
+  Timestamp? _startDate;
+  Timestamp? _finsihDate;
+  int? _startTime;
+  int? _finishTime;
+
   var _isSubmitting = false;
   var _eventName = '';
   var _eventCode = '';
   var _eventDescirption = '';
   var _eventVenue = '';
-  var _registeredStudent = '';
   var _eventSuperviserSic = '';
-  var _est;
-  var _eft;
-  var _esd;
-  var _efd;
+  // var _registeredStudent = '';
 
   //this should probally contain a phone number of the superviser for doubts and queries
 
   final _eventCodefocusNode = FocusNode();
   final _eventDescriptionfocusNode = FocusNode();
   final _eventVenueFocusNode = FocusNode();
-  final _eventStartTimeFocusNode = FocusNode();
-  final _eventFinishTimeFocusNode = FocusNode();
-  final _eventStartDateFocusNode = FocusNode();
-  final _eventFinshDateFocusNode = FocusNode();
   final _eventSuperviserSicFocusNode = FocusNode();
 
   Future<bool> _submit() async {
@@ -68,6 +67,7 @@ class CreateEventScreenState extends State<CreateEventScreen> {
       setState(() {
         _isSubmitting = true;
       });
+      final currentUser = FirebaseAuth.instance.currentUser!.uid;
       final storageRef = FirebaseStorage.instance
           .ref()
           .child('event_poster')
@@ -80,15 +80,16 @@ class CreateEventScreenState extends State<CreateEventScreen> {
           .doc(_eventName)
           .set(
         {
+          'currrentUser': currentUser,
           'image_url': imageUrl,
-          'eventmame': _eventName,
+          'eventname': _eventName,
           'eventcode': _eventCode,
           'eventVenue': _eventVenue,
           'supervisorsic': _eventSuperviserSic,
-          'eventstarttime': _eventStartTime,
-          'eventendtime': _eventName,
-          'eventstartdate': _eventStartDate,
-          'eventfinshdate': _eventFinishDate,
+          'eventstarttime': _startTime,
+          'eventendtime': _finishTime,
+          'eventstartdate': _startDate,
+          'eventfinshdate': _finsihDate,
           'eventdescription': _eventDescirption,
         },
       );
@@ -183,10 +184,10 @@ class CreateEventScreenState extends State<CreateEventScreen> {
     _eventCodefocusNode.dispose();
     _eventDescriptionfocusNode.dispose();
     _eventVenueFocusNode.dispose();
-    _eventStartTimeFocusNode.dispose();
-    _eventFinishTimeFocusNode.dispose();
-    _eventStartDateFocusNode.dispose();
-    _eventFinshDateFocusNode.dispose();
+    // _eventStartTimeFocusNode.dispose();
+    // _eventFinishTimeFocusNode.dispose();
+    // _eventStartDateFocusNode.dispose();
+    // _eventFinshDateFocusNode.dispose();
     _eventSuperviserSicFocusNode.dispose();
     super.dispose();
   }
@@ -304,10 +305,10 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                       ),
                     ),
                     focusNode: _eventSuperviserSicFocusNode,
-                    textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus();
-                    },
+                    textInputAction: TextInputAction.done,
+                    // onFieldSubmitted: (_) {
+                    //   FocusScope.of(context).requestFocus();
+                    // },
                     validator: (value) {
                       // must be unique event code use firebase get command
                       if (value!.isEmpty) {
@@ -341,6 +342,9 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                                   .format(_eventStartDate!)
                               : '',
                         ),
+                        onSaved: (value) {
+                          _startDate = Timestamp.fromDate(_eventStartDate!);
+                        },
                       ),
                       const SizedBox(
                         width: 10,
@@ -361,6 +365,10 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                               ? _eventStartTime!.format(context)
                               : '',
                         ),
+                        onSaved: (value) {
+                          _startTime = (_eventStartTime!.hour * 60) +
+                              (_eventStartTime!.minute);
+                        },
                       ),
                     ],
                   ),
@@ -386,6 +394,9 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                                   .format(_eventFinishDate!)
                               : '',
                         ),
+                        onSaved: (value) {
+                          _finsihDate = Timestamp.fromDate(_eventFinishDate!);
+                        },
                       ),
                       const SizedBox(
                         width: 10,
@@ -406,6 +417,10 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                               ? _eventFinishTime!.format(context)
                               : '',
                         ),
+                        onSaved: (value) {
+                          _finishTime = _eventFinishTime!.hour * 60 +
+                              _eventFinishTime!.minute;
+                        },
                         // onSaved: (value) {
                         //   _eventFinishTime = value!;
                         // },
@@ -460,7 +475,8 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                                                   .showSnackBar(
                                                 const SnackBar(
                                                   content: Text(
-                                                      'Event Created,redirecting to ongoing events page'),
+                                                    'Event Created,redirecting to ongoing events page',
+                                                  ),
                                                 ),
                                               ),
                                               // Navigator.of(context).pushNamed();
