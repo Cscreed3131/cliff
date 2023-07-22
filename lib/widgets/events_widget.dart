@@ -14,6 +14,7 @@ class EventsWidget extends StatelessWidget {
 
     final screenHeight = MediaQuery.of(context).size.height;
     final font24 = screenHeight * 0.03;
+    final font18 = screenHeight * 0.02;
 
     return MediaQuery.removePadding(
       removeTop: true,
@@ -99,12 +100,12 @@ class EventsWidget extends StatelessWidget {
                               radius: 3,
                               backgroundColor: Theme.of(context).colorScheme.outline,
                             ),
-                            const Padding(
-                              padding: EdgeInsets.only(left: 8.0),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
                               child: Text(
                                 "200 Registered",
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: font18,
                                   // color: textColor,
                                 ),
                               ),
@@ -116,6 +117,9 @@ class EventsWidget extends StatelessWidget {
                               ),
                               label: Text(
                                 isOngoing ? "Ongoing" : "24.7.2023",
+                                style: TextStyle(
+                                  fontSize: font18-2,
+                                ),
                               ),
                               avatar: const Icon(Icons.today),
                             )

@@ -55,6 +55,7 @@ class CreateEventScreenState extends State<CreateEventScreen> {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
+          behavior: SnackBarBehavior.floating,
           content: Text('Please select a event poster'),
         ),
       );
@@ -97,6 +98,7 @@ class CreateEventScreenState extends State<CreateEventScreen> {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          behavior: SnackBarBehavior.floating,
           content: Text(error.message ?? 'Authenication failed'),
         ),
       );
@@ -323,16 +325,17 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                     height: 10,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextFormField(
                         readOnly: true,
                         onTap: () => _selectStartDate(context),
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Start Date',
                           hintText: 'Select date',
                           border: OutlineInputBorder(),
                           constraints: BoxConstraints(
-                            maxWidth: 190,
+                            maxWidth: MediaQuery.of(context).size.width / 2 - 20,
                           ),
                         ),
                         controller: TextEditingController(
@@ -351,12 +354,12 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                       TextFormField(
                         readOnly: true,
                         onTap: () => _selectStartTime(context),
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Start time',
                           hintText: 'Select event start time',
                           border: OutlineInputBorder(),
                           constraints: BoxConstraints(
-                            maxWidth: 190,
+                            maxWidth: MediaQuery.of(context).size.width / 2 - 20,
                           ),
                         ),
                         controller: TextEditingController(
@@ -375,16 +378,17 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                     height: 10,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextFormField(
                         readOnly: true,
                         onTap: () => _selectFinishDate(context),
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'End Date',
                           hintText: 'Select event end date',
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                           constraints: BoxConstraints(
-                            maxWidth: 190,
+                            maxWidth: MediaQuery.of(context).size.width / 2 - 20,
                           ),
                         ),
                         controller: TextEditingController(
@@ -403,12 +407,12 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                       TextFormField(
                         readOnly: true,
                         onTap: () => _selectFinishTime(context),
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Finish time',
                           hintText: 'Select event finish time',
                           border: OutlineInputBorder(),
                           constraints: BoxConstraints(
-                            maxWidth: 190,
+                            maxWidth: MediaQuery.of(context).size.width / 2 - 20,
                           ),
                         ),
                         controller: TextEditingController(
@@ -473,6 +477,7 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 const SnackBar(
+                                                  behavior: SnackBarBehavior.floating,
                                                   content: Text(
                                                     'Event Created,redirecting to ongoing events page',
                                                   ),
@@ -489,6 +494,7 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             const SnackBar(
+                                              behavior: SnackBarBehavior.floating,
                                               content: Text(
                                                   'Event Creation was unsuccessful, Try again.'),
                                             ),

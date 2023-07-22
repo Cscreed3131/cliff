@@ -106,6 +106,7 @@ class EventDetailsScreen extends StatelessWidget {
                         await Clipboard.setData(const ClipboardData(text: '123456'));
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
+                            behavior: SnackBarBehavior.floating,
                             content: Text('Code copied to clipboard'),
                           ),
                         );
