@@ -7,11 +7,16 @@ class EventsWidget extends StatelessWidget {
   final String imgPath;
   final bool isOngoing;
   final int itemCount;
-  const EventsWidget({super.key, required this.title, required this.imgPath, required this.isOngoing, required this.itemCount});
+  const EventsWidget({
+    super.key,
+    required this.title,
+    required this.imgPath,
+    required this.isOngoing,
+    required this.itemCount,
+  });
 
   @override
   Widget build(BuildContext context) {
-
     final screenHeight = MediaQuery.of(context).size.height;
     final font24 = screenHeight * 0.03;
 
@@ -30,13 +35,17 @@ class EventsWidget extends StatelessWidget {
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
             ),
-            itemBuilder: (context, index){
+            itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EventDetailsScreen(title: title,),
+                      builder: (context) => EventDetailsScreen(
+                        title: title,
+                        // should also contain description to display it dynamically
+                        // and also the event code to match and display information related to this event
+                      ),
                     ),
                   );
                 },
@@ -56,13 +65,16 @@ class EventsWidget extends StatelessWidget {
                         width: double.infinity,
                         margin: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.secondaryContainer,
+                          color:
+                              Theme.of(context).colorScheme.secondaryContainer,
                           border: Border.all(
                             color: Theme.of(context).colorScheme.outline,
                           ),
                           borderRadius: BorderRadius.circular(20),
                           image: const DecorationImage(
-                            image: AssetImage('assets/images/vikalp.jpg'),
+                            image: AssetImage(
+                              'assets/images/vikalp.jpg',
+                            ), // should be dynamic
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -73,13 +85,15 @@ class EventsWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Text(
-                          title,
+                          title, // should be dynamic
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: font24,
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer,
                             // color: textColor,
                           ),
                         ),
@@ -97,12 +111,13 @@ class EventsWidget extends StatelessWidget {
                             ),
                             CircleAvatar(
                               radius: 3,
-                              backgroundColor: Theme.of(context).colorScheme.outline,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.outline,
                             ),
                             const Padding(
                               padding: EdgeInsets.only(left: 8.0),
                               child: Text(
-                                "200 Registered",
+                                "200 Registered", // should be dynamic
                                 style: TextStyle(
                                   fontSize: 18,
                                   // color: textColor,
@@ -115,7 +130,9 @@ class EventsWidget extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(50),
                               ),
                               label: Text(
-                                isOngoing ? "Ongoing" : "24.7.2023",
+                                isOngoing
+                                    ? "Ongoing"
+                                    : "24.7.2023", // should date dynamically and the date shoul set the event on going to true
                               ),
                               avatar: const Icon(Icons.today),
                             )
@@ -126,8 +143,7 @@ class EventsWidget extends StatelessWidget {
                   ),
                 ),
               );
-            }
-        ),
+            }),
       ),
     );
   }
