@@ -210,6 +210,7 @@ class _AppDrawerState extends State<AppDrawer> {
                   ScaffoldMessenger.of(context).clearSnackBars();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
+                      behavior: SnackBarBehavior.floating,
                       content: Text(
                         error.message ?? 'You ran into an unexpected error',
                       ),
