@@ -3,24 +3,36 @@ import 'package:cliff/widgets/eventswidget/upcoming_event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../../helper/convert_int_time_of_day.dart';
+
 class Event {
   final String title;
   final DateTime startDate;
+  final DateTime finishDate;
+  final TimeOfDay startTime;
+  final TimeOfDay finishTime;
 
-  Event({required this.title, required this.startDate});
+  Event({
+    required this.title,
+    required this.startDate,
+    required this.finishDate,
+    required this.startTime,
+    required this.finishTime,
+  });
 
   factory Event.fromFirestore(Map<String, dynamic> data) {
     return Event(
       title: data['eventname'],
       startDate: (data['eventstartdate'] as Timestamp).toDate(),
-      // Add other necessary fields here
+      finishDate: (data['eventfinshdate'] as Timestamp).toDate(),
+      startTime: convertIntToTimeOfDay(data['eventstarttime']),
+      finishTime: convertIntToTimeOfDay(data['eventendtime']),
     );
   }
 }
 
-DateTime getCurrentDate() {
-  return DateTime.now();
-}
+DateTime getCurrentDate() => DateTime.now();
+TimeOfDay getCurrentTime() => TimeOfDay.now();
 
 class EventsWidget extends StatelessWidget {
   const EventsWidget({super.key});
@@ -45,21 +57,35 @@ class EventsWidget extends StatelessWidget {
         } else {
           final documents = snapshot.data?.docs ?? [];
           final DateTime currentDate = getCurrentDate();
+          final TimeOfDay currentTime = getCurrentTime();
 
-          // Filter the events based on their start dates
-          final ongoingEvents = documents
-              .where((doc) =>
-                  Event.fromFirestore(doc.data() as Map<String, dynamic>)
-                      .startDate
-                      .isBefore(currentDate))
-              .toList();
+          final ongoingEvents = documents.where((doc) {
+            Event event =
+                Event.fromFirestore(doc.data() as Map<String, dynamic>);
+            return event.startDate.isBefore(currentDate) &&
+                event.finishDate.isAfter(currentDate) &&
+                (event.startDate.isAtSameMomentAs(currentDate)
+                    ? event.startTime.hour < currentTime.hour ||
+                        (event.startTime.hour == currentTime.hour &&
+                            event.startTime.minute <= currentTime.minute)
+                    : true) &&
+                (event.finishDate.isAtSameMomentAs(currentDate)
+                    ? event.finishTime.hour > currentTime.hour ||
+                        (event.finishTime.hour == currentTime.hour &&
+                            event.finishTime.minute >= currentTime.minute)
+                    : true);
+          }).toList();
 
-          final upcomingEvents = documents
-              .where((doc) =>
-                  Event.fromFirestore(doc.data() as Map<String, dynamic>)
-                      .startDate
-                      .isAfter(currentDate))
-              .toList();
+          final upcomingEvents = documents.where((doc) {
+            Event event =
+                Event.fromFirestore(doc.data() as Map<String, dynamic>);
+            return event.startDate.isAfter(currentDate) ||
+                (event.startDate.isAtSameMomentAs(currentDate)
+                    ? event.startTime.hour > currentTime.hour ||
+                        (event.startTime.hour == currentTime.hour &&
+                            event.startTime.minute > currentTime.minute)
+                    : false);
+          }).toList();
 
           return MediaQuery.removePadding(
             removeTop: true,
