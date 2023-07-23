@@ -1,12 +1,11 @@
 import 'dart:io';
-
-import 'package:cliff/widgets/event_image_picker.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cliff/widgets/event_image_picker.dart';
 
 class CreateEventScreen extends StatefulWidget {
   const CreateEventScreen({super.key});
@@ -75,10 +74,7 @@ class CreateEventScreenState extends State<CreateEventScreen> {
       await storageRef.putFile(_selectedImage!);
       final imageUrl = await storageRef.getDownloadURL();
 
-      FirebaseFirestore.instance
-          .collection('OngoingEvents')
-          .doc(_eventName)
-          .set(
+      FirebaseFirestore.instance.collection('events').doc(_eventName).set(
         {
           'currrentUser': currentUser,
           'image_url': imageUrl,
@@ -185,10 +181,6 @@ class CreateEventScreenState extends State<CreateEventScreen> {
     _eventCodefocusNode.dispose();
     _eventDescriptionfocusNode.dispose();
     _eventVenueFocusNode.dispose();
-    // _eventStartTimeFocusNode.dispose();
-    // _eventFinishTimeFocusNode.dispose();
-    // _eventStartDateFocusNode.dispose();
-    // _eventFinshDateFocusNode.dispose();
     _eventSuperviserSicFocusNode.dispose();
     super.dispose();
   }
@@ -201,7 +193,8 @@ class CreateEventScreenState extends State<CreateEventScreen> {
       ),
       /* 
       event name,event code(it must be unique if many events are going on), event discription, event image,
-      whatsapp linking will also be required, and a timer so that event can expire automatically,  */
+      whatsapp linking will also be required, and a timer so that event can expire automatically,
+      */
       body: Container(
         alignment: Alignment.topCenter,
         height: double.infinity,
@@ -451,7 +444,7 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Please enter The event name.';
+                        return 'Please enter The event description.';
                       }
                       return null;
                     },
