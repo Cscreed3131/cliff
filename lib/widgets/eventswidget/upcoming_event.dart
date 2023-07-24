@@ -47,6 +47,7 @@ class UpComingEventsWidgets extends StatelessWidget {
                   eventImage: eventData['image_url'],
                   eventStartDateTime: eventData['eventstartdatetime'],
                   eventVenue: eventData['eventVenue'],
+                  supervisorSIC: eventData['supervisorsic'],
                   // should also contain description to display it dynamically
                   // and also the event code to match and display information related to this event
                   // basically pass everything needed literally everything.

@@ -116,6 +116,7 @@ class MyApp extends StatelessWidget {
                 eventStartDateTime:
                     args?['eventFinishStartTime'] ?? 'Default Title',
                 eventVenue: args?['eventVenue'] ?? 'Default Title',
+                supervisorSIC: args?['supervisorsic'] ?? 'Default Title',
               );
             },
           },

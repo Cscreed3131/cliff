@@ -16,7 +16,7 @@ class _EventImagePickerState extends State<EventImagePicker> {
   void _pickImage() async {
     final pickedImage = await ImagePicker().pickImage(
       source: ImageSource.gallery,
-      imageQuality: 50,
+      imageQuality: 90,
       maxWidth: 150,
     );
     if (pickedImage == null) {
@@ -33,33 +33,36 @@ class _EventImagePickerState extends State<EventImagePicker> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Container(
-        width: double.maxFinite,
-        height: 200,
-        //Rectangular container with dotted border
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey,
-            width: 1,
+      child: InkWell(
+        onTap: _pickImage,
+        child: Container(
+          width: double.maxFinite,
+          height: MediaQuery.of(context).size.height * 0.23,
+          //Rectangular container with dotted border
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.grey,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(5),
           ),
-          borderRadius: BorderRadius.circular(5),
+          child: _pickedImageFile == null ? Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton.icon(
+                  onPressed: _pickImage,
+                  icon: const Icon(Icons.image),
+                  label: Text(
+                    'Add Image',
+                    style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                  ),
+                )
+              ],
+            ),
+          )
+          : Image.file(_pickedImageFile!, fit: BoxFit.cover,),
         ),
-        child: _pickedImageFile == null ? Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton.icon(
-                onPressed: _pickImage,
-                icon: const Icon(Icons.image),
-                label: Text(
-                  'Add Image',
-                  style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                ),
-              )
-            ],
-          ),
-        )
-        : Image.file(_pickedImageFile!, fit: BoxFit.cover,),
       ),
     );
   }

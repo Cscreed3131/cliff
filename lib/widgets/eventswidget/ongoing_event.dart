@@ -47,6 +47,8 @@ class OnGoingEventWidget extends StatelessWidget {
                   eventImage: eventData['image_url'],
                   eventStartDateTime: eventData['eventstartdatetime'],
                   eventVenue: eventData['eventVenue'],
+                  supervisorSIC: eventData['supervisorsic'],
+
                 ),
               ),
             );
@@ -130,7 +132,7 @@ class OnGoingEventWidget extends StatelessWidget {
                         label: Text(
                           eventStartDate,
                         ),
-                        avatar: const Icon(Icons.today),
+                        avatar: const Icon(Icons.timelapse_rounded),
                       )
                     ],
                   ),
