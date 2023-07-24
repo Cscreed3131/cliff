@@ -271,43 +271,64 @@ class EventDetailsScreen extends StatelessWidget {
                 ),
               ],
             ),
-            Card(
-              child: ListTile(
-                leading: IconButton.filledTonal(
-                    onPressed: () {
-                      _getMemberName(clubMembersic1);
-                    },
-                    icon: Icon(
-                      Icons.person,
-                      color: Theme.of(context).colorScheme.primary,
-                    )),
-                title: const Text(
-                    'Anubhav Kumar'), // should be name of first member fetched by firebase
-                subtitle: Text(
-                  clubMembersic1,
-                  overflow: TextOverflow.ellipsis,
+            const SizedBox(height: 20),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                'People Incharge',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
                 ),
-
-                titleTextStyle: titleStyle,
               ),
             ),
-            Card(
-              child: ListTile(
-                leading: IconButton.filledTonal(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.person,
-                      color: Theme.of(context).colorScheme.primary,
-                    )),
-                title: const Text(
-                  'Shrestha Das',
-                ), // should be name of first member fetched by firebase
-                subtitle: Text(
-                  clubMembersic2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-
-                titleTextStyle: titleStyle,
+            const SizedBox(height: 10),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 5),
+              width: double.maxFinite,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Theme.of(context).colorScheme.secondaryContainer,
+              ),
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: IconButton.filledTonal(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.person,
+                          color: Theme.of(context).colorScheme.primary,
+                        )),
+                    isThreeLine: true,
+                    title: const Text(
+                      'Anubhav Kumar',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: Text(
+                      'SIC: $clubMembersic1\nPhone Number: 1234567890',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    titleTextStyle: titleStyle,
+                  ),
+                  ListTile(
+                    leading: IconButton.filledTonal(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.person,
+                          color: Theme.of(context).colorScheme.primary,
+                        )),
+                    isThreeLine: true,
+                    title: const Text(
+                      'Shrestha Das',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: Text(
+                      'SIC: $clubMembersic2\nPhone Number: 1234567890',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    titleTextStyle: titleStyle,
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 20),

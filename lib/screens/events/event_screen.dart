@@ -44,6 +44,7 @@ class EventsScreen extends ConsumerWidget {
                       border: Border.all(
                         color: Theme.of(context).colorScheme.outline,
                       ),
+                      color: Theme.of(context).colorScheme.secondaryContainer,
                       borderRadius: BorderRadius.circular(20),
                       image: const DecorationImage(
                         image: AssetImage('assets/images/events.png'),

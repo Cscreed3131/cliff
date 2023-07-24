@@ -27,6 +27,7 @@ class _AppDrawerState extends State<AppDrawer> {
     // final screenWidth = MediaQuery.of(context).size.width;
     // final font15 = screenWidth * 0.038;
     return Drawer(
+      elevation: 10,
       width: 250,
       child: SingleChildScrollView(
         child: Column(
