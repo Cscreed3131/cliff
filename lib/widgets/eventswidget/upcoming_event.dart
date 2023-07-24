@@ -41,6 +41,12 @@ class UpComingEventsWidgets extends StatelessWidget {
               MaterialPageRoute(
                 builder: (context) => EventDetailsScreen(
                   title: eventData['eventname'],
+                  eventCode: eventData['eventcode'],
+                  eventDescription: eventData['eventdescription'],
+                  eventFinishDateTime: eventData['eventfinishdatetime'],
+                  eventImage: eventData['image_url'],
+                  eventStartDateTime: eventData['eventstartdatetime'],
+                  eventVenue: eventData['eventVenue'],
                   // should also contain description to display it dynamically
                   // and also the event code to match and display information related to this event
                   // basically pass everything needed literally everything.

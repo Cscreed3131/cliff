@@ -1,11 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class EventDetailsScreen extends StatelessWidget {
   static const String routeName = '/event-details';
 
   final String title;
-  const EventDetailsScreen({super.key, required this.title});
+  final String eventCode;
+  final String eventVenue;
+  final String eventImage;
+  final Timestamp eventStartDateTime;
+  final Timestamp eventFinishDateTime;
+  final String eventDescription;
+
+  const EventDetailsScreen({
+    super.key,
+    required this.title,
+    required this.eventCode,
+    required this.eventVenue,
+    required this.eventImage,
+    required this.eventFinishDateTime,
+    required this.eventStartDateTime,
+    required this.eventDescription,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +36,7 @@ class EventDetailsScreen extends StatelessWidget {
       color: Theme.of(context).colorScheme.onSecondaryContainer,
     );
     return Scaffold(
-        // might remove this app bar it look good
+        // might remove this app bar if it look good
         appBar: AppBar(
           title: const Text('Event Details'),
         ),
@@ -61,7 +79,7 @@ class EventDetailsScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: FilledButton.tonalIcon(
                       onPressed: () {},
-                      label: const Text('20'),
+                      label: const Text('20'), // to be dynamic
                       icon: const Icon(Icons.group),
                     ),
                   ),
@@ -95,6 +113,7 @@ class EventDetailsScreen extends StatelessWidget {
                   subtitle: const Text(
                     'Mr. John Doe, SIC : 1234567890',
                     overflow: TextOverflow.ellipsis,
+                    // make this dynamic
                   ),
                   titleTextStyle: titleStyle,
                 ),
@@ -110,7 +129,8 @@ class EventDetailsScreen extends StatelessWidget {
                         //copy code to clipboard
                         onTap: () async {
                           await Clipboard.setData(
-                              const ClipboardData(text: '123456'));
+                              ClipboardData(text: eventCode));
+                          ScaffoldMessenger.of(context).removeCurrentSnackBar();
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Code copied to clipboard'),
@@ -125,7 +145,7 @@ class EventDetailsScreen extends StatelessWidget {
                               color: Theme.of(context).colorScheme.primary,
                             )),
                         title: const Text('Code'),
-                        subtitle: const Text('123456'),
+                        subtitle: Text(eventCode),
                         titleTextStyle: titleStyle,
                       ),
                     ),
@@ -141,7 +161,7 @@ class EventDetailsScreen extends StatelessWidget {
                               color: Theme.of(context).colorScheme.primary,
                             )),
                         title: const Text('Venue'),
-                        subtitle: const Text('Room 101'),
+                        subtitle: Text(eventVenue),
                         titleTextStyle: titleStyle,
                       ),
                     ),
@@ -166,7 +186,11 @@ class EventDetailsScreen extends StatelessWidget {
                           'Start Date',
                           overflow: TextOverflow.ellipsis,
                         ),
-                        subtitle: const Text('01/01/2021'),
+                        subtitle: Text(
+                          DateFormat('dd-MM-yy').format(
+                            eventStartDateTime.toDate(),
+                          ),
+                        ),
                         titleTextStyle: titleStyle,
                       ),
                     ),
@@ -185,7 +209,11 @@ class EventDetailsScreen extends StatelessWidget {
                           'Start Time',
                           overflow: TextOverflow.ellipsis,
                         ),
-                        subtitle: const Text('10:00 AM'),
+                        subtitle: Text(
+                          DateFormat('hh:mm a').format(
+                            eventStartDateTime.toDate(),
+                          ),
+                        ),
                         titleTextStyle: titleStyle,
                       ),
                     ),
@@ -210,7 +238,11 @@ class EventDetailsScreen extends StatelessWidget {
                           'End Date',
                           overflow: TextOverflow.ellipsis,
                         ),
-                        subtitle: const Text('01/01/2021'),
+                        subtitle: Text(
+                          DateFormat('dd-MM-yy').format(
+                            eventFinishDateTime.toDate(),
+                          ),
+                        ),
                         titleTextStyle: titleStyle,
                       ),
                     ),
@@ -229,7 +261,11 @@ class EventDetailsScreen extends StatelessWidget {
                           'End Time',
                           overflow: TextOverflow.ellipsis,
                         ),
-                        subtitle: const Text('10:00 AM'),
+                        subtitle: Text(
+                          DateFormat('hh:mm a').format(
+                            eventFinishDateTime.toDate(),
+                          ),
+                        ),
                         titleTextStyle: titleStyle,
                       ),
                     ),
@@ -249,11 +285,11 @@ class EventDetailsScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, vitae aliquam nisl nisl eu nunc. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, vitae aliquam nisl nisl eu nunc.',
-                  style: TextStyle(
+                  eventDescription,
+                  style: const TextStyle(
                     fontSize: 16,
                   ),
                 ),

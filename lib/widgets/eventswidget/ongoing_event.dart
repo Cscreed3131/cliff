@@ -41,9 +41,12 @@ class OnGoingEventWidget extends StatelessWidget {
               MaterialPageRoute(
                 builder: (context) => EventDetailsScreen(
                   title: eventData['eventname'],
-                  // should also contain description to display it dynamically
-                  // and also the event code to match and display information related to this event
-                  // basically pass everything needed literally everything.
+                  eventCode: eventData['eventcode'],
+                  eventDescription: eventData['eventdescription'],
+                  eventFinishDateTime: eventData['eventfinishdatetime'],
+                  eventImage: eventData['image_url'],
+                  eventStartDateTime: eventData['eventstartdatetime'],
+                  eventVenue: eventData['eventVenue'],
                 ),
               ),
             );
@@ -72,7 +75,7 @@ class OnGoingEventWidget extends StatelessWidget {
                     image: DecorationImage(
                       image: NetworkImage(
                         eventData['image_url'],
-                      ), // should be dynamic
+                      ),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -126,7 +129,6 @@ class OnGoingEventWidget extends StatelessWidget {
                         ),
                         label: Text(
                           eventStartDate,
-                          // should date dynamically and the date should
                         ),
                         avatar: const Icon(Icons.today),
                       )
