@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-class EventDetailsScreen extends StatelessWidget {
+class EventDetailsScreen extends StatefulWidget {
   static const String routeName = '/event-details';
 
   final String title;
@@ -30,6 +30,89 @@ class EventDetailsScreen extends StatelessWidget {
   });
 
   @override
+  State<EventDetailsScreen> createState() => _EventDetailsScreenState();
+}
+
+class _EventDetailsScreenState extends State<EventDetailsScreen> {
+  String? clubMemberName1;
+  String? clubMemberName2;
+  String? clubMemberPhoneNumber1;
+  String? clubMemberPhoneNumber2;
+  String? clubMemberYear1;
+  String? clubMemberYear2;
+
+  @override
+  void initState() {
+    _getMemberdetails2();
+    _getMemberdetails1();
+    super.initState();
+  }
+
+  void _getMemberdetails1() async {
+    try {
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.clubMembersic1)
+          .get();
+      if (documentSnapshot.exists) {
+        Map<String, dynamic> clubMember =
+            documentSnapshot.data()! as Map<String, dynamic>;
+        setState(() {
+          clubMemberName1 = clubMember['name'];
+          clubMemberPhoneNumber1 = clubMember['phoneNumber'];
+          clubMemberYear1 = clubMember['year'];
+        });
+      } else {
+        // Handle the case when user data is not found
+        setState(() {
+          clubMemberName1 = 'User not found';
+          clubMemberPhoneNumber1 = '';
+          clubMemberYear1 = '';
+        });
+      }
+    } catch (e) {
+      // Handle any exceptions that occur during data fetching
+      setState(() {
+        clubMemberName1 = 'Error fetching data';
+        clubMemberPhoneNumber1 = '';
+        clubMemberYear1 = '';
+      });
+    }
+  }
+
+  void _getMemberdetails2() async {
+    try {
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.clubMembersic2)
+          .get();
+      if (documentSnapshot.exists) {
+        Map<String, dynamic> clubMember =
+            documentSnapshot.data()! as Map<String, dynamic>;
+        setState(() {
+          clubMemberName2 = clubMember['name'];
+          clubMemberPhoneNumber2 = clubMember['phoneNumber'];
+          clubMemberYear2 = clubMember['year'];
+        });
+      } else {
+        // Handle the case when user data is not found
+        setState(() {
+          clubMemberName2 = 'User not found';
+          clubMemberPhoneNumber2 = '';
+          clubMemberYear2 = '';
+        });
+      }
+    } catch (e) {
+      // Handle any exceptions that occur during data fetching
+      setState(() {
+        clubMemberName2 = 'Error fetching data';
+        clubMemberPhoneNumber2 = '';
+        clubMemberYear2 = '';
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final font30 = screenHeight * 0.04;
@@ -39,20 +122,6 @@ class EventDetailsScreen extends StatelessWidget {
       fontWeight: FontWeight.bold,
       color: Theme.of(context).colorScheme.onSecondaryContainer,
     );
-
-    void _getMemberName(String clubMembersic) async {
-      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(clubMembersic)
-          .get();
-      if (documentSnapshot.exists) {
-        Map<String, dynamic> userName =
-            documentSnapshot.data()! as Map<String, dynamic>;
-        print(userName['name']);
-      } else {
-        throw 'user data was not found';
-      }
-    }
 
     return Scaffold(
       // might remove this app bar if it look good
@@ -70,7 +139,7 @@ class EventDetailsScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 image: DecorationImage(
-                  image: NetworkImage(eventImage),
+                  image: NetworkImage(widget.eventImage),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -79,7 +148,7 @@ class EventDetailsScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Text(
-                title,
+                widget.title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -128,7 +197,8 @@ class EventDetailsScreen extends StatelessWidget {
                     child: ListTile(
                       //copy code to clipboard
                       onTap: () async {
-                        await Clipboard.setData(ClipboardData(text: eventCode));
+                        await Clipboard.setData(
+                            ClipboardData(text: widget.eventCode));
                         ScaffoldMessenger.of(context).removeCurrentSnackBar();
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -144,7 +214,7 @@ class EventDetailsScreen extends StatelessWidget {
                             color: Theme.of(context).colorScheme.primary,
                           )),
                       title: const Text('Code'),
-                      subtitle: Text(eventCode),
+                      subtitle: Text(widget.eventCode),
                       titleTextStyle: titleStyle,
                     ),
                   ),
@@ -160,7 +230,7 @@ class EventDetailsScreen extends StatelessWidget {
                             color: Theme.of(context).colorScheme.primary,
                           )),
                       title: const Text('Venue'),
-                      subtitle: Text(eventVenue),
+                      subtitle: Text(widget.eventVenue),
                       titleTextStyle: titleStyle,
                     ),
                   ),
@@ -187,7 +257,7 @@ class EventDetailsScreen extends StatelessWidget {
                       ),
                       subtitle: Text(
                         DateFormat('dd-MM-yy').format(
-                          eventStartDateTime.toDate(),
+                          widget.eventStartDateTime.toDate(),
                         ),
                       ),
                       titleTextStyle: titleStyle,
@@ -210,7 +280,7 @@ class EventDetailsScreen extends StatelessWidget {
                       ),
                       subtitle: Text(
                         DateFormat('hh:mm a').format(
-                          eventStartDateTime.toDate(),
+                          widget.eventStartDateTime.toDate(),
                         ),
                       ),
                       titleTextStyle: titleStyle,
@@ -239,7 +309,7 @@ class EventDetailsScreen extends StatelessWidget {
                       ),
                       subtitle: Text(
                         DateFormat('dd-MM-yy').format(
-                          eventFinishDateTime.toDate(),
+                          widget.eventFinishDateTime.toDate(),
                         ),
                       ),
                       titleTextStyle: titleStyle,
@@ -262,7 +332,7 @@ class EventDetailsScreen extends StatelessWidget {
                       ),
                       subtitle: Text(
                         DateFormat('hh:mm a').format(
-                          eventFinishDateTime.toDate(),
+                          widget.eventFinishDateTime.toDate(),
                         ),
                       ),
                       titleTextStyle: titleStyle,
@@ -300,12 +370,12 @@ class EventDetailsScreen extends StatelessWidget {
                           color: Theme.of(context).colorScheme.primary,
                         )),
                     isThreeLine: true,
-                    title: const Text(
-                      'Anubhav Kumar',
+                    title: Text(
+                      '$clubMemberName1',
                       overflow: TextOverflow.ellipsis,
                     ),
                     subtitle: Text(
-                      'SIC: $clubMembersic1\nPhone Number: 1234567890',
+                      'Year: $clubMemberYear1\nPhone Number: $clubMemberPhoneNumber1',
                       overflow: TextOverflow.ellipsis,
                     ),
                     titleTextStyle: titleStyle,
@@ -318,12 +388,12 @@ class EventDetailsScreen extends StatelessWidget {
                           color: Theme.of(context).colorScheme.primary,
                         )),
                     isThreeLine: true,
-                    title: const Text(
-                      'Shrestha Das',
+                    title: Text(
+                      '$clubMemberName2',
                       overflow: TextOverflow.ellipsis,
                     ),
                     subtitle: Text(
-                      'SIC: $clubMembersic2\nPhone Number: 1234567890',
+                      'Year: $clubMemberYear2 \nPhone Number: $clubMemberPhoneNumber2',
                       overflow: TextOverflow.ellipsis,
                     ),
                     titleTextStyle: titleStyle,
@@ -346,7 +416,7 @@ class EventDetailsScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Text(
-                eventDescription,
+                widget.eventDescription,
                 style: const TextStyle(
                   fontSize: 16,
                 ),

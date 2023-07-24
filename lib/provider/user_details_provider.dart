@@ -27,6 +27,4 @@ final userDataProvider = FutureProvider((ref) async {
   } catch (e) {
     throw Exception('Error fetching user data: $e');
   }
-
-
 });
