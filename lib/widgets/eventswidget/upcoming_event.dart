@@ -30,7 +30,7 @@ class UpComingEventsWidgets extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         final eventData = upcomingEvents[index];
-        Timestamp eventStartDateTimeStamp = eventData['eventstartdate'];
+        Timestamp eventStartDateTimeStamp = eventData['eventstartdatetime'];
         String eventStartDate =
             DateFormat('dd-MM-yyyy').format(eventStartDateTimeStamp.toDate());
 

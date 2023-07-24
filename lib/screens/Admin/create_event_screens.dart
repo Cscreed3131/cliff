@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cliff/screens/events/event_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -19,15 +20,19 @@ class CreateEventScreenState extends State<CreateEventScreen> {
   final _form = GlobalKey<FormState>();
   File? _selectedImage;
 
-  TimeOfDay? _eventStartTime;
-  TimeOfDay? _eventFinishTime;
-  DateTime? _eventStartDate;
-  DateTime? _eventFinishDate;
+  // TimeOfDay? _eventStartTime;
+  // TimeOfDay? _eventFinishTime;
+  // DateTime? _eventStartDate;
+  // DateTime? _eventFinishDate;
 
-  Timestamp? _startDate;
-  Timestamp? _finsihDate;
-  int? _startTime;
-  int? _finishTime;
+  DateTime? _eventFinishDateTime;
+  DateTime? _eventStartDateTime;
+
+  // Timestamp? _startDate;
+  // Timestamp? _finsihDate;
+  Timestamp? _finishDateTime;
+  Timestamp? _startDateTime;
+  // int? _finishTime;
 
   var _isSubmitting = false;
   var _eventName = '';
@@ -82,11 +87,11 @@ class CreateEventScreenState extends State<CreateEventScreen> {
           'eventcode': _eventCode,
           'eventVenue': _eventVenue,
           'supervisorsic': _eventSuperviserSic,
-          'eventstarttime': _startTime,
-          'eventendtime': _finishTime,
-          'eventstartdate': _startDate,
-          'eventfinshdate': _finsihDate,
+          'eventstartdatetime': _startDateTime,
+          'eventfinishdatetime': _finishDateTime,
           'eventdescription': _eventDescirption,
+          // 'eventstartdate': _startDate,
+          // 'eventfinshdate': _finsihDate,
         },
       );
       return true;
@@ -105,9 +110,6 @@ class CreateEventScreenState extends State<CreateEventScreen> {
     return false;
   }
 
-  // DateTime? selectedDate;
-  // TimeOfDay? selectedTime;
-
   Future<void> _selectStartDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -122,10 +124,18 @@ class CreateEventScreenState extends State<CreateEventScreen> {
       },
     );
 
-    if (pickedDate != null && pickedDate != _eventStartDate) {
-      setState(() {
-        _eventStartDate = pickedDate;
-      });
+    if (pickedDate != null && pickedDate != _eventStartDateTime) {
+      // Combine the selected date with the existing time (if any)
+      TimeOfDay? selectedTime =
+          TimeOfDay.fromDateTime(_eventStartDateTime ?? DateTime.now());
+      _eventStartDateTime = DateTime(
+        pickedDate.year,
+        pickedDate.month,
+        pickedDate.day,
+        selectedTime.hour,
+        selectedTime.minute,
+      );
+      setState(() {});
     }
   }
 
@@ -135,10 +145,12 @@ class CreateEventScreenState extends State<CreateEventScreen> {
       initialTime: TimeOfDay.now(),
     );
 
-    if (pickedTime != null && pickedTime != _eventStartTime) {
-      setState(() {
-        _eventStartTime = pickedTime;
-      });
+    if (pickedTime != null) {
+      // Combine the selected time with the existing date (if any)
+      DateTime selectedDate = _eventStartDateTime ?? DateTime.now();
+      _eventStartDateTime = DateTime(selectedDate.year, selectedDate.month,
+          selectedDate.day, pickedTime.hour, pickedTime.minute);
+      setState(() {});
     }
   }
 
@@ -156,10 +168,18 @@ class CreateEventScreenState extends State<CreateEventScreen> {
       },
     );
 
-    if (pickedDate != null && pickedDate != _eventFinishDate) {
-      setState(() {
-        _eventFinishDate = pickedDate;
-      });
+    if (pickedDate != null && pickedDate != _eventStartDateTime) {
+      // Combine the selected date with the existing time (if any)
+      TimeOfDay? selectedTime =
+          TimeOfDay.fromDateTime(_eventFinishDateTime ?? DateTime.now());
+      _eventFinishDateTime = DateTime(
+        pickedDate.year,
+        pickedDate.month,
+        pickedDate.day,
+        selectedTime.hour,
+        selectedTime.minute,
+      );
+      setState(() {});
     }
   }
 
@@ -169,10 +189,17 @@ class CreateEventScreenState extends State<CreateEventScreen> {
       initialTime: TimeOfDay.now(),
     );
 
-    if (pickedTime != null && pickedTime != _eventFinishTime) {
-      setState(() {
-        _eventFinishTime = pickedTime;
-      });
+    if (pickedTime != null) {
+      // Combine the selected time with the existing date (if any)
+      DateTime selectedDate = _eventFinishDateTime ?? DateTime.now();
+      _eventFinishDateTime = DateTime(
+        selectedDate.year,
+        selectedDate.month,
+        selectedDate.day,
+        pickedTime.hour,
+        pickedTime.minute,
+      );
+      setState(() {});
     }
   }
 
@@ -326,20 +353,18 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                         decoration: InputDecoration(
                           labelText: 'Start Date',
                           hintText: 'Select date',
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                           constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width / 2 - 20,
+                            maxWidth:
+                                MediaQuery.of(context).size.width / 2 - 20,
                           ),
                         ),
                         controller: TextEditingController(
-                          text: _eventStartDate != null
-                              ? DateFormat('yyyy-MM-dd')
-                                  .format(_eventStartDate!)
+                          text: _eventStartDateTime != null
+                              ? DateFormat('dd-MM-yyyy')
+                                  .format(_eventStartDateTime!)
                               : '',
                         ),
-                        onSaved: (value) {
-                          _startDate = Timestamp.fromDate(_eventStartDate!);
-                        },
                       ),
                       const SizedBox(
                         width: 10,
@@ -350,19 +375,21 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                         decoration: InputDecoration(
                           labelText: 'Start time',
                           hintText: 'Select event start time',
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                           constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width / 2 - 20,
+                            maxWidth:
+                                MediaQuery.of(context).size.width / 2 - 20,
                           ),
                         ),
                         controller: TextEditingController(
-                          text: _eventStartTime != null
-                              ? _eventStartTime!.format(context)
+                          text: _eventStartDateTime != null
+                              ? DateFormat('hh:mm:ss')
+                                  .format(_eventStartDateTime!)
                               : '',
                         ),
                         onSaved: (value) {
-                          _startTime = (_eventStartTime!.hour * 60) +
-                              (_eventStartTime!.minute);
+                          _startDateTime =
+                              Timestamp.fromDate(_eventStartDateTime!);
                         },
                       ),
                     ],
@@ -381,18 +408,16 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                           hintText: 'Select event end date',
                           border: const OutlineInputBorder(),
                           constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width / 2 - 20,
+                            maxWidth:
+                                MediaQuery.of(context).size.width / 2 - 20,
                           ),
                         ),
                         controller: TextEditingController(
-                          text: _eventFinishDate != null
-                              ? DateFormat('yyyy-MM-dd')
-                                  .format(_eventFinishDate!)
+                          text: _eventFinishDateTime != null
+                              ? DateFormat('dd-MM-yyyy')
+                                  .format(_eventFinishDateTime!)
                               : '',
                         ),
-                        onSaved: (value) {
-                          _finsihDate = Timestamp.fromDate(_eventFinishDate!);
-                        },
                       ),
                       const SizedBox(
                         width: 10,
@@ -403,19 +428,21 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                         decoration: InputDecoration(
                           labelText: 'Finish time',
                           hintText: 'Select event finish time',
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                           constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width / 2 - 20,
+                            maxWidth:
+                                MediaQuery.of(context).size.width / 2 - 20,
                           ),
                         ),
                         controller: TextEditingController(
-                          text: _eventFinishTime != null
-                              ? _eventFinishTime!.format(context)
+                          text: _eventFinishDateTime != null
+                              ? DateFormat('hh:mm:ss')
+                                  .format(_eventFinishDateTime!)
                               : '',
                         ),
                         onSaved: (value) {
-                          _finishTime = _eventFinishTime!.hour * 60 +
-                              _eventFinishTime!.minute;
+                          _finishDateTime =
+                              Timestamp.fromDate(_eventFinishDateTime!);
                         },
                         // onSaved: (value) {
                         //   _eventFinishTime = value!;
@@ -470,13 +497,17 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 const SnackBar(
-                                                  behavior: SnackBarBehavior.floating,
+                                                  behavior:
+                                                      SnackBarBehavior.floating,
                                                   content: Text(
                                                     'Event Created,redirecting to ongoing events page',
                                                   ),
                                                 ),
                                               ),
-                                              // Navigator.of(context).pushNamed();
+                                              Navigator.of(context)
+                                                  .pushReplacementNamed(
+                                                EventsScreen.routeName,
+                                              ),
                                             }
                                           : print(
                                               'context not mounted') // this should give a alert dialog box;
@@ -487,7 +518,8 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             const SnackBar(
-                                              behavior: SnackBarBehavior.floating,
+                                              behavior:
+                                                  SnackBarBehavior.floating,
                                               content: Text(
                                                   'Event Creation was unsuccessful, Try again.'),
                                             ),
