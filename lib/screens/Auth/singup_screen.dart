@@ -193,6 +193,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onFieldSubmitted: (_) {
                           FocusScope.of(context).requestFocus(_branchFocusNode);
                         },
+                        textCapitalization: TextCapitalization.characters,
                         validator: (value) {
                           if (value == null ||
                               value.isEmpty ||
@@ -349,7 +350,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         validator: (value) {
                           if (value == null ||
                               value.trim().isEmpty ||
-                              !value.contains('@')) {
+                              !value.contains('@gmail.com')) {
                             return 'Please enter a valid email address.';
                           }
                           return null;

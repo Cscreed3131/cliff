@@ -47,7 +47,8 @@ class UpComingEventsWidgets extends StatelessWidget {
                   eventImage: eventData['image_url'],
                   eventStartDateTime: eventData['eventstartdatetime'],
                   eventVenue: eventData['eventVenue'],
-                  supervisorSIC: eventData['supervisorsic'],
+                  clubMembersic1: eventData['clubmembersic1'],
+                  clubMembersic2: eventData['clubmembersic2'],
                   // should also contain description to display it dynamically
                   // and also the event code to match and display information related to this event
                   // basically pass everything needed literally everything.
@@ -67,7 +68,7 @@ class UpComingEventsWidgets extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: screenHeight * 0.18,
+                  height: screenHeight * 0.165,
                   width: double.infinity,
                   margin: const EdgeInsets.all(10),
                   decoration: BoxDecoration(

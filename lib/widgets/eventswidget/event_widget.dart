@@ -7,15 +7,11 @@ class Event {
   final String title;
   final DateTime startDateTime;
   final DateTime finishDateTime;
-  // final TimeOfDay startTime;
-  // final TimeOfDay finishTime;
 
   Event({
     required this.title,
     required this.startDateTime,
     required this.finishDateTime,
-    // required this.startTime,
-    // required this.finishTime,
   });
 
   factory Event.fromFirestore(Map<String, dynamic> data) {
@@ -23,8 +19,6 @@ class Event {
       title: data['eventname'],
       startDateTime: (data['eventstartdatetime'] as Timestamp).toDate(),
       finishDateTime: (data['eventfinishdatetime'] as Timestamp).toDate(),
-      // startTime: convertIntToTimeOfDay(data['eventstarttime']),
-      // finishTime: convertIntToTimeOfDay(data['eventendtime']),
     );
   }
 }

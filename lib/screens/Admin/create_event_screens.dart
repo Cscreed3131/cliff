@@ -39,7 +39,8 @@ class CreateEventScreenState extends State<CreateEventScreen> {
   var _eventCode = '';
   var _eventDescirption = '';
   var _eventVenue = '';
-  var _eventSuperviserSic = '';
+  var _clubMemberSic1 = '';
+  var _clubMemberSic2 = '';
   // var _registeredStudent = '';
 
   //this should probally contain a phone number of the superviser for doubts and queries
@@ -47,7 +48,8 @@ class CreateEventScreenState extends State<CreateEventScreen> {
   final _eventCodefocusNode = FocusNode();
   final _eventDescriptionfocusNode = FocusNode();
   final _eventVenueFocusNode = FocusNode();
-  final _eventSuperviserSicFocusNode = FocusNode();
+  final _clubMemberSic1FocusNode = FocusNode();
+  final _clubMemberSic2FocusNode = FocusNode();
 
   Future<bool> _submit() async {
     final isValid = _form.currentState!.validate();
@@ -86,12 +88,11 @@ class CreateEventScreenState extends State<CreateEventScreen> {
           'eventname': _eventName,
           'eventcode': _eventCode,
           'eventVenue': _eventVenue,
-          'supervisorsic': _eventSuperviserSic,
+          'clubmembersic1': _clubMemberSic1,
+          'clubmembersic2': _clubMemberSic2,
           'eventstartdatetime': _startDateTime,
           'eventfinishdatetime': _finishDateTime,
           'eventdescription': _eventDescirption,
-          // 'eventstartdate': _startDate,
-          // 'eventfinshdate': _finsihDate,
         },
       );
       return true;
@@ -208,7 +209,8 @@ class CreateEventScreenState extends State<CreateEventScreen> {
     _eventCodefocusNode.dispose();
     _eventDescriptionfocusNode.dispose();
     _eventVenueFocusNode.dispose();
-    _eventSuperviserSicFocusNode.dispose();
+    _clubMemberSic2FocusNode.dispose();
+    _clubMemberSic1FocusNode.dispose();
     super.dispose();
   }
 
@@ -319,13 +321,43 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                   ),
                   TextFormField(
                     decoration: const InputDecoration(
-                      labelText: 'Supervisor Sic',
+                      labelText: '1st member Sic',
                       border: OutlineInputBorder(),
                       labelStyle: TextStyle(
                         fontSize: 20,
                       ),
                     ),
-                    focusNode: _eventSuperviserSicFocusNode,
+                    focusNode: _clubMemberSic1FocusNode,
+                    textInputAction: TextInputAction.next,
+                    // onFieldSubmitted: (_) {
+                    //   FocusScope.of(context).requestFocus();
+                    // },
+                    validator: (value) {
+                      // must be unique event code use firebase get command
+                      if (value!.isEmpty) {
+                        return 'Please enter first club member Sic';
+                      } else if (value == _clubMemberSic1) {
+                        return 'Sic of First and Second member cannot be same';
+                      }
+                      return null;
+                    },
+
+                    onSaved: (value) {
+                      _clubMemberSic1 = value!;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: '2nd member Sic',
+                      border: OutlineInputBorder(),
+                      labelStyle: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    focusNode: _clubMemberSic2FocusNode,
                     textInputAction: TextInputAction.done,
                     // onFieldSubmitted: (_) {
                     //   FocusScope.of(context).requestFocus();
@@ -333,12 +365,12 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                     validator: (value) {
                       // must be unique event code use firebase get command
                       if (value!.isEmpty) {
-                        return 'Please enter The supervisor Sic';
+                        return 'Please enter second club member Sic';
                       }
                       return null;
                     },
                     onSaved: (value) {
-                      _eventSuperviserSic = value!;
+                      _clubMemberSic2 = value!;
                     },
                   ),
                   const SizedBox(
@@ -457,8 +489,8 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                         fontSize: 20,
                       ),
                     ),
-                    maxLines: 10,
-                    maxLength: 350,
+                    maxLines: 15,
+                    maxLength: 1000,
                     keyboardType: TextInputType.multiline,
                     focusNode: _eventDescriptionfocusNode,
                     textInputAction: TextInputAction.done,
