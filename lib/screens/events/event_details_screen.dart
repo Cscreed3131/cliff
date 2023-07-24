@@ -13,6 +13,7 @@ class EventDetailsScreen extends StatelessWidget {
   final Timestamp eventStartDateTime;
   final Timestamp eventFinishDateTime;
   final String eventDescription;
+  final String supervisorSIC;
 
   const EventDetailsScreen({
     super.key,
@@ -23,6 +24,7 @@ class EventDetailsScreen extends StatelessWidget {
     required this.eventFinishDateTime,
     required this.eventStartDateTime,
     required this.eventDescription,
+    required this.supervisorSIC,
   });
 
   @override
@@ -50,8 +52,8 @@ class EventDetailsScreen extends StatelessWidget {
                 height: screenHeight * 0.28,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  image: const DecorationImage(
-                    image: AssetImage('assets/images/vikalp.jpg'),
+                  image: DecorationImage(
+                    image: NetworkImage(eventImage),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -110,8 +112,8 @@ class EventDetailsScreen extends StatelessWidget {
                         color: Theme.of(context).colorScheme.primary,
                       )),
                   title: const Text('Supervisor '),
-                  subtitle: const Text(
-                    'Mr. John Doe, SIC : 1234567890',
+                  subtitle: Text(
+                    'SIC: $supervisorSIC',
                     overflow: TextOverflow.ellipsis,
                     // make this dynamic
                   ),
@@ -202,7 +204,7 @@ class EventDetailsScreen extends StatelessWidget {
                         leading: IconButton.filledTonal(
                             onPressed: () {},
                             icon: Icon(
-                              Icons.task_alt,
+                              Icons.timer_outlined,
                               color: Theme.of(context).colorScheme.primary,
                             )),
                         title: const Text(
@@ -254,7 +256,7 @@ class EventDetailsScreen extends StatelessWidget {
                         leading: IconButton.filledTonal(
                             onPressed: () {},
                             icon: Icon(
-                              Icons.block,
+                              Icons.timer,
                               color: Theme.of(context).colorScheme.primary,
                             )),
                         title: const Text(

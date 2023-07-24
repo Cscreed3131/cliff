@@ -347,50 +347,48 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TextFormField(
-                        readOnly: true,
-                        onTap: () => _selectStartDate(context),
-                        decoration: InputDecoration(
-                          labelText: 'Start Date',
-                          hintText: 'Select date',
-                          border: const OutlineInputBorder(),
-                          constraints: BoxConstraints(
-                            maxWidth:
-                                MediaQuery.of(context).size.width / 2 - 20,
+                      Expanded(
+                        child: TextFormField(
+                          readOnly: true,
+                          onTap: () => _selectStartDate(context),
+                          decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.event_available),
+                            labelText: 'Start Date',
+                            hintText: 'Select date',
+                            border: OutlineInputBorder(),
                           ),
-                        ),
-                        controller: TextEditingController(
-                          text: _eventStartDateTime != null
-                              ? DateFormat('dd-MM-yyyy')
-                                  .format(_eventStartDateTime!)
-                              : '',
+                          controller: TextEditingController(
+                            text: _eventStartDateTime != null
+                                ? DateFormat('dd-MM-yyyy')
+                                    .format(_eventStartDateTime!)
+                                : '',
+                          ),
                         ),
                       ),
                       const SizedBox(
                         width: 10,
                       ),
-                      TextFormField(
-                        readOnly: true,
-                        onTap: () => _selectStartTime(context),
-                        decoration: InputDecoration(
-                          labelText: 'Start time',
-                          hintText: 'Select event start time',
-                          border: const OutlineInputBorder(),
-                          constraints: BoxConstraints(
-                            maxWidth:
-                                MediaQuery.of(context).size.width / 2 - 20,
+                      Expanded(
+                        child: TextFormField(
+                          readOnly: true,
+                          onTap: () => _selectStartTime(context),
+                          decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.timer_outlined),
+                            labelText: 'Start time',
+                            hintText: 'Select event start time',
+                            border: OutlineInputBorder(),
                           ),
+                          controller: TextEditingController(
+                            text: _eventStartDateTime != null
+                                ? DateFormat('hh:mm:ss')
+                                    .format(_eventStartDateTime!)
+                                : '',
+                          ),
+                          onSaved: (value) {
+                            _startDateTime =
+                                Timestamp.fromDate(_eventStartDateTime!);
+                          },
                         ),
-                        controller: TextEditingController(
-                          text: _eventStartDateTime != null
-                              ? DateFormat('hh:mm:ss')
-                                  .format(_eventStartDateTime!)
-                              : '',
-                        ),
-                        onSaved: (value) {
-                          _startDateTime =
-                              Timestamp.fromDate(_eventStartDateTime!);
-                        },
                       ),
                     ],
                   ),
@@ -400,53 +398,51 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TextFormField(
-                        readOnly: true,
-                        onTap: () => _selectFinishDate(context),
-                        decoration: InputDecoration(
-                          labelText: 'End Date',
-                          hintText: 'Select event end date',
-                          border: const OutlineInputBorder(),
-                          constraints: BoxConstraints(
-                            maxWidth:
-                                MediaQuery.of(context).size.width / 2 - 20,
+                      Expanded(
+                        child: TextFormField(
+                          readOnly: true,
+                          onTap: () => _selectFinishDate(context),
+                          decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.event_busy),
+                            labelText: 'End Date',
+                            hintText: 'Select event end date',
+                            border: OutlineInputBorder(),
                           ),
-                        ),
-                        controller: TextEditingController(
-                          text: _eventFinishDateTime != null
-                              ? DateFormat('dd-MM-yyyy')
-                                  .format(_eventFinishDateTime!)
-                              : '',
+                          controller: TextEditingController(
+                            text: _eventFinishDateTime != null
+                                ? DateFormat('dd-MM-yyyy')
+                                    .format(_eventFinishDateTime!)
+                                : '',
+                          ),
                         ),
                       ),
                       const SizedBox(
                         width: 10,
                       ),
-                      TextFormField(
-                        readOnly: true,
-                        onTap: () => _selectFinishTime(context),
-                        decoration: InputDecoration(
-                          labelText: 'Finish time',
-                          hintText: 'Select event finish time',
-                          border: const OutlineInputBorder(),
-                          constraints: BoxConstraints(
-                            maxWidth:
-                                MediaQuery.of(context).size.width / 2 - 20,
+                      Expanded(
+                        child: TextFormField(
+                          readOnly: true,
+                          onTap: () => _selectFinishTime(context),
+                          decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.timer),
+                            labelText: 'Finish time',
+                            hintText: 'Select event finish time',
+                            border: OutlineInputBorder(),
                           ),
+                          controller: TextEditingController(
+                            text: _eventFinishDateTime != null
+                                ? DateFormat('hh:mm:ss')
+                                    .format(_eventFinishDateTime!)
+                                : '',
+                          ),
+                          onSaved: (value) {
+                            _finishDateTime =
+                                Timestamp.fromDate(_eventFinishDateTime!);
+                          },
+                          // onSaved: (value) {
+                          //   _eventFinishTime = value!;
+                          // },
                         ),
-                        controller: TextEditingController(
-                          text: _eventFinishDateTime != null
-                              ? DateFormat('hh:mm:ss')
-                                  .format(_eventFinishDateTime!)
-                              : '',
-                        ),
-                        onSaved: (value) {
-                          _finishDateTime =
-                              Timestamp.fromDate(_eventFinishDateTime!);
-                        },
-                        // onSaved: (value) {
-                        //   _eventFinishTime = value!;
-                        // },
                       ),
                     ],
                   ),
@@ -487,7 +483,7 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                       _isSubmitting
                           ? const CircularProgressIndicator()
                           : Expanded(
-                              child: ElevatedButton(
+                              child: FilledButton(
                                 onPressed: () async {
                                   await _submit()
                                       ? context.mounted
