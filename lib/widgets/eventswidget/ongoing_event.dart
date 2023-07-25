@@ -49,6 +49,7 @@ class OnGoingEventWidget extends StatelessWidget {
                   eventVenue: eventData['eventVenue'],
                   clubMembersic1: eventData['clubmembersic1'],
                   clubMembersic2: eventData['clubmembersic2'],
+                  // registeredStudents: eventData['registeredStudents'],
                 ),
               ),
             );

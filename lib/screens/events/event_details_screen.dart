@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -15,6 +16,7 @@ class EventDetailsScreen extends StatefulWidget {
   final String eventDescription;
   final String clubMembersic1;
   final String clubMembersic2;
+  // final int registeredStudents;
 
   const EventDetailsScreen({
     super.key,
@@ -27,6 +29,7 @@ class EventDetailsScreen extends StatefulWidget {
     required this.eventDescription,
     required this.clubMembersic1,
     required this.clubMembersic2,
+    // required this.registeredStudents,
   });
 
   @override
@@ -40,11 +43,15 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
   String? clubMemberPhoneNumber2;
   String? clubMemberYear1;
   String? clubMemberYear2;
+  String? clubMemberImage1;
+  String? clubMemberImage2;
+  int? numberOfRegisteredStudent;
 
   @override
   void initState() {
     _getMemberdetails2();
     _getMemberdetails1();
+    countRegisteredStudents();
     super.initState();
   }
 
@@ -61,6 +68,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
           clubMemberName1 = clubMember['name'];
           clubMemberPhoneNumber1 = clubMember['phoneNumber'];
           clubMemberYear1 = clubMember['year'];
+          clubMemberImage1 = clubMember['image_url'];
         });
       } else {
         // Handle the case when user data is not found
@@ -68,6 +76,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
           clubMemberName1 = 'User not found';
           clubMemberPhoneNumber1 = '';
           clubMemberYear1 = '';
+          clubMemberImage1 = '';
         });
       }
     } catch (e) {
@@ -76,6 +85,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
         clubMemberName1 = 'Error fetching data';
         clubMemberPhoneNumber1 = '';
         clubMemberYear1 = '';
+        clubMemberImage1 = '';
       });
     }
   }
@@ -93,6 +103,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
           clubMemberName2 = clubMember['name'];
           clubMemberPhoneNumber2 = clubMember['phoneNumber'];
           clubMemberYear2 = clubMember['year'];
+          clubMemberImage2 = clubMember['image_url'];
         });
       } else {
         // Handle the case when user data is not found
@@ -100,6 +111,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
           clubMemberName2 = 'User not found';
           clubMemberPhoneNumber2 = '';
           clubMemberYear2 = '';
+          clubMemberImage2 = '';
         });
       }
     } catch (e) {
@@ -108,13 +120,75 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
         clubMemberName2 = 'Error fetching data';
         clubMemberPhoneNumber2 = '';
         clubMemberYear2 = '';
+        clubMemberImage2 = '';
       });
     }
+  }
+
+  CollectionReference eventsReference =
+      FirebaseFirestore.instance.collection('events');
+
+  void _registerForEvent() async {
+    String currentUserUid = FirebaseAuth.instance.currentUser!.uid;
+    String eventName = widget.title;
+    String currentUserSic = '';
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    if (documentSnapshot.exists) {
+      Map<String, dynamic> userDataMap =
+          documentSnapshot.data()! as Map<String, dynamic>;
+      currentUserSic = userDataMap['name'];
+    }
+    try {
+      // Check if the user is already registered for this event
+      QuerySnapshot querySnapshot = await eventsReference
+          .doc(eventName)
+          .collection('registered_events')
+          .where('user_id', isEqualTo: currentUserUid)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('You are already registered for this event.')),
+        );
+      } else {
+        // User is not already registered, proceed with registration
+        await eventsReference
+            .doc(eventName)
+            .collection('registered_events')
+            .add({
+          'student_sic': currentUserSic,
+          'timestamp': FieldValue.serverTimestamp(),
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Registration successful!')),
+        );
+      }
+    } catch (e) {
+      print('Error registering for the event: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Registration failed. Please try again later.')),
+      );
+    }
+  }
+
+  void countRegisteredStudents() async {
+    int eventCount = await eventsReference
+        .doc(widget.title)
+        .collection('registered_events')
+        .get()
+        .then((querySnapshot) => querySnapshot.size);
+    numberOfRegisteredStudent = eventCount;
   }
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     final font30 = screenHeight * 0.04;
     final font24 = screenHeight * 0.02;
     final titleStyle = TextStyle(
@@ -167,7 +241,9 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: FilledButton.tonalIcon(
                     onPressed: () {},
-                    label: const Text('20'), // to be dynamic
+                    label: Text(
+                      '$numberOfRegisteredStudent',
+                    ), // to be dynamic
                     icon: const Icon(Icons.group),
                   ),
                 ),
@@ -175,7 +251,9 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: OutlinedButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      _registerForEvent();
+                    },
                     icon: const Icon(Icons.add),
                     label: const Text('Register'),
                   ),
@@ -343,66 +421,6 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
             ),
             const SizedBox(height: 20),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                'People Incharge',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 5),
-              width: double.maxFinite,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Theme.of(context).colorScheme.secondaryContainer,
-              ),
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: IconButton.filledTonal(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.person,
-                          color: Theme.of(context).colorScheme.primary,
-                        )),
-                    isThreeLine: true,
-                    title: Text(
-                      '$clubMemberName1',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    subtitle: Text(
-                      'Year: $clubMemberYear1\nPhone Number: $clubMemberPhoneNumber1',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    titleTextStyle: titleStyle,
-                  ),
-                  ListTile(
-                    leading: IconButton.filledTonal(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.person,
-                          color: Theme.of(context).colorScheme.primary,
-                        )),
-                    isThreeLine: true,
-                    title: Text(
-                      '$clubMemberName2',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    subtitle: Text(
-                      'Year: $clubMemberYear2 \nPhone Number: $clubMemberPhoneNumber2',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    titleTextStyle: titleStyle,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.0),
               child: Text(
                 'Description',
@@ -420,6 +438,73 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                 style: const TextStyle(
                   fontSize: 16,
                 ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                'Contact Us',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 5),
+              width: double.maxFinite,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                // color: Theme.of(context).colorScheme.secondaryContainer,
+              ),
+              child: Column(
+                children: [
+                  ListTile(
+                    leading:
+                        // IconButton.filledTonal(
+                        //     onPressed: () {},
+                        //     icon: Icon(
+                        //       Icons.person,
+                        //       color: Theme.of(context).colorScheme.primary,
+                        //     )),
+                        CircleAvatar(
+                      radius: screenWidth * 0.065,
+                      backgroundImage: NetworkImage(
+                        '$clubMemberImage1',
+                      ),
+                    ),
+                    isThreeLine: true,
+                    title: Text(
+                      '$clubMemberName1',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: Text(
+                      'Year: $clubMemberYear1\nPhone Number: $clubMemberPhoneNumber1',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    titleTextStyle: titleStyle,
+                  ),
+                  ListTile(
+                    leading: CircleAvatar(
+                      radius: screenWidth * 0.065,
+                      backgroundImage: NetworkImage(
+                        '$clubMemberImage2',
+                      ),
+                    ),
+                    isThreeLine: true,
+                    title: Text(
+                      '$clubMemberName2',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: Text(
+                      'Year: $clubMemberYear2 \nPhone Number: $clubMemberPhoneNumber2',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    titleTextStyle: titleStyle,
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 10),

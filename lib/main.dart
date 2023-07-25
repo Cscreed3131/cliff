@@ -118,6 +118,7 @@ class MyApp extends StatelessWidget {
                 eventVenue: args?['eventVenue'] ?? 'Default Title',
                 clubMembersic1: args?['clubmembersic1'] ?? 'Default Title',
                 clubMembersic2: args?['clubmembersic2'] ?? 'Default Title',
+                // registeredStudents: args?['registeredStudents'] ?? 0,
               );
             },
           },
