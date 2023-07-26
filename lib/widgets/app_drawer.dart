@@ -1,13 +1,14 @@
-import 'package:cliff/models/userdetails.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:cliff/screens/Auth/auth_screen.dart';
 import 'package:cliff/screens/Admin/admin_screen.dart';
 import 'package:cliff/screens/home_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:cliff/models/userdetails.dart';
 
-import '../provider/user_details_provider.dart';
-
+// use cached Image type and structure this
 class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
 
@@ -17,15 +18,7 @@ class AppDrawer extends StatefulWidget {
 
 class _AppDrawerState extends State<AppDrawer> {
   @override
-  // void initState() {
-  //   UserDetails;
-  //   super.initState();
-  // }
-
-  @override
   Widget build(BuildContext context) {
-    // final screenWidth = MediaQuery.of(context).size.width;
-    // final font15 = screenWidth * 0.038;
     return Drawer(
       elevation: 10,
       width: 250,
@@ -43,10 +36,24 @@ class _AppDrawerState extends State<AppDrawer> {
                 ),
               ),
               child: Center(
-                child: Consumer(builder: (context, ref, _) {
-                  final dataItem = ref.watch(userDataProvider);
-                  return dataItem.when(
-                    data: (userDetails) {
+                child: StreamBuilder<DocumentSnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      }
+
+                      if (snapshot.hasError || !snapshot.hasData) {
+                        return const Text('Error loading user data');
+                      }
+                      Map<String, dynamic>? userDataMap =
+                          snapshot.data?.data() as Map<String, dynamic>?;
+                      final userName = userDataMap!['name'];
+                      final userSic = userDataMap['sic'];
+                      final userImageUrl = userDataMap['image_url'];
                       return Column(
                         children: <Widget>[
                           Container(
@@ -56,28 +63,24 @@ class _AppDrawerState extends State<AppDrawer> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                image: NetworkImage(userDetails.imageUrl),
+                                image: NetworkImage(userImageUrl),
                                 fit: BoxFit.cover,
                               ),
                             ),
                           ),
                           Text(
-                            userDetails.name,
+                            userName,
                             style: const TextStyle(
                               fontSize: 22,
                             ),
                           ),
                           Text(
-                            userDetails.sic,
+                            userSic,
                             style: const TextStyle(fontSize: 16),
                           ),
                         ],
                       );
-                    },
-                    error: (error, stackTrace) => Text('Error: $error'),
-                    loading: () => const CircularProgressIndicator(),
-                  );
-                }),
+                    }),
               ),
             ),
             ListTile(
@@ -180,15 +183,8 @@ class _AppDrawerState extends State<AppDrawer> {
                             onPressed: () async {
                               Navigator.of(context).pop();
                               await FirebaseAuth.instance.signOut();
-                              UserDetails(
-                                name: '',
-                                sic: '',
-                                branch: '',
-                                email: '',
-                                year: '',
-                                phoneNumber: null,
-                                imageUrl: '',
-                              );
+                              await Navigator.of(context)
+                                  .popAndPushNamed(AuthScreen.routeName);
                             },
                           ),
                           TextButton(

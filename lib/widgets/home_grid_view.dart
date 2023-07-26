@@ -9,11 +9,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../provider/home_grid_view_items.dart';
 
-class HomeGridView extends ConsumerWidget {
+class HomeGridView extends ConsumerStatefulWidget {
   const HomeGridView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomeGridViewState();
+}
+
+class _HomeGridViewState extends ConsumerState<HomeGridView> {
+  @override
+  Widget build(BuildContext context) {
     final gridItems = ref.watch(gridItemsProvider);
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
@@ -67,7 +72,7 @@ class HomeGridView extends ConsumerWidget {
                             fontWeight: FontWeight.bold,
                           )),
                     ),
-                    child: DecoratedBox(
+                    child: Container(
                       decoration: BoxDecoration(
                         color: Theme.of(context)
                             .colorScheme

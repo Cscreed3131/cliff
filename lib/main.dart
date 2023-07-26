@@ -9,7 +9,6 @@ import 'package:cliff/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-// import 'package:cliff/screens/splash_screen.dart';
 import 'package:cliff/screens/Admin/create_event_screens.dart';
 import 'package:cliff/screens/Admin/admin_screen.dart';
 import 'package:cliff/screens/Auth/auth_screen.dart';

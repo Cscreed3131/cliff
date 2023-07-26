@@ -1,3 +1,5 @@
+import 'package:cliff/screens/home_page.dart';
+import 'package:cliff/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cliff/screens/Auth/singup_screen.dart';
@@ -21,11 +23,11 @@ class _AuthScreenState extends State<AuthScreen> {
   var _isAuthenticating = false;
   final _passwordFocusNode = FocusNode();
 
-  void _submit() async {
+  Future<bool> _submit() async {
     final isValid = _form.currentState!.validate();
     if (!isValid) {
       //show error message
-      return;
+      return false;
     }
 
     _form.currentState!.save();
@@ -41,6 +43,7 @@ class _AuthScreenState extends State<AuthScreen> {
       setState(() {
         _isAuthenticating = false;
       });
+      return true;
     } on FirebaseAuthException catch (error) {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
@@ -53,6 +56,7 @@ class _AuthScreenState extends State<AuthScreen> {
         _isAuthenticating = false;
       });
     }
+    return false;
   }
 
   @override
@@ -178,7 +182,12 @@ class _AuthScreenState extends State<AuthScreen> {
                               children: [
                                 Expanded(
                                   child: FilledButton(
-                                    onPressed: _submit,
+                                    onPressed: () async {
+                                      if (await _submit()) {
+                                        Navigator.of(context).popAndPushNamed(
+                                            HomeScreen.routeName);
+                                      }
+                                    },
                                     child: Text(
                                       'Sign in',
                                       style: TextStyle(fontSize: font15 + 2),

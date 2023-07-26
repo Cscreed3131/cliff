@@ -1,11 +1,11 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:cliff/screens/Auth/auth_screen.dart';
+
 import 'package:cliff/widgets/user_image_picker.dart';
-// import '../../global_varibales.dart';
+import 'package:cliff/screens/Auth/auth_screen.dart';
 
 final _firebase = FirebaseAuth.instance;
 
@@ -172,7 +172,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         keyboardType: TextInputType.emailAddress,
                         autocorrect: false,
-                        textCapitalization: TextCapitalization.none,
+                        // textCapitalization: TextCapitalization.none,
                         textInputAction: TextInputAction.next,
                         onFieldSubmitted: (_) {
                           FocusScope.of(context).requestFocus(_sicFocusNode);
@@ -198,12 +198,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onFieldSubmitted: (_) {
                           FocusScope.of(context).requestFocus(_branchFocusNode);
                         },
-                        textCapitalization: TextCapitalization.characters,
+                        // textCapitalization: TextCapitalization.characters,
                         validator: (value) {
                           if (value == null ||
                               value.isEmpty ||
-                              value.trim().length < 4) {
-                            return 'please enter at least 4 characters.';
+                              value.trim().length != 8) {
+                            return 'please enter at a valid Sic';
                           }
                           return null;
                         },
@@ -328,10 +328,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         validator: (value) {
                           if (value == null ||
                               value.isEmpty ||
-                              value.trim().length != 10 ||
-                              value.trim().length > 10 ||
-                              value.trim().length < 10) {
-                            return 'Please enter correct Phone number';
+                              value.trim().length != 10) {
+                            return 'Please enter valid Phone number';
                           }
                           return null;
                         },
@@ -345,18 +343,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           labelText: 'Email Address',
                           border: OutlineInputBorder(),
                         ),
+                        keyboardType: TextInputType.emailAddress,
                         focusNode: _emailFocusNode,
                         textInputAction: TextInputAction.next,
                         onFieldSubmitted: (_) {
                           FocusScope.of(context)
                               .requestFocus(_passwordFocusNode);
                         },
-                        keyboardType: TextInputType.emailAddress,
                         validator: (value) {
-                          if (value == null ||
-                              value.trim().isEmpty ||
-                              !value.contains('@gmail.com')) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please enter an email address.';
+                          }
+                          // Regular expression pattern for email validation
+                          final emailRegex = RegExp(
+                              r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+                          if (!emailRegex.hasMatch(value)) {
                             return 'Please enter a valid email address.';
+                          }
+                          // Additional check for the domain name
+                          if (!value.contains('@silicon.ac.in') &&
+                              !value.contains('@gmail.com')) {
+                            return 'Please enter an email address from silicon.ac.in or gmail.com domains.';
                           }
                           return null;
                         },
@@ -401,7 +408,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             builder: (context) {
                                               return AlertDialog(
                                                 title: const Text(
-                                                  'SignUp Successfull ',
+                                                  'SignUp Successfull',
                                                 ),
                                                 content: const Text(
                                                   'Please Sign-in with the email and password',
@@ -412,14 +419,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                       Navigator.of(context)
                                                           .pop();
                                                       Navigator.of(context)
-                                                          .popAndPushNamed(
-                                                              AuthScreen
-                                                                  .routeName);
+                                                          .pushNamed(AuthScreen
+                                                              .routeName);
                                                     },
                                                     child: Text(
                                                       'Okay',
                                                       style: TextStyle(
-                                                        fontFamily: 'Barrbar',
+                                                        // fontFamily: 'Barrbar',
                                                         fontSize: font15 + 5,
                                                       ),
                                                     ),
