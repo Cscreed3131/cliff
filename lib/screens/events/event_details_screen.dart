@@ -125,47 +125,37 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
     }
   }
 
-  CollectionReference eventsReference =
+  CollectionReference eventsRefrerence =
       FirebaseFirestore.instance.collection('events');
 
   void _registerForEvent() async {
-    String currentUserUid = FirebaseAuth.instance.currentUser!.uid;
+    String currentUser = FirebaseAuth.instance.currentUser!.uid;
     String eventName = widget.title;
-    String currentUserSic = '';
-    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get();
-    if (documentSnapshot.exists) {
-      Map<String, dynamic> userDataMap =
-          documentSnapshot.data()! as Map<String, dynamic>;
-      currentUserSic = userDataMap['name'];
-    }
+
     try {
       // Check if the user is already registered for this event
-      QuerySnapshot querySnapshot = await eventsReference
+      QuerySnapshot querySnapshot = await eventsRefrerence
           .doc(eventName)
           .collection('registered_events')
-          .where('user_id', isEqualTo: currentUserUid)
+          .where('user_id', isEqualTo: currentUser)
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('You are already registered for this event.')),
+          SnackBar(content: Text('You are already registered for this event.')),
         );
       } else {
         // User is not already registered, proceed with registration
-        await eventsReference
+        await eventsRefrerence
             .doc(eventName)
             .collection('registered_events')
             .add({
-          'student_sic': currentUserSic,
+          'user_id': currentUser,
           'timestamp': FieldValue.serverTimestamp(),
         });
-
+        countRegisteredStudents();
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Registration successful!')),
+          SnackBar(content: Text('Registration successful!')),
         );
       }
     } catch (e) {
@@ -177,12 +167,14 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
   }
 
   void countRegisteredStudents() async {
-    int eventCount = await eventsReference
+    int? eventCount = await eventsRefrerence
         .doc(widget.title)
         .collection('registered_events')
         .get()
         .then((querySnapshot) => querySnapshot.size);
-    numberOfRegisteredStudent = eventCount;
+    setState(() {
+      numberOfRegisteredStudent = eventCount ?? 0;
+    });
   }
 
   @override
@@ -462,14 +454,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               child: Column(
                 children: [
                   ListTile(
-                    leading:
-                        // IconButton.filledTonal(
-                        //     onPressed: () {},
-                        //     icon: Icon(
-                        //       Icons.person,
-                        //       color: Theme.of(context).colorScheme.primary,
-                        //     )),
-                        CircleAvatar(
+                    leading: CircleAvatar(
                       radius: screenWidth * 0.065,
                       backgroundImage: NetworkImage(
                         '$clubMemberImage1',
