@@ -513,7 +513,7 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                   Row(
                     children: [
                       _isSubmitting
-                          ? const CircularProgressIndicator()
+                          ? Center(child: const CircularProgressIndicator())
                           : Expanded(
                               child: FilledButton(
                                 onPressed: () async {
@@ -528,7 +528,7 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                                                   behavior:
                                                       SnackBarBehavior.floating,
                                                   content: Text(
-                                                    'Event Created,redirecting to ongoing events page',
+                                                    'Event Created, redirecting to ongoing events page',
                                                   ),
                                                 ),
                                               ),

@@ -54,91 +54,98 @@ class OnGoingEventWidget extends StatelessWidget {
               ),
             );
           },
-          child: Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.secondaryContainer,
-              border: Border.all(
-                color: Theme.of(context).colorScheme.outline,
-              ),
-              borderRadius: BorderRadius.circular(20),
+          child: Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15)
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: screenHeight * 0.165,
-                  width: double.infinity,
-                  margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.secondaryContainer,
-                    border: Border.all(
-                      color: Theme.of(context).colorScheme.outline,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        eventData['image_url'],
+            shadowColor: Colors.transparent,
+            color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      color: Theme.of(context).colorScheme.primary,
+                  ),
+                  borderRadius: BorderRadius.circular(15)
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: screenHeight * 0.165,
+                    width: double.infinity,
+                    margin: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.secondaryContainer,
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.outline,
                       ),
-                      fit: BoxFit.cover,
+                      borderRadius: BorderRadius.circular(20),
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          eventData['image_url'],
+                        ),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Text(
-                    eventData['eventname'],
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: font24,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      // color: textColor,
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Text(
+                      eventData['eventname'],
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: font24,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        // color: textColor,
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.group,
-                        size: 18,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      CircleAvatar(
-                        radius: 3,
-                        backgroundColor: Theme.of(context).colorScheme.outline,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 8.0),
-                        child: Text(
-                          "200 Registered", // should be dynamic
-                          style: TextStyle(
-                            fontSize: 18,
-                            // color: textColor,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.group,
+                          size: 18,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        CircleAvatar(
+                          radius: 3,
+                          backgroundColor: Theme.of(context).colorScheme.outline,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 8.0),
+                          child: Text(
+                            "200 Registered", // should be dynamic
+                            style: TextStyle(
+                              fontSize: 18,
+                              // color: textColor,
+                            ),
                           ),
                         ),
-                      ),
-                      const Spacer(),
-                      Chip(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        label: Text(
-                          eventStartDate,
-                        ),
-                        avatar: const Icon(Icons.timelapse_rounded),
-                      )
-                    ],
+                        const Spacer(),
+                        Chip(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          label: Text(
+                            eventStartDate,
+                          ),
+                          avatar: const Icon(Icons.timelapse_rounded),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
