@@ -6,8 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cliff/screens/Auth/auth_screen.dart';
 import 'package:cliff/screens/Admin/admin_screen.dart';
 import 'package:cliff/screens/home_screen.dart';
-// import 'package:cliff/models/userdetails.dart';
 
+// import 'package:cliff/models/userdetails.dart';
 // use cached Image type and structure this
 class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
@@ -17,6 +17,7 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
+  final currentUser = FirebaseAuth.instance.currentUser!.uid;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -36,24 +37,29 @@ class _AppDrawerState extends State<AppDrawer> {
                 ),
               ),
               child: Center(
-                child: StreamBuilder<DocumentSnapshot>(
+                child: StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
                         .collection('users')
-                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                        .where('userid', isEqualTo: currentUser)
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const CircularProgressIndicator();
                       }
 
-                      if (snapshot.hasError || !snapshot.hasData) {
+                      if (snapshot.hasError ||
+                          !snapshot.hasData ||
+                          snapshot.data!.docs.isEmpty) {
                         return const Text('Error loading user data');
                       }
-                      Map<String, dynamic>? userDataMap =
-                          snapshot.data?.data() as Map<String, dynamic>?;
-                      final userName = userDataMap!['name'];
+
+                      // Extract the data from the first document in the QuerySnapshot
+                      final userDataMap = snapshot.data!.docs.first.data()
+                          as Map<String, dynamic>;
+                      final userName = userDataMap['name'];
                       final userSic = userDataMap['sic'];
                       final userImageUrl = userDataMap['image_url'];
+
                       return Column(
                         children: <Widget>[
                           Container(

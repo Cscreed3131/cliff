@@ -65,12 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       await storageRef.putFile(_selectedImage!);
       final imageUrl = await storageRef.getDownloadURL();
 
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!
-              .uid) // i wanted to give this file a custom uid but i guess it conflicts with other things
-
-          .set(
+      FirebaseFirestore.instance.collection('users').doc(_enteredSicNumber).set(
         {
           'image_url': imageUrl,
           'name': _enteredUserName,
@@ -79,6 +74,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           'year': _enteredStudentYear,
           'phoneNumber': _enteredPhoneNumber,
           'email': _enteredEmail,
+          'userid': FirebaseAuth.instance.currentUser!
+              .uid, // storing this to easily use the fetch funtion to get the data associated with it
+          // 'user_type': 'Student',
         },
       );
       return true;

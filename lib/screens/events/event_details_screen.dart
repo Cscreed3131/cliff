@@ -49,10 +49,10 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
 
   @override
   void initState() {
+    super.initState();
     _getMemberdetails2();
     _getMemberdetails1();
     countRegisteredStudents();
-    super.initState();
   }
 
   void _getMemberdetails1() async {
@@ -136,13 +136,15 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
       // Check if the user is already registered for this event
       QuerySnapshot querySnapshot = await eventsRefrerence
           .doc(eventName)
-          .collection('registered_events')
+          .collection('registered_students')
           .where('user_id', isEqualTo: currentUser)
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('You are already registered for this event.')),
+          const SnackBar(
+            content: Text('You are already registered for this event.'),
+          ),
         );
       } else {
         // User is not already registered, proceed with registration
@@ -155,13 +157,14 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
         });
         countRegisteredStudents();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Registration successful!')),
+          const SnackBar(content: Text('Registration successful!')),
         );
       }
     } catch (e) {
       print('Error registering for the event: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Registration failed. Please try again later.')),
+        const SnackBar(
+            content: Text('Registration failed. Please try again later.')),
       );
     }
   }
@@ -444,54 +447,54 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 5),
-              width: double.maxFinite,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                // color: Theme.of(context).colorScheme.secondaryContainer,
-              ),
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: CircleAvatar(
-                      radius: screenWidth * 0.065,
-                      backgroundImage: NetworkImage(
-                        '$clubMemberImage1',
-                      ),
-                    ),
-                    isThreeLine: true,
-                    title: Text(
-                      '$clubMemberName1',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    subtitle: Text(
-                      'Year: $clubMemberYear1\nPhone Number: $clubMemberPhoneNumber1',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    titleTextStyle: titleStyle,
-                  ),
-                  ListTile(
-                    leading: CircleAvatar(
-                      radius: screenWidth * 0.065,
-                      backgroundImage: NetworkImage(
-                        '$clubMemberImage2',
-                      ),
-                    ),
-                    isThreeLine: true,
-                    title: Text(
-                      '$clubMemberName2',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    subtitle: Text(
-                      'Year: $clubMemberYear2 \nPhone Number: $clubMemberPhoneNumber2',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    titleTextStyle: titleStyle,
-                  ),
-                ],
-              ),
-            ),
+            // Container(
+            //   margin: const EdgeInsets.symmetric(horizontal: 5),
+            //   width: double.maxFinite,
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(20),
+            //     // color: Theme.of(context).colorScheme.secondaryContainer,
+            //   ),
+            //   child: Column(
+            //     children: [
+            //       ListTile(
+            //         leading: CircleAvatar(
+            //           radius: screenWidth * 0.065,
+            //           backgroundImage: NetworkImage(
+            //             '$clubMemberImage1',
+            //           ),
+            //         ),
+            //         isThreeLine: true,
+            //         title: Text(
+            //           '$clubMemberName1',
+            //           overflow: TextOverflow.ellipsis,
+            //         ),
+            //         subtitle: Text(
+            //           'Year: $clubMemberYear1\nPhone Number: $clubMemberPhoneNumber1',
+            //           overflow: TextOverflow.ellipsis,
+            //         ),
+            //         titleTextStyle: titleStyle,
+            //       ),
+            //       ListTile(
+            //         leading: CircleAvatar(
+            //           radius: screenWidth * 0.065,
+            //           backgroundImage: NetworkImage(
+            //             '$clubMemberImage2',
+            //           ),
+            //         ),
+            //         isThreeLine: true,
+            //         title: Text(
+            //           '$clubMemberName2',
+            //           overflow: TextOverflow.ellipsis,
+            //         ),
+            //         subtitle: Text(
+            //           'Year: $clubMemberYear2 \nPhone Number: $clubMemberPhoneNumber2',
+            //           overflow: TextOverflow.ellipsis,
+            //         ),
+            //         titleTextStyle: titleStyle,
+            //       ),
+            //     ],
+            //   ),
+            // ),
             const SizedBox(height: 10),
           ],
         ),
