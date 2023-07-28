@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -46,43 +47,14 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
   String? clubMemberImage1;
   String? clubMemberImage2;
   int? numberOfRegisteredStudent;
-  bool isRegistered = false;
+  String? currentUserSic;
 
   @override
   void initState() {
+    super.initState();
     _getMemberdetails2();
     _getMemberdetails1();
     countRegisteredStudents();
-    checkRegistration();
-    super.initState();
-  }
-
-  void checkRegistration() async{
-    String currentUser = FirebaseAuth.instance.currentUser!.uid;
-    String eventName = widget.title;
-    try {
-      // Check if the user is already registered for this event
-      QuerySnapshot querySnapshot = await eventsRefrerence
-          .doc(eventName)
-          .collection('registered_events')
-          .where('user_id', isEqualTo: currentUser)
-          .get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        setState(() {
-          isRegistered = true;
-        });
-      } else {
-        setState(() {
-          isRegistered = false;
-        });
-      }
-    } catch (e) {
-      print('Error registering for the event: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Registration failed. Please try again later.')),
-      );
-    }
   }
 
   void _getMemberdetails1() async {
@@ -166,41 +138,69 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
       // Check if the user is already registered for this event
       QuerySnapshot querySnapshot = await eventsRefrerence
           .doc(eventName)
-          .collection('registered_events')
+          .collection('registered_students')
           .where('user_id', isEqualTo: currentUser)
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {
-        setState(() {
-          isRegistered = true;
-        });
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('You are already registered for this event.')),
+          const SnackBar(
+            content: Text('You are already registered for this event.'),
+          ),
         );
       } else {
         // User is not already registered, proceed with registration
         await eventsRefrerence
             .doc(eventName)
-            .collection('registered_events')
+            .collection('registered_students')
             .add({
           'user_id': currentUser,
           'timestamp': FieldValue.serverTimestamp(),
         });
+
         countRegisteredStudents();
-        setState(() {
-          isRegistered = true;
-        });
+
+        FirebaseFirestore.instance
+            .collection("users")
+            .where("userid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+            .get()
+            .then(
+          (querySnapshot) {
+            for (var docSnapshot in querySnapshot.docs) {
+              FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(docSnapshot.id)
+                  .update(
+                {
+                  'events_registered': FieldValue.arrayUnion(
+                    [eventName],
+                  ),
+                },
+              );
+            }
+          },
+          onError: (e) => print("Error completing: $e"),
+        );
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Registration successful!')),
+          const SnackBar(
+            content: Text('Registration successful!'),
+            behavior: SnackBarBehavior.floating,
+          ),
         );
       }
     } catch (e) {
       print('Error registering for the event: $e');
+      ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Registration failed. Please try again later.')),
+        const SnackBar(
+          content: Text('Registration failed. Please try again later.'),
+          behavior: SnackBarBehavior.floating,
+        ),
       );
     }
   }
+
+  void check() {}
 
   void countRegisteredStudents() async {
     int? eventCount = await eventsRefrerence
@@ -267,40 +267,25 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Chip(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    avatar: const Icon(Icons.people),
+                  child: FilledButton.tonalIcon(
+                    onPressed: () {
+                      check();
+                    },
                     label: Text(
                       '$numberOfRegisteredStudent',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      ),
-                    ),
-                    backgroundColor:
-                        Theme.of(context).colorScheme.secondaryContainer,
-                    side: BorderSide.none,
-                  )
+                    ), // to be dynamic
+                    icon: const Icon(Icons.group),
+                  ),
                 ),
                 const Spacer(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: !isRegistered ? FilledButton.icon(
+                  child: OutlinedButton.icon(
                     onPressed: () {
                       _registerForEvent();
                     },
                     icon: const Icon(Icons.add),
                     label: const Text('Register'),
-                  ) : OutlinedButton.icon(
-                    onPressed: () {
-                      _registerForEvent();
-                    },
-                    icon: const Icon(Icons.done),
-                    label: const Text('Registered'),
-
                   ),
                 ),
               ],
