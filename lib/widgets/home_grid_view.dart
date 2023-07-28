@@ -29,79 +29,83 @@ class _HomeGridViewState extends ConsumerState<HomeGridView> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: GridView.builder(
-          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: gridItems.length,
+          physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 5,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            mainAxisExtent: MediaQuery.of(context).size.height * 0.24,
+              crossAxisCount: 2,
+              childAspectRatio: 5,
+              mainAxisExtent: screenHeight * 0.24
           ),
-          itemBuilder: (context, index) {
-            final item = gridItems[index];
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: GestureDetector(
-                onTap: () {
-                  if (item.id == 1) {
-                    Navigator.of(context).pushNamed(EventsScreen.routeName);
-                  } else if (item.id == 2) {
-                    Navigator.of(context).pushNamed(HistoryScreen.routeName);
-                  } else if (item.id == 3) {
-                    Navigator.of(context).pushNamed(BuyMerchScreen.routeName);
-                  } else if (item.id == 4) {
-                    Navigator.of(context).pushNamed(AlumniScreen.routeName);
-                  } else if (item.id == 5) {
-                    Navigator.of(context).pushNamed(Memories.routeName);
-                  } else if (item.id == 6) {
-                    Navigator.of(context).pushNamed(Polls.routeName);
-                  }
-                },
-                child: GridTile(
-                    footer: Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: Text(item.title,
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            height: 2.5,
-                            fontSize: screenWidth * 0.045,
-                            fontFamily: 'IBMPlexMono',
-                            fontWeight: FontWeight.bold,
-                          )),
-                    ),
-                    child: Container(
+          itemCount: gridItems.length,
+          itemBuilder: (builder, i){
+            return SizedBox(
+              height: screenHeight * 0.23,
+              width: screenWidth * 0.4,
+              child: Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                shadowColor: Colors.transparent,
+                color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
+                child: InkWell(
+                  radius: 15,
+                  onTap: () {
+                    if (gridItems[i].id == 1) {
+                      Navigator.of(context).pushNamed(EventsScreen.routeName);
+                    } else if (gridItems[i].id == 2) {
+                      Navigator.of(context).pushNamed(HistoryScreen.routeName);
+                    } else if (gridItems[i].id == 3) {
+                      Navigator.of(context).pushNamed(BuyMerchScreen.routeName);
+                    } else if (gridItems[i].id == 4) {
+                      Navigator.of(context).pushNamed(AlumniScreen.routeName);
+                    } else if (gridItems[i].id == 5) {
+                      Navigator.of(context).pushNamed(Memories.routeName);
+                    } else if (gridItems[i].id == 6) {
+                      Navigator.of(context).pushNamed(Polls.routeName);
+                    }
+                  },
+                  child: Container(
                       decoration: BoxDecoration(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primaryContainer
-                            .withOpacity(0.4),
                         border: Border.all(
                           color: Theme.of(context).colorScheme.primary,
                         ),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(15)
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      child: Stack(
                         children: [
                           Align(
-                              child: IconButton.filledTonal(
-                            onPressed: null,
-                            icon: Icon(
-                              item.icon,
-                              size: screenHeight * 0.06,
+                            alignment: Alignment.center,
+                            child: Icon(
+                              gridItems[i].icon,
                               color: Theme.of(context).colorScheme.primary,
+                              size: screenWidth * 0.13,
                             ),
-                          )),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                gridItems[i].title,
+                                style: TextStyle(
+                                    height: 2.5,
+                                    fontFamily: 'IBMPlexMono',
+                                    fontSize: screenWidth * 0.05,
+                                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                    fontWeight: FontWeight.bold
+                                ),
+                              ),
+                            ),
+                          )
                         ],
                       ),
-                    )),
+                    ),
+                ),
               ),
             );
           },
-        ),
+        )
       ),
     );
   }
