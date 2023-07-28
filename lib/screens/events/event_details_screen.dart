@@ -172,7 +172,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
   void countRegisteredStudents() async {
     int? eventCount = await eventsRefrerence
         .doc(widget.title)
-        .collection('registered_events')
+        .collection('registered_students')
         .get()
         .then((querySnapshot) => querySnapshot.size);
     setState(() {
