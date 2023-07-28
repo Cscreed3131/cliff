@@ -1,4 +1,4 @@
-import 'package:cliff/screens/events/event_details_screen.dart';
+import 'package:cliff/screens/Events/event_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,16 +7,16 @@ import 'package:cliff/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'package:cliff/screens/home_page.dart';
-import 'package:cliff/screens/merch/merch_details_screen.dart';
+import 'package:cliff/widgets/homescreenwidget/buttom_navigation_bar.dart';
+import 'package:cliff/screens/Merch/merch_details_screen.dart';
 import 'package:cliff/screens/Admin/create_event_screens.dart';
 import 'package:cliff/screens/Admin/admin_screen.dart';
 import 'package:cliff/screens/Auth/auth_screen.dart';
 import 'package:cliff/screens/alumni_screen.dart';
-import 'package:cliff/screens/merch/buy_merch_screen.dart';
-import 'package:cliff/screens/events/event_screen.dart';
+import 'package:cliff/screens/Merch/buy_merch_screen.dart';
+import 'package:cliff/screens/Events/event_screen.dart';
 import 'package:cliff/screens/history_screen.dart';
-import 'package:cliff/screens/home_screen.dart';
+import 'package:cliff/screens/Home/home_screen.dart';
 import 'package:cliff/screens/Auth/singup_screen.dart';
 import 'package:cliff/screens/memories.dart';
 import 'package:cliff/screens/polls.dart';

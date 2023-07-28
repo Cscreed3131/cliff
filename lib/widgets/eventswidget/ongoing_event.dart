@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../screens/events/event_details_screen.dart';
+import '../../screens/Events/event_details_screen.dart';
 
 class OnGoingEventWidget extends StatelessWidget {
   const OnGoingEventWidget({
@@ -56,18 +56,17 @@ class OnGoingEventWidget extends StatelessWidget {
           },
           child: Card(
             elevation: 5,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15)
-            ),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             shadowColor: Colors.transparent,
-            color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
+            color:
+                Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
             child: Container(
               decoration: BoxDecoration(
                   border: Border.all(
-                      color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
-                  borderRadius: BorderRadius.circular(15)
-              ),
+                  borderRadius: BorderRadius.circular(15)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -119,7 +118,8 @@ class OnGoingEventWidget extends StatelessWidget {
                         ),
                         CircleAvatar(
                           radius: 3,
-                          backgroundColor: Theme.of(context).colorScheme.outline,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.outline,
                         ),
                         const Padding(
                           padding: EdgeInsets.only(left: 8.0),

@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:cliff/screens/events/event_screen.dart';
+import 'package:cliff/screens/Events/event_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

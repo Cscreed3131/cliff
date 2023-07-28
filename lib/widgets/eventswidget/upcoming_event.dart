@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../screens/events/event_details_screen.dart';
+import '../../screens/Events/event_details_screen.dart';
 
 class UpComingEventsWidgets extends StatelessWidget {
   const UpComingEventsWidgets({

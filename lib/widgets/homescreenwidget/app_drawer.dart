@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:cliff/screens/Auth/auth_screen.dart';
 import 'package:cliff/screens/Admin/admin_screen.dart';
-import 'package:cliff/screens/home_screen.dart';
+import 'package:cliff/screens/Home/home_screen.dart';
 
 // import 'package:cliff/models/userdetails.dart';
 // use cached Image type and structure this

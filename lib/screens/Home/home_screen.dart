@@ -1,6 +1,6 @@
-import 'package:cliff/widgets/app_drawer.dart';
-import 'package:cliff/widgets/home_grid_view.dart';
-import 'package:cliff/widgets/image_slider.dart';
+import 'package:cliff/widgets/homescreenwidget/app_drawer.dart';
+import 'package:cliff/widgets/homescreenwidget/home_grid_view.dart';
+import 'package:cliff/widgets/homescreenwidget/image_slider.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
