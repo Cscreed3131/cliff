@@ -46,13 +46,43 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
   String? clubMemberImage1;
   String? clubMemberImage2;
   int? numberOfRegisteredStudent;
+  bool isRegistered = false;
 
   @override
   void initState() {
-    super.initState();
     _getMemberdetails2();
     _getMemberdetails1();
     countRegisteredStudents();
+    checkRegistration();
+    super.initState();
+  }
+
+  void checkRegistration() async{
+    String currentUser = FirebaseAuth.instance.currentUser!.uid;
+    String eventName = widget.title;
+    try {
+      // Check if the user is already registered for this event
+      QuerySnapshot querySnapshot = await eventsRefrerence
+          .doc(eventName)
+          .collection('registered_events')
+          .where('user_id', isEqualTo: currentUser)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        setState(() {
+          isRegistered = true;
+        });
+      } else {
+        setState(() {
+          isRegistered = false;
+        });
+      }
+    } catch (e) {
+      print('Error registering for the event: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Registration failed. Please try again later.')),
+      );
+    }
   }
 
   void _getMemberdetails1() async {
@@ -136,15 +166,16 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
       // Check if the user is already registered for this event
       QuerySnapshot querySnapshot = await eventsRefrerence
           .doc(eventName)
-          .collection('registered_students')
+          .collection('registered_events')
           .where('user_id', isEqualTo: currentUser)
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {
+        setState(() {
+          isRegistered = true;
+        });
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('You are already registered for this event.'),
-          ),
+          SnackBar(content: Text('You are already registered for this event.')),
         );
       } else {
         // User is not already registered, proceed with registration
@@ -156,15 +187,17 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
           'timestamp': FieldValue.serverTimestamp(),
         });
         countRegisteredStudents();
+        setState(() {
+          isRegistered = true;
+        });
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Registration successful!')),
+          SnackBar(content: Text('Registration successful!')),
         );
       }
     } catch (e) {
       print('Error registering for the event: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Registration failed. Please try again later.')),
+        SnackBar(content: Text('Registration failed. Please try again later.')),
       );
     }
   }
@@ -234,23 +267,40 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: FilledButton.tonalIcon(
-                    onPressed: () {},
+                  child: Chip(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    avatar: const Icon(Icons.people),
                     label: Text(
                       '$numberOfRegisteredStudent',
-                    ), // to be dynamic
-                    icon: const Icon(Icons.group),
-                  ),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                    ),
+                    backgroundColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
+                    side: BorderSide.none,
+                  )
                 ),
                 const Spacer(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: OutlinedButton.icon(
+                  child: !isRegistered ? FilledButton.icon(
                     onPressed: () {
                       _registerForEvent();
                     },
                     icon: const Icon(Icons.add),
                     label: const Text('Register'),
+                  ) : OutlinedButton.icon(
+                    onPressed: () {
+                      _registerForEvent();
+                    },
+                    icon: const Icon(Icons.done),
+                    label: const Text('Registered'),
+
                   ),
                 ),
               ],
@@ -447,54 +497,54 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            // Container(
-            //   margin: const EdgeInsets.symmetric(horizontal: 5),
-            //   width: double.maxFinite,
-            //   decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.circular(20),
-            //     // color: Theme.of(context).colorScheme.secondaryContainer,
-            //   ),
-            //   child: Column(
-            //     children: [
-            //       ListTile(
-            //         leading: CircleAvatar(
-            //           radius: screenWidth * 0.065,
-            //           backgroundImage: NetworkImage(
-            //             '$clubMemberImage1',
-            //           ),
-            //         ),
-            //         isThreeLine: true,
-            //         title: Text(
-            //           '$clubMemberName1',
-            //           overflow: TextOverflow.ellipsis,
-            //         ),
-            //         subtitle: Text(
-            //           'Year: $clubMemberYear1\nPhone Number: $clubMemberPhoneNumber1',
-            //           overflow: TextOverflow.ellipsis,
-            //         ),
-            //         titleTextStyle: titleStyle,
-            //       ),
-            //       ListTile(
-            //         leading: CircleAvatar(
-            //           radius: screenWidth * 0.065,
-            //           backgroundImage: NetworkImage(
-            //             '$clubMemberImage2',
-            //           ),
-            //         ),
-            //         isThreeLine: true,
-            //         title: Text(
-            //           '$clubMemberName2',
-            //           overflow: TextOverflow.ellipsis,
-            //         ),
-            //         subtitle: Text(
-            //           'Year: $clubMemberYear2 \nPhone Number: $clubMemberPhoneNumber2',
-            //           overflow: TextOverflow.ellipsis,
-            //         ),
-            //         titleTextStyle: titleStyle,
-            //       ),
-            //     ],
-            //   ),
-            // ),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 5),
+              width: double.maxFinite,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                // color: Theme.of(context).colorScheme.secondaryContainer,
+              ),
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: CircleAvatar(
+                      radius: screenWidth * 0.065,
+                      backgroundImage: NetworkImage(
+                        '$clubMemberImage1',
+                      ),
+                    ),
+                    isThreeLine: true,
+                    title: Text(
+                      '$clubMemberName1',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: Text(
+                      'Year: $clubMemberYear1\nPhone Number: $clubMemberPhoneNumber1',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    titleTextStyle: titleStyle,
+                  ),
+                  ListTile(
+                    leading: CircleAvatar(
+                      radius: screenWidth * 0.065,
+                      backgroundImage: NetworkImage(
+                        '$clubMemberImage2',
+                      ),
+                    ),
+                    isThreeLine: true,
+                    title: Text(
+                      '$clubMemberName2',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: Text(
+                      'Year: $clubMemberYear2 \nPhone Number: $clubMemberPhoneNumber2',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    titleTextStyle: titleStyle,
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(height: 10),
           ],
         ),
