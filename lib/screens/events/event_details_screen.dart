@@ -47,13 +47,43 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
   String? clubMemberImage2;
   int? numberOfRegisteredStudent;
   String? currentUserSic;
+  bool isRegistered = false;
 
   @override
   void initState() {
-    super.initState();
     _getMemberdetails2();
     _getMemberdetails1();
     countRegisteredStudents();
+    checkRegistration();
+    super.initState();
+  }
+
+  void checkRegistration() async {
+    String currentUser = FirebaseAuth.instance.currentUser!.uid;
+    String eventName = widget.title;
+    try {
+      // Check if the user is already registered for this event
+      QuerySnapshot querySnapshot = await eventsRefrerence
+          .doc(eventName)
+          .collection('registered_students')
+          .where('user_id', isEqualTo: currentUser)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        setState(() {
+          isRegistered = true;
+        });
+      } else {
+        setState(() {
+          isRegistered = false;
+        });
+      }
+    } catch (e) {
+      print('Error registering for the event: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Registration failed. Please try again later.')),
+      );
+    }
   }
 
   void _getMemberdetails1() async {
@@ -142,6 +172,9 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {
+        setState(() {
+          isRegistered = true;
+        });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('You are already registered for this event.'),
@@ -158,7 +191,9 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
         });
 
         countRegisteredStudents();
-
+        setState(() {
+          isRegistered = true;
+        });
         FirebaseFirestore.instance
             .collection("users")
             .where("userid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
@@ -266,26 +301,42 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: FilledButton.tonalIcon(
-                    onPressed: () {
-                      check();
-                    },
+                  child: Chip(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    avatar: const Icon(Icons.people),
                     label: Text(
                       '$numberOfRegisteredStudent',
-                    ), // to be dynamic
-                    icon: const Icon(Icons.group),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                    ),
+                    backgroundColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
+                    side: BorderSide.none,
                   ),
                 ),
                 const Spacer(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: OutlinedButton.icon(
-                    onPressed: () {
-                      _registerForEvent();
-                    },
-                    icon: const Icon(Icons.add),
-                    label: const Text('Register'),
-                  ),
+                  child: !isRegistered
+                      ? FilledButton.icon(
+                          onPressed: () {
+                            _registerForEvent();
+                          },
+                          icon: const Icon(Icons.add),
+                          label: const Text('Register'),
+                        )
+                      : OutlinedButton.icon(
+                          onPressed: () {
+                            _registerForEvent();
+                          },
+                          icon: const Icon(Icons.done),
+                          label: const Text('Registered'),
+                        ),
                 ),
               ],
             ),
