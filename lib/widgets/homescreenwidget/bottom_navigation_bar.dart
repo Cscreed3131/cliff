@@ -1,4 +1,5 @@
 import 'package:cliff/screens/Home/registered_events_screen.dart';
+import 'package:cliff/screens/history/history_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../screens/Home/home_screen.dart';
@@ -24,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _buildScreens() {
     return [
       const HomeScreen(),
+      const HistoryScreen(),
       const RegisteredEventsScreen(),
     ];
   }
@@ -46,6 +48,12 @@ class _HomePageState extends State<HomePage> {
               Icons.home_outlined,
             ),
             label: "Home",
+          ),
+          NavigationDestination(
+            icon: Icon(
+              Icons.history,
+            ),
+            label: "History",
           ),
           NavigationDestination(
             icon: Icon(

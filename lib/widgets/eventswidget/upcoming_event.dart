@@ -18,7 +18,7 @@ class UpComingEventsWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
+    return upcomingEvents.isNotEmpty ? GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: upcomingEvents.length,
@@ -146,6 +146,6 @@ class UpComingEventsWidgets extends StatelessWidget {
           ),
         );
       },
-    );
+    ) : const Center(child: Text("No Upcoming Events", style: TextStyle(height: 2.5),),);
   }
 }

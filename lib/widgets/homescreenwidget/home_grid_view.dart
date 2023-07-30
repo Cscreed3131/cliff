@@ -1,9 +1,8 @@
 import 'package:cliff/screens/alumni_screen.dart';
 import 'package:cliff/screens/Merch/buy_merch_screen.dart';
 import 'package:cliff/screens/Events/event_screen.dart';
-import 'package:cliff/screens/history_screen.dart';
+import 'package:cliff/screens/food_screen.dart';
 import 'package:cliff/screens/memories.dart';
-import 'package:cliff/screens/polls.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -57,7 +56,7 @@ class _HomeGridViewState extends ConsumerState<HomeGridView> {
                         Navigator.of(context).pushNamed(EventsScreen.routeName);
                       } else if (gridItems[i].id == 2) {
                         Navigator.of(context)
-                            .pushNamed(HistoryScreen.routeName);
+                            .pushNamed(FoodScreen.routeName);
                       } else if (gridItems[i].id == 3) {
                         Navigator.of(context)
                             .pushNamed(BuyMerchScreen.routeName);
@@ -65,8 +64,6 @@ class _HomeGridViewState extends ConsumerState<HomeGridView> {
                         Navigator.of(context).pushNamed(AlumniScreen.routeName);
                       } else if (gridItems[i].id == 5) {
                         Navigator.of(context).pushNamed(Memories.routeName);
-                      } else if (gridItems[i].id == 6) {
-                        Navigator.of(context).pushNamed(Polls.routeName);
                       }
                     },
                     child: Container(

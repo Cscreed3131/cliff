@@ -18,7 +18,7 @@ class OnGoingEventWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
+    return ongoingEvents.isNotEmpty ?  GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: ongoingEvents.length,
@@ -150,6 +150,13 @@ class OnGoingEventWidget extends StatelessWidget {
           ),
         );
       },
+    ) : const Center(
+      child: Text(
+        "No Ongoing Events",
+        style: TextStyle(
+          height: 2.5
+        ),
+      ),
     );
   }
 }
