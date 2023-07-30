@@ -20,19 +20,10 @@ class CreateEventScreenState extends State<CreateEventScreen> {
   final _form = GlobalKey<FormState>();
   File? _selectedImage;
 
-  // TimeOfDay? _eventStartTime;
-  // TimeOfDay? _eventFinishTime;
-  // DateTime? _eventStartDate;
-  // DateTime? _eventFinishDate;
-
   DateTime? _eventFinishDateTime;
   DateTime? _eventStartDateTime;
-
-  // Timestamp? _startDate;
-  // Timestamp? _finsihDate;
   Timestamp? _finishDateTime;
   Timestamp? _startDateTime;
-  // int? _finishTime;
 
   var _isSubmitting = false;
   var _eventName = '';
@@ -41,9 +32,6 @@ class CreateEventScreenState extends State<CreateEventScreen> {
   var _eventVenue = '';
   var _clubMemberSic1 = '';
   var _clubMemberSic2 = '';
-  // var _registeredStudent = '';
-
-  //this should probally contain a phone number of the superviser for doubts and queries
 
   final _eventCodefocusNode = FocusNode();
   final _eventDescriptionfocusNode = FocusNode();
@@ -219,351 +207,346 @@ class CreateEventScreenState extends State<CreateEventScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Create Events"),
+        centerTitle: true,
       ),
       /* 
       event name,event code(it must be unique if many events are going on), event discription, event image,
       whatsapp linking will also be required, and a timer so that event can expire automatically,
       */
-      body: Container(
-        alignment: Alignment.topCenter,
-        height: double.infinity,
-        width: double.infinity,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Form(
-              key: _form,
-              child: Column(
-                children: [
-                  EventImagePicker(
-                    onPickImage: (pickedImage) {
-                      _selectedImage = pickedImage;
-                    },
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Event Name',
-                      border: OutlineInputBorder(),
-                      labelStyle: TextStyle(
-                        fontSize: 20,
-                      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Form(
+            key: _form,
+            child: Column(
+              children: [
+                EventImagePicker(
+                  onPickImage: (pickedImage) {
+                    _selectedImage = pickedImage;
+                  },
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Event Name',
+                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(
+                      fontSize: 20,
                     ),
-                    textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus();
-                    },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter The event name.';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _eventName = value!;
-                    },
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Event Code',
-                      border: OutlineInputBorder(),
-                      labelStyle: TextStyle(
-                        fontSize: 20,
-                      ),
+                  textInputAction: TextInputAction.next,
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus();
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter The event name.';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _eventName = value!;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Event Code',
+                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(
+                      fontSize: 20,
                     ),
-                    focusNode: _eventCodefocusNode,
-                    textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus();
-                    },
-                    validator: (value) {
-                      // must be unique event code use firebase get command
-                      if (value!.isEmpty) {
-                        return 'Please enter The event Code.';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _eventCode = value!;
-                    },
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Event Venue',
-                      border: OutlineInputBorder(),
-                      labelStyle: TextStyle(
-                        fontSize: 20,
-                      ),
+                  focusNode: _eventCodefocusNode,
+                  textInputAction: TextInputAction.next,
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus();
+                  },
+                  validator: (value) {
+                    // must be unique event code use firebase get command
+                    if (value!.isEmpty) {
+                      return 'Please enter The event Code.';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _eventCode = value!;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Event Venue',
+                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(
+                      fontSize: 20,
                     ),
-                    focusNode: _eventVenueFocusNode,
-                    textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus();
-                    },
-                    validator: (value) {
-                      // must be unique event code use firebase get command
-                      if (value!.isEmpty) {
-                        return 'Please enter The event Code.';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _eventVenue = value!;
-                    },
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: '1st member Sic',
-                      border: OutlineInputBorder(),
-                      labelStyle: TextStyle(
-                        fontSize: 20,
-                      ),
+                  focusNode: _eventVenueFocusNode,
+                  textInputAction: TextInputAction.next,
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus();
+                  },
+                  validator: (value) {
+                    // must be unique event code use firebase get command
+                    if (value!.isEmpty) {
+                      return 'Please enter The event Code.';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _eventVenue = value!;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: '1st member Sic',
+                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(
+                      fontSize: 20,
                     ),
-                    focusNode: _clubMemberSic1FocusNode,
-                    textInputAction: TextInputAction.next,
-                    // onFieldSubmitted: (_) {
-                    //   FocusScope.of(context).requestFocus();
-                    // },
-                    validator: (value) {
-                      // must be unique event code use firebase get command
-                      if (value!.isEmpty) {
-                        return 'Please enter first club member Sic';
-                      } else if (value == _clubMemberSic1) {
-                        return 'Sic of First and Second member cannot be same';
-                      }
-                      return null;
-                    },
+                  ),
+                  focusNode: _clubMemberSic1FocusNode,
+                  textInputAction: TextInputAction.next,
+                  // onFieldSubmitted: (_) {
+                  //   FocusScope.of(context).requestFocus();
+                  // },
+                  validator: (value) {
+                    // must be unique event code use firebase get command
+                    if (value!.isEmpty) {
+                      return 'Please enter first club member Sic';
+                    } else if (value == _clubMemberSic1) {
+                      return 'Sic of First and Second member cannot be same';
+                    }
+                    return null;
+                  },
 
-                    onSaved: (value) {
-                      _clubMemberSic1 = value!;
-                    },
+                  onSaved: (value) {
+                    _clubMemberSic1 = value!;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: '2nd member Sic',
+                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: '2nd member Sic',
-                      border: OutlineInputBorder(),
-                      labelStyle: TextStyle(
-                        fontSize: 20,
+                  focusNode: _clubMemberSic2FocusNode,
+                  textInputAction: TextInputAction.done,
+                  // onFieldSubmitted: (_) {
+                  //   FocusScope.of(context).requestFocus();
+                  // },
+                  validator: (value) {
+                    // must be unique event code use firebase get command
+                    if (value!.isEmpty) {
+                      return 'Please enter second club member Sic';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _clubMemberSic2 = value!;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        readOnly: true,
+                        onTap: () => _selectStartDate(context),
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.event_available),
+                          labelText: 'Start Date',
+                          hintText: 'Select date',
+                          border: OutlineInputBorder(),
+                        ),
+                        controller: TextEditingController(
+                          text: _eventStartDateTime != null
+                              ? DateFormat('dd-MM-yyyy')
+                                  .format(_eventStartDateTime!)
+                              : '',
+                        ),
                       ),
                     ),
-                    focusNode: _clubMemberSic2FocusNode,
-                    textInputAction: TextInputAction.done,
-                    // onFieldSubmitted: (_) {
-                    //   FocusScope.of(context).requestFocus();
-                    // },
-                    validator: (value) {
-                      // must be unique event code use firebase get command
-                      if (value!.isEmpty) {
-                        return 'Please enter second club member Sic';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _clubMemberSic2 = value!;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          readOnly: true,
-                          onTap: () => _selectStartDate(context),
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.event_available),
-                            labelText: 'Start Date',
-                            hintText: 'Select date',
-                            border: OutlineInputBorder(),
-                          ),
-                          controller: TextEditingController(
-                            text: _eventStartDateTime != null
-                                ? DateFormat('dd-MM-yyyy')
-                                    .format(_eventStartDateTime!)
-                                : '',
-                          ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        readOnly: true,
+                        onTap: () => _selectStartTime(context),
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.timer_outlined),
+                          labelText: 'Start time',
+                          hintText: 'Select event start time',
+                          border: OutlineInputBorder(),
                         ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: TextFormField(
-                          readOnly: true,
-                          onTap: () => _selectStartTime(context),
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.timer_outlined),
-                            labelText: 'Start time',
-                            hintText: 'Select event start time',
-                            border: OutlineInputBorder(),
-                          ),
-                          controller: TextEditingController(
-                            text: _eventStartDateTime != null
-                                ? DateFormat('hh:mm:ss')
-                                    .format(_eventStartDateTime!)
-                                : '',
-                          ),
-                          onSaved: (value) {
-                            _startDateTime =
-                                Timestamp.fromDate(_eventStartDateTime!);
-                          },
+                        controller: TextEditingController(
+                          text: _eventStartDateTime != null
+                              ? DateFormat('hh:mm:ss')
+                                  .format(_eventStartDateTime!)
+                              : '',
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          readOnly: true,
-                          onTap: () => _selectFinishDate(context),
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.event_busy),
-                            labelText: 'End Date',
-                            hintText: 'Select event end date',
-                            border: OutlineInputBorder(),
-                          ),
-                          controller: TextEditingController(
-                            text: _eventFinishDateTime != null
-                                ? DateFormat('dd-MM-yyyy')
-                                    .format(_eventFinishDateTime!)
-                                : '',
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: TextFormField(
-                          readOnly: true,
-                          onTap: () => _selectFinishTime(context),
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.timer),
-                            labelText: 'Finish time',
-                            hintText: 'Select event finish time',
-                            border: OutlineInputBorder(),
-                          ),
-                          controller: TextEditingController(
-                            text: _eventFinishDateTime != null
-                                ? DateFormat('hh:mm:ss')
-                                    .format(_eventFinishDateTime!)
-                                : '',
-                          ),
-                          onSaved: (value) {
-                            _finishDateTime =
-                                Timestamp.fromDate(_eventFinishDateTime!);
-                          },
-                          // onSaved: (value) {
-                          //   _eventFinishTime = value!;
-                          // },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Description',
-                      border: OutlineInputBorder(),
-                      labelStyle: TextStyle(
-                        fontSize: 20,
+                        onSaved: (value) {
+                          _startDateTime =
+                              Timestamp.fromDate(_eventStartDateTime!);
+                        },
                       ),
                     ),
-                    maxLines: 15,
-                    maxLength: 1000,
-                    keyboardType: TextInputType.multiline,
-                    focusNode: _eventDescriptionfocusNode,
-                    textInputAction: TextInputAction.done,
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus();
-                    },
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter The event description.';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _eventDescirption = value!;
-                    },
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        readOnly: true,
+                        onTap: () => _selectFinishDate(context),
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.event_busy),
+                          labelText: 'End Date',
+                          hintText: 'Select event end date',
+                          border: OutlineInputBorder(),
+                        ),
+                        controller: TextEditingController(
+                          text: _eventFinishDateTime != null
+                              ? DateFormat('dd-MM-yyyy')
+                                  .format(_eventFinishDateTime!)
+                              : '',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        readOnly: true,
+                        onTap: () => _selectFinishTime(context),
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.timer),
+                          labelText: 'Finish time',
+                          hintText: 'Select event finish time',
+                          border: OutlineInputBorder(),
+                        ),
+                        controller: TextEditingController(
+                          text: _eventFinishDateTime != null
+                              ? DateFormat('hh:mm:ss')
+                                  .format(_eventFinishDateTime!)
+                              : '',
+                        ),
+                        onSaved: (value) {
+                          _finishDateTime =
+                              Timestamp.fromDate(_eventFinishDateTime!);
+                        },
+                        // onSaved: (value) {
+                        //   _eventFinishTime = value!;
+                        // },
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Description',
+                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      _isSubmitting
-                          ? Center(child: const CircularProgressIndicator())
-                          : Expanded(
-                              child: FilledButton(
-                                onPressed: () async {
-                                  await _submit()
-                                      ? context.mounted
-                                          ? {
-                                              ScaffoldMessenger.of(context)
-                                                  .clearSnackBars(),
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                  behavior:
-                                                      SnackBarBehavior.floating,
-                                                  content: Text(
-                                                    'Event Created, redirecting to ongoing events page',
-                                                  ),
+                  maxLines: 15,
+                  maxLength: 1000,
+                  keyboardType: TextInputType.multiline,
+                  focusNode: _eventDescriptionfocusNode,
+                  textInputAction: TextInputAction.done,
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus();
+                  },
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter The event description.';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _eventDescirption = value!;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    _isSubmitting
+                        ? Center(child: const CircularProgressIndicator())
+                        : Expanded(
+                            child: FilledButton(
+                              onPressed: () async {
+                                await _submit()
+                                    ? context.mounted
+                                        ? {
+                                            ScaffoldMessenger.of(context)
+                                                .clearSnackBars(),
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                behavior:
+                                                    SnackBarBehavior.floating,
+                                                content: Text(
+                                                  'Event Created, redirecting to ongoing events page',
                                                 ),
                                               ),
-                                              Navigator.of(context)
-                                                  .pushReplacementNamed(
-                                                EventsScreen.routeName,
-                                              ),
-                                            }
-                                          : print(
-                                              'context not mounted') // this should give a alert dialog box;
-                                      // add a exceptiion class so that the get exception and we dont have to print this in the terminal
-                                      : {
-                                          ScaffoldMessenger.of(context)
-                                              .clearSnackBars(),
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                              behavior:
-                                                  SnackBarBehavior.floating,
-                                              content: Text(
-                                                  'Event Creation was unsuccessful, Try again.'),
                                             ),
+                                            Navigator.of(context)
+                                                .pushReplacementNamed(
+                                              EventsScreen.routeName,
+                                            ),
+                                          }
+                                        : print(
+                                            'context not mounted') // this should give a alert dialog box;
+                                    // add a exceptiion class so that the get exception and we dont have to print this in the terminal
+                                    : {
+                                        ScaffoldMessenger.of(context)
+                                            .clearSnackBars(),
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            behavior: SnackBarBehavior.floating,
+                                            content: Text(
+                                                'Event Creation was unsuccessful, Try again.'),
                                           ),
-                                        };
-                                  _isSubmitting = false;
-                                },
-                                child: const Text(
-                                  'Submit',
-                                ),
+                                        ),
+                                      };
+                                _isSubmitting = false;
+                              },
+                              child: const Text(
+                                'Submit',
                               ),
                             ),
-                    ],
-                  ),
-                ],
-              ),
+                          ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),

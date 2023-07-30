@@ -1,3 +1,4 @@
+import 'package:cliff/screens/Admin/add_designs_screen.dart';
 import 'package:cliff/screens/Events/event_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
@@ -101,23 +102,24 @@ class MyApp extends StatelessWidget {
                 photoUrl: args?['photoUrl'] ?? 'Default Url',
               );
             },
+            AddDesignsScreen.routeName: (ctx) => const AddDesignsScreen(),
             EventDetailsScreen.routeName: (ctx) {
               final Map<String, dynamic>? args = ModalRoute.of(ctx)!
                   .settings
                   .arguments as Map<String, dynamic>?;
               return EventDetailsScreen(
                 title: args?['title'] ?? 'Default Title',
-                eventCode: args?['eventCode'] ?? 'Default Title',
-                eventDescription: args?['eventDescription'] ?? 'Default Title',
+                eventCode: args?['eventCode'] ?? 'Default Event Code',
+                eventDescription:
+                    args?['eventDescription'] ?? 'Default Event Description',
                 eventFinishDateTime:
-                    args?['eventFinishDateTime'] ?? 'Default Title',
-                eventImage: args?['eventImage'] ?? 'Default Title',
+                    args?['eventFinishDateTime'] ?? 'Default Date and Time',
+                eventImage: args?['eventImage'] ?? 'Default Url',
                 eventStartDateTime:
-                    args?['eventFinishStartTime'] ?? 'Default Title',
-                eventVenue: args?['eventVenue'] ?? 'Default Title',
-                clubMembersic1: args?['clubmembersic1'] ?? 'Default Title',
-                clubMembersic2: args?['clubmembersic2'] ?? 'Default Title',
-                // registeredStudents: args?['registeredStudents'] ?? 0,
+                    args?['eventFinishStartTime'] ?? 'Default Date and Time',
+                eventVenue: args?['eventVenue'] ?? 'Default Event Venue',
+                clubMembersic1: args?['clubmembersic1'] ?? 'Default Sic',
+                clubMembersic2: args?['clubmembersic2'] ?? 'Default Sic',
               );
             },
           },

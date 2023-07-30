@@ -1,3 +1,4 @@
+import 'package:cliff/screens/Admin/add_designs_screen.dart';
 import 'package:cliff/screens/Admin/create_event_screens.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class ListItem {
 
 final List<ListItem> items = [
   ListItem(1, 'Add Event'),
-  // ListItem(2, 'Item 2'),
+  ListItem(2, 'Add Designs'),
   // ListItem(3, 'Item 3'),
   // ListItem(4, 'Item 4'),
   // ListItem(5, 'Item 5'),
@@ -26,7 +27,6 @@ class AdminScreen extends StatefulWidget {
 class AdminScreenState extends State<AdminScreen> {
   @override
   Widget build(BuildContext context) {
-
     final screenHeight = MediaQuery.of(context).size.height;
     final containerBorderRadius = BorderRadius.circular(screenHeight * 0.02);
     final font30 = screenHeight * 0.05;
@@ -54,48 +54,51 @@ class AdminScreenState extends State<AdminScreen> {
               // Handle tap event for the grid tile
               if (item.id == 1) {
                 Navigator.of(context).pushNamed(CreateEventScreen.routeName);
+              } else if (item.id == 2) {
+                Navigator.of(context).pushNamed(AddDesignsScreen.routeName);
               }
             },
             child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: ClipRRect(
-                borderRadius: containerBorderRadius,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.5),
-                    border: Border.all(
-                        color: Theme.of(context).colorScheme.outline
+                padding: const EdgeInsets.all(10),
+                child: ClipRRect(
+                  borderRadius: containerBorderRadius,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .secondaryContainer
+                          .withOpacity(0.5),
+                      border: Border.all(
+                          color: Theme.of(context).colorScheme.outline),
+                      borderRadius: containerBorderRadius,
+                      image: const DecorationImage(
+                        image: AssetImage("assets/images/events.png"),
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                    borderRadius: containerBorderRadius,
-                    image: const DecorationImage(
-                      image: AssetImage("assets/images/events.png"),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Create Event",
-                      style: TextStyle(
-                        fontSize: font30,
-                        height: 2,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        shadows: const [
-                          Shadow(
-                            color: Colors.black,
-                            blurRadius: 30,
-                            offset: Offset(0, 0),
-                          ),
-                        ],
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Create Event",
+                        style: TextStyle(
+                          fontSize: font30,
+                          height: 2,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          shadows: const [
+                            Shadow(
+                              color: Colors.black,
+                              blurRadius: 30,
+                              offset: Offset(0, 0),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              )
-            ),
+                )),
           );
         },
       ),
