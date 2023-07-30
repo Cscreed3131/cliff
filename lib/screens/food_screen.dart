@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 
 
-class HistoryScreen extends StatefulWidget {
-  const HistoryScreen({super.key});
-  static const routeName = '/history';
+class FoodScreen extends StatefulWidget {
+  const FoodScreen({super.key});
+  static const routeName = '/food';
   @override
-  State<HistoryScreen> createState() => _HistoryScreenState();
+  State<FoodScreen> createState() => _FoodScreenState();
 }
 
-class _HistoryScreenState extends State<HistoryScreen> {
+class _FoodScreenState extends State<FoodScreen> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -18,7 +18,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         slivers: [
           SliverAppBar.large(
             title: const Text(
-              "History",
+              "Food",
               style: TextStyle(
                 fontFamily: 'IBMPlexMono',
                 fontSize: 30,
@@ -44,7 +44,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               ),
                               borderRadius: BorderRadius.circular(20),
                               image: const DecorationImage(
-                                image: AssetImage('assets/images/image1.png'),
+                                image: AssetImage('assets/images/image4.png'),
                                 fit: BoxFit.fitWidth,
                               ),
                             )),

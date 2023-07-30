@@ -22,8 +22,8 @@ final gridItemsProvider = Provider<List<ImageItem>>(
       ),
       ImageItem(
         2,
-        "History",
-        Icons.history_outlined,
+        "Food",
+        Icons.dinner_dining_outlined,
       ),
       ImageItem(
         3,
@@ -39,11 +39,6 @@ final gridItemsProvider = Provider<List<ImageItem>>(
         5,
         "Memories",
         Icons.photo_album_outlined,
-      ),
-      ImageItem(
-        6,
-        "Polls",
-        Icons.poll_outlined,
       ),
     ];
   },

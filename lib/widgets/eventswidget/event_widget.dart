@@ -113,7 +113,10 @@ class EventsWidget extends StatelessWidget {
                   ),
 
                   // Display Upcoming Events
-                  const SizedBox(height: 20),
+                  const Divider(
+                    indent: 8,
+                    endIndent: 8,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(

@@ -1,5 +1,6 @@
 import 'package:cliff/screens/Admin/add_designs_screen.dart';
 import 'package:cliff/screens/Events/event_details_screen.dart';
+import 'package:cliff/screens/history/history_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +9,7 @@ import 'package:cliff/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'package:cliff/widgets/homescreenwidget/buttom_navigation_bar.dart';
+import 'package:cliff/widgets/homescreenwidget/bottom_navigation_bar.dart';
 import 'package:cliff/screens/Merch/merch_details_screen.dart';
 import 'package:cliff/screens/Admin/create_event_screens.dart';
 import 'package:cliff/screens/Admin/admin_screen.dart';
@@ -16,7 +17,7 @@ import 'package:cliff/screens/Auth/auth_screen.dart';
 import 'package:cliff/screens/alumni_screen.dart';
 import 'package:cliff/screens/Merch/buy_merch_screen.dart';
 import 'package:cliff/screens/Events/event_screen.dart';
-import 'package:cliff/screens/history_screen.dart';
+import 'package:cliff/screens/food_screen.dart';
 import 'package:cliff/screens/Home/home_screen.dart';
 import 'package:cliff/screens/Auth/singup_screen.dart';
 import 'package:cliff/screens/memories.dart';
@@ -34,7 +35,7 @@ void main() async {
   );
 }
 
-Color brandColor = const Color(0xFF4166f5);
+Color brandColor = const Color(0xff2e99ec);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -84,6 +85,7 @@ class MyApp extends StatelessWidget {
             AuthScreen.routeName: (ctx) => const AuthScreen(),
             EventsScreen.routeName: (ctx) => const EventsScreen(),
             HistoryScreen.routeName: (ctx) => const HistoryScreen(),
+            FoodScreen.routeName: (ctx) => const FoodScreen(),
             BuyMerchScreen.routeName: (ctx) => const BuyMerchScreen(),
             AlumniScreen.routeName: (ctx) => const AlumniScreen(),
             Memories.routeName: (ctx) => const Memories(),
