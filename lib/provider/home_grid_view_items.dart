@@ -23,11 +23,11 @@ final gridItemsProvider = Provider<List<ImageItem>>(
       ImageItem(
         2,
         "Food",
-        Icons.dinner_dining_outlined,
+        Icons.dining_outlined,
       ),
       ImageItem(
         3,
-        "Merchendise",
+        "Merchandise",
         Icons.checkroom_outlined,
       ),
       ImageItem(

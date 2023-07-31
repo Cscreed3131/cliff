@@ -1,5 +1,7 @@
 import 'package:cliff/screens/Admin/add_designs_screen.dart';
 import 'package:cliff/screens/Events/event_details_screen.dart';
+import 'package:cliff/screens/Home/registered_events_screen.dart';
+import 'package:cliff/screens/food/food_details_page.dart';
 import 'package:cliff/screens/history/history_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
@@ -17,7 +19,7 @@ import 'package:cliff/screens/Auth/auth_screen.dart';
 import 'package:cliff/screens/alumni_screen.dart';
 import 'package:cliff/screens/Merch/buy_merch_screen.dart';
 import 'package:cliff/screens/Events/event_screen.dart';
-import 'package:cliff/screens/food_screen.dart';
+import 'package:cliff/screens/food/food_screen.dart';
 import 'package:cliff/screens/Home/home_screen.dart';
 import 'package:cliff/screens/Auth/singup_screen.dart';
 import 'package:cliff/screens/memories.dart';
@@ -86,6 +88,7 @@ class MyApp extends StatelessWidget {
             EventsScreen.routeName: (ctx) => const EventsScreen(),
             HistoryScreen.routeName: (ctx) => const HistoryScreen(),
             FoodScreen.routeName: (ctx) => const FoodScreen(),
+            RegisteredEventsScreen.routeName: (ctx) => const RegisteredEventsScreen(),
             BuyMerchScreen.routeName: (ctx) => const BuyMerchScreen(),
             AlumniScreen.routeName: (ctx) => const AlumniScreen(),
             Memories.routeName: (ctx) => const Memories(),
@@ -122,6 +125,19 @@ class MyApp extends StatelessWidget {
                 eventVenue: args?['eventVenue'] ?? 'Default Event Venue',
                 clubMembersic1: args?['clubmembersic1'] ?? 'Default Sic',
                 clubMembersic2: args?['clubmembersic2'] ?? 'Default Sic',
+              );
+            },
+            FoodDetailsPage.routeName: (ctx) {
+              final Map<String, dynamic>? args = ModalRoute.of(ctx)!
+                  .settings
+                  .arguments as Map<String, dynamic>?;
+              return FoodDetailsPage(
+                id: args?['id'] ?? 0,
+                name: args?['name'] ?? 'Default Name',
+                category: args?['category'] ?? 'Default Category',
+                imgUrl: args?['imgUrl'] ?? 'Default Url',
+                price: args?['price'] ?? 0,
+                description: args?['description'] ?? 'Default Description',
               );
             },
           },

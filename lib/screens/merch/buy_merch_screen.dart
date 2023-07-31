@@ -57,25 +57,8 @@ class BuyMerchScreen extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16.0),
-                          child: Text(
-                            "Design Showcase",
-                            style: TextStyle(
-                              fontFamily: 'IBMPlexMono',
-                              fontSize: font20,
-                              fontWeight: FontWeight.bold,
-                              // color: textColor,
-                            ),
-                          ),
-                        ),
 
                         const MerchDesigns(),
-
-                        const Divider(
-                          indent: 16,
-                          endIndent: 16,
-                        ),
 
                         Padding(
                           padding: const EdgeInsets.only(left: 16.0),
