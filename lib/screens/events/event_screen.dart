@@ -1,3 +1,4 @@
+import 'package:cliff/screens/Home/registered_events_screen.dart';
 import 'package:cliff/widgets/eventswidget/event_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,6 +30,14 @@ class EventsScreen extends ConsumerWidget {
                 // color: textColor,
               ),
             ),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(RegisteredEventsScreen.routeName);
+                },
+                icon: const Icon(Icons.event),
+              ),
+            ],
           ),
           SliverToBoxAdapter(
             child: SingleChildScrollView(

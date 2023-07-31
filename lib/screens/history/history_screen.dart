@@ -1,7 +1,6 @@
 import 'package:cliff/screens/history/widgets/events_history.dart';
 import 'package:cliff/screens/history/widgets/food_history.dart';
 import 'package:cliff/screens/history/widgets/merch_history.dart';
-import 'package:cliff/screens/history/widgets/order_page.dart';
 import 'package:cliff/widgets/homescreenwidget/app_drawer.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +18,7 @@ class _HistoryScreenState extends State<HistoryScreen> with SingleTickerProvider
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -74,9 +73,6 @@ class _HistoryScreenState extends State<HistoryScreen> with SingleTickerProvider
               controller: _tabController,
               tabs: const [
                 Tab(
-                  text: 'Orders',
-                ),
-                Tab(
                   text: 'Food',
                 ),
                 Tab(
@@ -92,8 +88,6 @@ class _HistoryScreenState extends State<HistoryScreen> with SingleTickerProvider
         body: TabBarView(
           controller: _tabController,
           children: const [
-            //orders tab
-            OrderPage(),
 
             //food tab
             FoodHistory(),

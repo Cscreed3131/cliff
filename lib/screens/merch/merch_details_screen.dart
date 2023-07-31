@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MerchDetails extends StatelessWidget {
+class MerchDetails extends StatefulWidget {
 
   static const routeName = '/merch-details';
 
@@ -11,14 +11,44 @@ class MerchDetails extends StatelessWidget {
   const MerchDetails({super.key, required this.merchName, required this.merchPrice, required this.merchDesc, required this.photoUrl});
 
   @override
+  State<MerchDetails> createState() => _MerchDetailsState();
+}
+
+class _MerchDetailsState extends State<MerchDetails> {
+
+  List<String> sizes = ['S', 'M', 'L', 'XL', 'XXL'];
+  late List<bool> selectedSizes;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedSizes = List<bool>.generate(sizes.length, (index) => false);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final font30 = screenHeight * 0.035;
     final font18 = screenHeight * 0.02;
+
+    //List<String> sizes = ['S', 'M', 'L', 'XL', 'XXL'];
+    //List<bool> selectedSizes = [false, false, false, false, false];
+    void handleChipSelection(int selectedIndex) {
+      setState(() {
+        for (int i = 0; i < selectedSizes.length; i++) {
+          selectedSizes[i] = (i == selectedIndex);
+        }
+
+      });
+    }
+
+
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           const SliverAppBar(
+              pinned: true,
               title: Text(
                 "Merch Details",
                 style: TextStyle(
@@ -48,7 +78,7 @@ class MerchDetails extends StatelessWidget {
                       image: DecorationImage(
 
                         //REPLACE THIS WITH THE ACTUAL PHOTO URL later
-                        image: AssetImage(photoUrl),
+                        image: AssetImage(widget.photoUrl),
                         fit: BoxFit.cover,
                       ),
                     )
@@ -65,7 +95,7 @@ class MerchDetails extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          merchName,
+                          widget.merchName,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -76,7 +106,7 @@ class MerchDetails extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "\$$merchPrice",
+                          "\$${widget.merchPrice}",
                           style: TextStyle(
                             fontFamily: 'IBMPlexMono',
                             fontSize: font30,
@@ -87,8 +117,53 @@ class MerchDetails extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
+                        const Text(
+                          "Sizes",
+                          style: TextStyle(
+                            fontFamily: 'IBMPlexMono',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            // color: textColor,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Wrap(
+                          spacing: 10,
+                          children: List<Widget>.generate(
+                            sizes.length,
+                            (int index) {
+                              return ChoiceChip(
+                                label: Text(
+                                  sizes[index],
+                                  style: const TextStyle(
+                                    fontFamily: 'IBMPlexMono',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                selected: selectedSizes[index],
+                                onSelected: (bool selected) {
+                                  handleChipSelection(index);
+                                },
+                              );
+                            },
+                          ).toList(),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          "Description",
+                          style: TextStyle(
+                            fontFamily: 'IBMPlexMono',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            // color: textColor,
+                          ),
+                        ),
                         Text(
-                          merchDesc,
+                          widget.merchDesc,
                           style: TextStyle(
                             fontSize: font18,
                           ),

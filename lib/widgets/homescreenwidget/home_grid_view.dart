@@ -1,7 +1,7 @@
 import 'package:cliff/screens/alumni_screen.dart';
 import 'package:cliff/screens/Merch/buy_merch_screen.dart';
 import 'package:cliff/screens/Events/event_screen.dart';
-import 'package:cliff/screens/food_screen.dart';
+import 'package:cliff/screens/food/food_screen.dart';
 import 'package:cliff/screens/memories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

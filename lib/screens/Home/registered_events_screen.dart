@@ -2,11 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../widgets/homescreenwidget/app_drawer.dart';
-
 class RegisteredEventsScreen extends StatefulWidget {
   const RegisteredEventsScreen({super.key});
-  // static const routeName = 'registered-events';
+  static const routeName = 'registered-events';
 
   @override
   State<RegisteredEventsScreen> createState() => _RegisteredEventsScreenState();
@@ -19,7 +17,6 @@ class _RegisteredEventsScreenState extends State<RegisteredEventsScreen> {
     final screenWidth  = MediaQuery.of(context).size.width;
     final font38 = screenWidth * 0.07;
     return Scaffold(
-      drawer: const AppDrawer(),
       body: CustomScrollView(
         slivers: [
           SliverAppBar.large(
