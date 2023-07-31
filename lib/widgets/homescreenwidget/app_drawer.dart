@@ -120,18 +120,6 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             ListTile(
               leading: const Icon(
-                Icons.shopping_bag,
-              ),
-              title: const Text(
-                'Orders',
-                style: TextStyle(
-                  fontSize: 15,
-                ),
-              ),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Icon(
                 Icons.contact_mail,
               ),
               title: const Text(

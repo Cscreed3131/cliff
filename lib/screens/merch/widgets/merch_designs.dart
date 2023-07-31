@@ -26,9 +26,21 @@ class _MerchDesignsState extends State<MerchDesigns> {
       ),
       itemBuilder: (context, index){
         return InkWell(
-
           //navigate to merch details screen
           onTap: () {},
+
+          onDoubleTap: (){
+            if(isLiked){
+              setState(() {
+                isLiked = false;
+              });
+            } else {
+              setState(() {
+                isLiked = true;
+              });
+            }
+          },
+
           child: Container(
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.secondaryContainer,
@@ -72,14 +84,20 @@ class _MerchDesignsState extends State<MerchDesigns> {
                 const SizedBox(
                   height: 5,
                 ),
-                ElevatedButton.icon(
+                FilledButton.tonalIcon(
                   onPressed: (){
-                    setState(() {
-                      isLiked = true;
-                    });
+                    if(isLiked){
+                        setState(() {
+                          isLiked = false;
+                        });
+                      } else {
+                      setState(() {
+                        isLiked = true;
+                      });
+                    }
                   },
                   icon: isLiked ? const Icon(Icons.favorite, color: Colors.redAccent,)
-                      : Icon(Icons.favorite_border),
+                      : const Icon(Icons.favorite_border),
                   label: const Text('24 Likes'),
                 )
               ],

@@ -7,14 +7,15 @@ class FoodHistory extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    int itemCount = 7;
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
-      child: SingleChildScrollView(
+      child: itemCount > 0 ? SingleChildScrollView(
         child: Column(
           children: [
             ListView.builder(
-              itemCount: 7,
+              itemCount: itemCount,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
@@ -72,6 +73,27 @@ class FoodHistory extends StatelessWidget {
                 );
               },
             )
+          ],
+        ),
+      )
+          : Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/empty.png',
+              height: screenHeight * 0.5,
+              width: screenWidth * 0.5,
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'No Food History',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface,
+                fontFamily: 'IBMPlexMono',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
       ),
