@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 class ListItem {
   final int id;
   final String value;
+  final String imgUrl;
 
-  ListItem(this.id, this.value);
+  ListItem(this.id, this.value, this.imgUrl);
 }
 
 final List<ListItem> items = [
-  ListItem(1, 'Add Event'),
-  ListItem(2, 'Add Designs'),
+  ListItem(1, 'Add Event', "assets/images/events.png"),
+  ListItem(2, 'Add Designs', "assets/images/merch.png"),
   // ListItem(3, 'Item 3'),
   // ListItem(4, 'Item 4'),
   // ListItem(5, 'Item 5'),
@@ -35,6 +36,9 @@ class AdminScreenState extends State<AdminScreen> {
       appBar: AppBar(
         title: const Text(
           'Admin Panel',
+          style: TextStyle(
+            fontFamily: 'IBMPlexMono'
+          )
         ),
         centerTitle: true,
       ),
@@ -73,15 +77,15 @@ class AdminScreenState extends State<AdminScreen> {
                       border: Border.all(
                           color: Theme.of(context).colorScheme.outline),
                       borderRadius: containerBorderRadius,
-                      image: const DecorationImage(
-                        image: AssetImage("assets/images/events.png"),
+                      image: DecorationImage(
+                        image: AssetImage(items[index].imgUrl),
                         fit: BoxFit.cover,
                       ),
                     ),
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(
-                        "Create Event",
+                        items[index].value,
                         style: TextStyle(
                           fontSize: font30,
                           height: 2,
@@ -90,7 +94,7 @@ class AdminScreenState extends State<AdminScreen> {
                           shadows: const [
                             Shadow(
                               color: Colors.black,
-                              blurRadius: 30,
+                              blurRadius: 50,
                               offset: Offset(0, 0),
                             ),
                           ],

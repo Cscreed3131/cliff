@@ -44,13 +44,13 @@ class _RegisteredEventsScreenState extends State<RegisteredEventsScreen> {
                 }
 
                 if (!snapshot.hasData) {
-                  return const CircularProgressIndicator();
+                  return const Center(child: CircularProgressIndicator());
                 }
 
                 // Extract the documents from the snapshot
                 final List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
 
-                return MediaQuery.removePadding(
+                return documents.isNotEmpty ? MediaQuery.removePadding(
                   context: context,
                   removeTop: true,
                   child: ListView.builder(
@@ -116,6 +116,16 @@ class _RegisteredEventsScreenState extends State<RegisteredEventsScreen> {
                         ),
                       );
                     },
+                  ),
+                )
+                : Center(
+                  child: Text(
+                    'No events registered',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontFamily: 'IBMPlexMono',
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 );
               },

@@ -7,7 +7,8 @@ class EventsHistoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    return SingleChildScrollView(
+    int itemCount = 7;
+    return itemCount > 0 ? SingleChildScrollView(
       child: Column(
         children: [
           MediaQuery.removePadding(
@@ -15,7 +16,7 @@ class EventsHistoryWidget extends StatelessWidget {
             removeTop: true,
             child: ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: 7,
+              itemCount: itemCount,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return Container(
@@ -81,6 +82,29 @@ class EventsHistoryWidget extends StatelessWidget {
           ),
         ],
       ),
-    );
+    )
+        : Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/empty.png',
+                  height: screenHeight * 0.5,
+                  width: screenWidth * 0.5,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'No Events History',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    fontFamily: 'IBMPlexMono',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          );
   }
 }

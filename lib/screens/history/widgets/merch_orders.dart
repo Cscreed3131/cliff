@@ -8,11 +8,12 @@ class MerchOrders extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final font20 = screenHeight * 0.02;
-    return  MediaQuery.removePadding(
+    int itemCount = 3;
+    return itemCount > 0 ? MediaQuery.removePadding(
       context: context,
       removeTop: true,
       child: ListView.builder(
-        itemCount: 3,
+        itemCount: itemCount,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
@@ -92,6 +93,15 @@ class MerchOrders extends StatelessWidget {
             ),
           );
         },
+      ),
+    )
+    : Center(
+      child: Text(
+        'No Orders',
+        style: TextStyle(
+          height: 4,
+          fontSize: font20,
+        ),
       ),
     );
   }
