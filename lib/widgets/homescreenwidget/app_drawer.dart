@@ -1,3 +1,4 @@
+import 'package:cliff/widgets/homescreenwidget/bottom_navigation_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:cliff/screens/Auth/auth_screen.dart';
 import 'package:cliff/screens/Admin/admin_screen.dart';
-import 'package:cliff/screens/Home/home_screen.dart';
 
 // import 'package:cliff/models/userdetails.dart';
 // use cached Image type and structure this
@@ -100,8 +100,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 ),
               ),
               onTap: () {
-                Navigator.of(context)
-                    .pushReplacementNamed(HomeScreen.routeName);
+                Navigator.of(context).pushReplacementNamed(HomePage.routeName);
               },
             ),
             ListTile(

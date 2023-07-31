@@ -20,7 +20,7 @@ import 'package:cliff/screens/alumni_screen.dart';
 import 'package:cliff/screens/Merch/buy_merch_screen.dart';
 import 'package:cliff/screens/Events/event_screen.dart';
 import 'package:cliff/screens/food/food_screen.dart';
-import 'package:cliff/screens/Home/home_screen.dart';
+// import 'package:cliff/screens/Home/home_screen.dart';
 import 'package:cliff/screens/Auth/singup_screen.dart';
 import 'package:cliff/screens/memories.dart';
 import 'package:cliff/screens/polls.dart';
@@ -88,14 +88,15 @@ class MyApp extends StatelessWidget {
             EventsScreen.routeName: (ctx) => const EventsScreen(),
             HistoryScreen.routeName: (ctx) => const HistoryScreen(),
             FoodScreen.routeName: (ctx) => const FoodScreen(),
-            RegisteredEventsScreen.routeName: (ctx) => const RegisteredEventsScreen(),
+            RegisteredEventsScreen.routeName: (ctx) =>
+                const RegisteredEventsScreen(),
             BuyMerchScreen.routeName: (ctx) => const BuyMerchScreen(),
             AlumniScreen.routeName: (ctx) => const AlumniScreen(),
             Memories.routeName: (ctx) => const Memories(),
             Polls.routeName: (ctx) => const Polls(),
             AdminScreen.routeName: (ctx) => const AdminScreen(),
             CreateEventScreen.routeName: (ctx) => const CreateEventScreen(),
-            HomeScreen.routeName: (ctx) => const HomeScreen(),
+            HomePage.routeName: (ctx) => const HomePage(),
             MerchDetails.routeName: (ctx) {
               final Map<String, dynamic>? args = ModalRoute.of(ctx)!
                   .settings
