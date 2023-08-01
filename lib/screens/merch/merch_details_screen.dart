@@ -7,6 +7,7 @@ class MerchDetails extends StatefulWidget {
   final int merchPrice;
   final String merchDesc;
   final String photoUrl;
+  final bool isForSale;
 
   const MerchDetails({
     super.key,
@@ -14,6 +15,7 @@ class MerchDetails extends StatefulWidget {
     required this.merchPrice,
     required this.merchDesc,
     required this.photoUrl,
+    required this.isForSale,
   });
 
   @override
@@ -23,6 +25,7 @@ class MerchDetails extends StatefulWidget {
 class _MerchDetailsState extends State<MerchDetails> {
   List<String> sizes = ['S', 'M', 'L', 'XL', 'XXL'];
   late List<bool> selectedSizes;
+  bool isLiked = false;
 
   @override
   void initState() {
@@ -41,8 +44,17 @@ class _MerchDetailsState extends State<MerchDetails> {
     void handleChipSelection(int selectedIndex) {
       setState(() {
         for (int i = 0; i < selectedSizes.length; i++) {
-          selectedSizes[i] = (i == selectedIndex);
+           if (selectedSizes[i] == true) {
+            selectedSizes[i] = false;
+           }else{
+             if (i == selectedIndex) {
+               selectedSizes[i] = true;
+             } else {
+               selectedSizes[i] = false;
+             }
+           }
         }
+
       });
     }
 
@@ -104,19 +116,42 @@ class _MerchDetailsState extends State<MerchDetails> {
                             // color: textColor,
                           ),
                         ),
-                        Text(
-                          "₹${widget.merchPrice}",
-                          style: TextStyle(
-                            fontFamily: 'IBMPlexMono',
-                            fontSize: font30,
-                            fontWeight: FontWeight.bold,
-                            // color: textColor,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              "₹${widget.merchPrice}",
+                              style: TextStyle(
+                                fontFamily: 'IBMPlexMono',
+                                fontSize: font30,
+                                fontWeight: FontWeight.bold,
+                                // color: textColor,
+                              ),
+                            ),
+                            const Spacer(),
+
+                            //like button
+                            !widget.isForSale ? FilterChip(
+                              label: const Text(
+                                '24 likes',
+                              ),
+                              showCheckmark: false,
+                              avatar: Icon(
+                                isLiked ? Icons.favorite : Icons.favorite_border,
+                                color: Colors.red,
+                              ),
+                              selected: isLiked,
+                              onSelected: (bool selected) {
+                                setState(() {
+                                  isLiked = selected;
+                                });
+                              },
+                            ) : const SizedBox(),
+                          ],
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        const Text(
+                        widget.isForSale ? const Text(
                           "Sizes",
                           style: TextStyle(
                             fontFamily: 'IBMPlexMono',
@@ -124,11 +159,11 @@ class _MerchDetailsState extends State<MerchDetails> {
                             fontWeight: FontWeight.bold,
                             // color: textColor,
                           ),
-                        ),
+                        ) : const SizedBox(),
                         const SizedBox(
                           height: 10,
                         ),
-                        Wrap(
+                        widget.isForSale ? Wrap(
                           spacing: 10,
                           children: List<Widget>.generate(
                             sizes.length,
@@ -148,7 +183,7 @@ class _MerchDetailsState extends State<MerchDetails> {
                               );
                             },
                           ).toList(),
-                        ),
+                        ) : const SizedBox(),
                         const SizedBox(
                           height: 10,
                         ),
@@ -179,7 +214,7 @@ class _MerchDetailsState extends State<MerchDetails> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
+      bottomNavigationBar: widget.isForSale ? BottomAppBar(
           child: Row(
         children: [
           Expanded(
@@ -191,13 +226,15 @@ class _MerchDetailsState extends State<MerchDetails> {
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   // color: textColor,
+                  ),
                 ),
+                onPressed: () {},
               ),
-              onPressed: () {},
             ),
-          ),
-        ],
-      )),
+          ],
+        )
+      )
+      : null,
     );
   }
 }

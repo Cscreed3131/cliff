@@ -45,6 +45,7 @@ dependencies:
   dynamic_color: any
   intl: ^0.18.1
   animate_do: ^3.0.2
+  page_animation_transition: ^1.0.0
 
 dev_dependencies:
   flutter_test:
