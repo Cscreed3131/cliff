@@ -1,6 +1,8 @@
 import 'package:cliff/screens/Merch/merch_details_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:page_animation_transition/animations/right_to_left_faded_transition.dart';
+import 'package:page_animation_transition/page_animation_transition.dart';
 
 class MerchDesigns extends StatefulWidget {
   final List<QueryDocumentSnapshot<Object?>> isForDisplayList;
@@ -55,7 +57,7 @@ class _MerchDesignsState extends State<MerchDesigns> {
                   return InkWell(
                     //navigate to merch details screen
                     onTap: () {
-                      Navigator.pushNamed(
+                      /*Navigator.pushNamed(
                         context,
                         MerchDetails.routeName,
                         arguments: {
@@ -63,7 +65,21 @@ class _MerchDesignsState extends State<MerchDesigns> {
                           'merchPrice': int.parse(merchData['productprice']),
                           'merchDesc': merchData['productdescription'],
                           'photoUrl': merchImage,
+                          'isForSale': false,
                         },
+                      );*/
+
+                      Navigator.of(context).push(
+                        PageAnimationTransition(
+                          page: MerchDetails(
+                            merchName: merchName,
+                            merchPrice: int.parse(merchData['productprice']),
+                            merchDesc: merchData['productdescription'],
+                            photoUrl: merchImage,
+                            isForSale: false,
+                          ),
+                          pageAnimationType: RightToLeftFadedTransition(),
+                        )
                       );
                     },
 

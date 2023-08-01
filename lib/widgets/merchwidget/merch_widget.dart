@@ -52,30 +52,26 @@ class MerchWidget extends StatelessWidget {
                 Merch.fromFireStore(doc.data() as Map<String, dynamic>);
             return merch.isForSale == 'false' ? true : false;
           }).toList();
-          return MediaQuery.removePadding(
-            removeTop: true,
-            context: context,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                MerchDesigns(
-                  isForDisplayList: isForDisplayList,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Text(
-                    "Up for Sale",
-                    style: TextStyle(
-                      fontFamily: 'IBMPlexMono',
-                      fontSize: font20,
-                      fontWeight: FontWeight.bold,
-                      // color: textColor,
-                    ),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              MerchDesigns(
+                isForDisplayList: isForDisplayList,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Text(
+                  "Up for Sale",
+                  style: TextStyle(
+                    fontFamily: 'IBMPlexMono',
+                    fontSize: font20,
+                    fontWeight: FontWeight.bold,
+                    // color: textColor,
                   ),
                 ),
-                MerchForSale(isForSaleList: isForSaleList),
-              ],
-            ),
+              ),
+              MerchForSale(isForSaleList: isForSaleList),
+            ],
           );
         }
       },

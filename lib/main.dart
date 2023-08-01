@@ -106,6 +106,7 @@ class MyApp extends StatelessWidget {
                 merchPrice: args?['merchPrice'] ?? 0,
                 merchDesc: args?['merchDesc'] ?? 'Default Description',
                 photoUrl: args?['photoUrl'] ?? 'Default Url',
+                isForSale: args?['isForSale'] ?? false,
               );
             },
             AddDesignsScreen.routeName: (ctx) => const AddDesignsScreen(),
