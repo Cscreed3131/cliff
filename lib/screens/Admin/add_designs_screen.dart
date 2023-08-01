@@ -24,6 +24,7 @@ class _AddDesignsScreenState extends State<AddDesignsScreen> {
   var _productPrice = '';
   var _productDescription = '';
   var _createdBy = '';
+  String? _isForSale;
 
   final _productPriceFoucsNode = FocusNode();
   final _createdByFocusNode = FocusNode();
@@ -68,6 +69,7 @@ class _AddDesignsScreenState extends State<AddDesignsScreen> {
           'productdescription': _productDescription,
           'productprice': _productPrice,
           'createdby': _createdBy,
+          'isforsale': _isForSale,
         },
       );
       return true;
@@ -191,6 +193,34 @@ class _AddDesignsScreenState extends State<AddDesignsScreen> {
                   },
                   onSaved: (value) {
                     _createdBy = value!;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    labelText: 'Is For Sale',
+                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(fontSize: 20),
+                  ),
+                  value: _isForSale,
+                  items: ['true', 'false']
+                      .map((value) => DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          ))
+                      .toList(),
+                  onChanged: (newValue) {
+                    setState(() {
+                      _isForSale = newValue!;
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please select an option';
+                    }
+                    return null;
                   },
                 ),
                 const SizedBox(

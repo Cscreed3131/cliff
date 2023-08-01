@@ -76,7 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           'email': _enteredEmail,
           'userid': FirebaseAuth.instance.currentUser!
               .uid, // storing this to easily use the fetch funtion to get the data associated with it
-          // 'user_type': 'Student',
+          // 'user_type': 'Student', // require this when i go for high level authentication and access
         },
       );
       return true;
