@@ -16,7 +16,7 @@ import 'package:cliff/screens/Merch/merch_details_screen.dart';
 import 'package:cliff/screens/Admin/create_event_screens.dart';
 import 'package:cliff/screens/Admin/admin_screen.dart';
 import 'package:cliff/screens/Auth/auth_screen.dart';
-import 'package:cliff/screens/alumni_screen.dart';
+import 'package:cliff/screens/alumni/alumni_screen.dart';
 import 'package:cliff/screens/Merch/buy_merch_screen.dart';
 import 'package:cliff/screens/Events/event_screen.dart';
 import 'package:cliff/screens/food/food_screen.dart';
