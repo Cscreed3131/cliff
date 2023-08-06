@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
+
 class EventImagePicker extends StatefulWidget {
   final void Function(File pickedImage) onPickImage;
   const EventImagePicker({super.key, required this.onPickImage});
@@ -16,7 +17,7 @@ class _EventImagePickerState extends State<EventImagePicker> {
   void _pickImage() async {
     final pickedImage = await ImagePicker().pickImage(
       source: ImageSource.gallery,
-      imageQuality: 90,
+      imageQuality: 100,
       maxWidth: 150,
     );
     if (pickedImage == null) {
@@ -46,22 +47,27 @@ class _EventImagePickerState extends State<EventImagePicker> {
             ),
             borderRadius: BorderRadius.circular(5),
           ),
-          child: _pickedImageFile == null ? Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton.icon(
-                  onPressed: _pickImage,
-                  icon: const Icon(Icons.image),
-                  label: Text(
-                    'Add Image',
-                    style: TextStyle(color: Theme.of(context).colorScheme.primary),
+          child: _pickedImageFile == null
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton.icon(
+                        onPressed: _pickImage,
+                        icon: const Icon(Icons.image),
+                        label: Text(
+                          'Add Image',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
+                      )
+                    ],
                   ),
                 )
-              ],
-            ),
-          )
-          : Image.file(_pickedImageFile!, fit: BoxFit.cover,),
+              : Image.file(
+                  _pickedImageFile!,
+                  fit: BoxFit.cover,
+                ),
         ),
       ),
     );

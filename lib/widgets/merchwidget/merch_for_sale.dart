@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:page_animation_transition/animations/right_to_left_faded_transition.dart';
 import 'package:page_animation_transition/page_animation_transition.dart';
 
-import '../merch_details_screen.dart';
+import '../../screens/Merch/merch_details_screen.dart';
 
 class MerchForSale extends StatefulWidget {
   final List<QueryDocumentSnapshot<Object?>> isForSaleList;
@@ -53,18 +53,16 @@ class _MerchForSaleState extends State<MerchForSale> {
                     },
                   );*/
 
-                  Navigator.of(context).push(
-                      PageAnimationTransition(
-                        page: MerchDetails(
-                          merchName: merchName,
-                          merchPrice: int.parse(merchData['productprice']),
-                          merchDesc: merchData['productdescription'],
-                          photoUrl: merchImage,
-                          isForSale: true,
-                        ),
-                        pageAnimationType: RightToLeftFadedTransition(),
-                      )
-                  );
+                  Navigator.of(context).push(PageAnimationTransition(
+                    page: MerchDetails(
+                      merchName: merchName,
+                      merchPrice: int.parse(merchData['productprice']),
+                      merchDesc: merchData['productdescription'],
+                      photoUrl: merchImage,
+                      isForSale: true,
+                    ),
+                    pageAnimationType: RightToLeftFadedTransition(),
+                  ));
                 },
                 child: Container(
                   decoration: BoxDecoration(

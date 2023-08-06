@@ -1,8 +1,8 @@
-import 'package:cliff/screens/Merch/widgets/merch_designs.dart';
+import 'package:cliff/widgets/merchwidget/merch_designs.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../../screens/Merch/widgets/merch_for_sale.dart';
+import 'merch_for_sale.dart';
 
 class Merch {
   final String name;
@@ -70,7 +70,9 @@ class MerchWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              MerchForSale(isForSaleList: isForSaleList),
+              MerchForSale(
+                isForSaleList: isForSaleList,
+              ),
             ],
           );
         }

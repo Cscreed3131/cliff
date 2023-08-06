@@ -44,17 +44,16 @@ class _MerchDetailsState extends State<MerchDetails> {
     void handleChipSelection(int selectedIndex) {
       setState(() {
         for (int i = 0; i < selectedSizes.length; i++) {
-           if (selectedSizes[i] == true) {
+          if (selectedSizes[i] == true) {
             selectedSizes[i] = false;
-           }else{
-             if (i == selectedIndex) {
-               selectedSizes[i] = true;
-             } else {
-               selectedSizes[i] = false;
-             }
-           }
+          } else {
+            if (i == selectedIndex) {
+              selectedSizes[i] = true;
+            } else {
+              selectedSizes[i] = false;
+            }
+          }
         }
-
       });
     }
 
@@ -129,61 +128,65 @@ class _MerchDetailsState extends State<MerchDetails> {
                             ),
                             const Spacer(),
 
-                            //like button
-                            !widget.isForSale ? FilterChip(
-                              label: const Text(
-                                '24 likes',
-                              ),
-                              showCheckmark: false,
-                              avatar: Icon(
-                                isLiked ? Icons.favorite : Icons.favorite_border,
-                                color: Colors.red,
-                              ),
-                              selected: isLiked,
-                              onSelected: (bool selected) {
-                                setState(() {
-                                  isLiked = selected;
-                                });
-                              },
-                            ) : const SizedBox(),
+                            // //like button
+                            // !widget.isForSale ? FilterChip(
+                            //   label: const Text(
+                            //     '24 likes',
+                            //   ),
+                            //   showCheckmark: false,
+                            //   avatar: Icon(
+                            //     isLiked ? Icons.favorite : Icons.favorite_border,
+                            //     color: Colors.red,
+                            //   ),
+                            //   selected: isLiked,
+                            //   onSelected: (bool selected) {
+                            //     setState(() {
+                            //       isLiked = selected;
+                            //     });
+                            //   },
+                            // ) : const SizedBox(),
                           ],
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        widget.isForSale ? const Text(
-                          "Sizes",
-                          style: TextStyle(
-                            fontFamily: 'IBMPlexMono',
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            // color: textColor,
-                          ),
-                        ) : const SizedBox(),
+                        widget.isForSale
+                            ? const Text(
+                                "Sizes",
+                                style: TextStyle(
+                                  fontFamily: 'IBMPlexMono',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  // color: textColor,
+                                ),
+                              )
+                            : const SizedBox(),
                         const SizedBox(
                           height: 10,
                         ),
-                        widget.isForSale ? Wrap(
-                          spacing: 10,
-                          children: List<Widget>.generate(
-                            sizes.length,
-                            (int index) {
-                              return ChoiceChip(
-                                label: Text(
-                                  sizes[index],
-                                  style: const TextStyle(
-                                    fontFamily: 'IBMPlexMono',
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                selected: selectedSizes[index],
-                                onSelected: (bool selected) {
-                                  handleChipSelection(index);
-                                },
-                              );
-                            },
-                          ).toList(),
-                        ) : const SizedBox(),
+                        widget.isForSale
+                            ? Wrap(
+                                spacing: 10,
+                                children: List<Widget>.generate(
+                                  sizes.length,
+                                  (int index) {
+                                    return ChoiceChip(
+                                      label: Text(
+                                        sizes[index],
+                                        style: const TextStyle(
+                                          fontFamily: 'IBMPlexMono',
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      selected: selectedSizes[index],
+                                      onSelected: (bool selected) {
+                                        handleChipSelection(index);
+                                      },
+                                    );
+                                  },
+                                ).toList(),
+                              )
+                            : const SizedBox(),
                         const SizedBox(
                           height: 10,
                         ),
@@ -214,27 +217,27 @@ class _MerchDetailsState extends State<MerchDetails> {
           ),
         ],
       ),
-      bottomNavigationBar: widget.isForSale ? BottomAppBar(
-          child: Row(
-        children: [
-          Expanded(
-            child: FilledButton(
-              child: const Text(
-                "Buy Now",
-                style: TextStyle(
-                  fontFamily: 'IBMPlexMono',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  // color: textColor,
+      bottomNavigationBar: widget.isForSale
+          ? BottomAppBar(
+              child: Row(
+              children: [
+                Expanded(
+                  child: FilledButton(
+                    child: const Text(
+                      "Buy Now",
+                      style: TextStyle(
+                        fontFamily: 'IBMPlexMono',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        // color: textColor,
+                      ),
+                    ),
+                    onPressed: () {},
                   ),
                 ),
-                onPressed: () {},
-              ),
-            ),
-          ],
-        )
-      )
-      : null,
+              ],
+            ))
+          : null,
     );
   }
 }

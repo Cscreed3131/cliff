@@ -70,6 +70,7 @@ class _AddDesignsScreenState extends State<AddDesignsScreen> {
           'productprice': _productPrice,
           'createdby': _createdBy,
           'isforsale': _isForSale,
+          'likes': [],
         },
       );
       return true;

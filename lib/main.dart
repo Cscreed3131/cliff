@@ -20,7 +20,6 @@ import 'package:cliff/screens/alumni/alumni_screen.dart';
 import 'package:cliff/screens/Merch/buy_merch_screen.dart';
 import 'package:cliff/screens/Events/event_screen.dart';
 import 'package:cliff/screens/food/food_screen.dart';
-// import 'package:cliff/screens/Home/home_screen.dart';
 import 'package:cliff/screens/Auth/singup_screen.dart';
 import 'package:cliff/screens/memories.dart';
 import 'package:cliff/screens/polls.dart';

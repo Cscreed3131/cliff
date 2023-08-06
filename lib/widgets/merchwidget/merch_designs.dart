@@ -1,5 +1,6 @@
 import 'package:cliff/screens/Merch/merch_details_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:page_animation_transition/animations/right_to_left_faded_transition.dart';
 import 'package:page_animation_transition/page_animation_transition.dart';
@@ -16,7 +17,115 @@ class MerchDesigns extends StatefulWidget {
 }
 
 class _MerchDesignsState extends State<MerchDesigns> {
-  bool isLiked = false;
+  late List<bool> isLikedList;
+
+  @override
+  void initState() {
+    super.initState();
+    isLikedList =
+        List.generate(widget.isForDisplayList.length, (index) => false);
+    loadLikes();
+  }
+
+  String currentUser = FirebaseAuth.instance.currentUser!.uid;
+  Future<void> loadLikes() async {
+    for (int i = 0; i < widget.isForDisplayList.length; i++) {
+      DocumentSnapshot documentSnapshot = widget.isForDisplayList[i];
+      DocumentReference docRef = documentSnapshot.reference;
+      DocumentSnapshot merchSnapshot = await docRef.get();
+      var likes = merchSnapshot['likes'] as List?;
+      if (likes != null && likes.contains(currentUser)) {
+        setState(() {
+          isLikedList[i] = true;
+        });
+      }
+    }
+  }
+
+  // Future<void> _updateUserLikedProducts(String userId, String productId) async {
+  //   final userQuery = await FirebaseFirestore.instance
+  //       .collection("users")
+  //       .where("userid", isEqualTo: userId)
+  //       .get();
+
+  //   for (var docSnapshot in userQuery.docs) {
+  //     await FirebaseFirestore.instance
+  //         .collection('users')
+  //         .doc(docSnapshot.id)
+  //         .update({
+  //       'likedproducts': FieldValue.arrayUnion([productId]),
+  //     });
+  //   }
+  // }
+
+  Future<void> _updateUserLikedProducts(
+      String userId, String productId, bool isLiked) async {
+    final userQuery = await FirebaseFirestore.instance
+        .collection("users")
+        .where("userid", isEqualTo: userId)
+        .get();
+
+    for (var docSnapshot in userQuery.docs) {
+      DocumentReference userDocRef =
+          FirebaseFirestore.instance.collection('users').doc(docSnapshot.id);
+
+      DocumentSnapshot userSnapshot = await userDocRef.get();
+      if (userSnapshot.exists) {
+        Map<String, dynamic> data = userSnapshot.data() as Map<String, dynamic>;
+        if (data.containsKey('likedproducts')) {
+          List<String> likedProducts = userSnapshot['likedproducts'] != null
+              ? List<String>.from(userSnapshot['likedproducts'])
+              : [];
+
+          if (isLiked) {
+            if (!likedProducts.contains(productId)) {
+              likedProducts.add(productId);
+              await userDocRef.update({'likedproducts': likedProducts});
+            }
+          } else {
+            if (likedProducts.contains(productId)) {
+              likedProducts.remove(productId);
+              await userDocRef.update({'likedproducts': likedProducts});
+            }
+          }
+        } else {
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(docSnapshot.id)
+              .update({
+            'likedproducts': FieldValue.arrayUnion([productId]),
+          });
+        }
+      }
+    }
+  }
+
+  Future<void> toggleLike(int index) async {
+    String currentUser = FirebaseAuth.instance.currentUser!.uid;
+    DocumentSnapshot documentSnapshot = widget.isForDisplayList[index];
+    DocumentReference docRef = documentSnapshot.reference;
+    DocumentSnapshot merchSnapshot = await docRef.get();
+    var likes = merchSnapshot['likes'] as List?;
+
+    bool isLiked = likes != null && likes.contains(currentUser);
+
+    // Update merchandise document's likes field
+    if (isLiked) {
+      likes.remove(currentUser);
+    } else {
+      likes ??= [];
+      likes.add(currentUser);
+    }
+    await docRef.set({'likes': likes}, SetOptions(merge: true));
+
+    // Update user's document with liked product ID and isLiked value
+    await _updateUserLikedProducts(currentUser, docRef.id, !isLiked);
+
+    setState(() {
+      isLikedList[index] = !isLikedList[index];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -57,42 +166,16 @@ class _MerchDesignsState extends State<MerchDesigns> {
                   return InkWell(
                     //navigate to merch details screen
                     onTap: () {
-                      /*Navigator.pushNamed(
-                        context,
-                        MerchDetails.routeName,
-                        arguments: {
-                          'merchName': merchName,
-                          'merchPrice': int.parse(merchData['productprice']),
-                          'merchDesc': merchData['productdescription'],
-                          'photoUrl': merchImage,
-                          'isForSale': false,
-                        },
-                      );*/
-
-                      Navigator.of(context).push(
-                        PageAnimationTransition(
-                          page: MerchDetails(
-                            merchName: merchName,
-                            merchPrice: int.parse(merchData['productprice']),
-                            merchDesc: merchData['productdescription'],
-                            photoUrl: merchImage,
-                            isForSale: false,
-                          ),
-                          pageAnimationType: RightToLeftFadedTransition(),
-                        )
-                      );
-                    },
-
-                    onDoubleTap: () {
-                      if (isLiked) {
-                        setState(() {
-                          isLiked = false;
-                        });
-                      } else {
-                        setState(() {
-                          isLiked = true;
-                        });
-                      }
+                      Navigator.of(context).push(PageAnimationTransition(
+                        page: MerchDetails(
+                          merchName: merchName,
+                          merchPrice: int.parse(merchData['productprice']),
+                          merchDesc: merchData['productdescription'],
+                          photoUrl: merchImage,
+                          isForSale: false,
+                        ),
+                        pageAnimationType: RightToLeftFadedTransition(),
+                      ));
                     },
 
                     child: Container(
@@ -143,23 +226,16 @@ class _MerchDesignsState extends State<MerchDesigns> {
                           ),
                           FilledButton.tonalIcon(
                             onPressed: () {
-                              if (isLiked) {
-                                setState(() {
-                                  isLiked = false;
-                                });
-                              } else {
-                                setState(() {
-                                  isLiked = true;
-                                });
-                              }
+                              toggleLike(index);
                             },
-                            icon: isLiked
+                            icon: isLikedList[index]
                                 ? const Icon(
                                     Icons.favorite,
                                     color: Colors.redAccent,
                                   )
                                 : const Icon(Icons.favorite_border),
-                            label: const Text('24 Likes'),
+                            label: Text(
+                                '${widget.isForDisplayList[index]['likes'].length} Likes'),
                           )
                         ],
                       ),

@@ -79,9 +79,9 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
         });
       }
     } catch (e) {
-      print('Error registering for the event: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Registration failed. Please try again later.')),
+        const SnackBar(
+            content: Text('Registration failed. Please try again later.')),
       );
     }
   }
@@ -194,27 +194,21 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
         setState(() {
           isRegistered = true;
         });
-        FirebaseFirestore.instance
+
+        final userQuery = await FirebaseFirestore.instance
             .collection("users")
-            .where("userid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-            .get()
-            .then(
-          (querySnapshot) {
-            for (var docSnapshot in querySnapshot.docs) {
-              FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(docSnapshot.id)
-                  .update(
-                {
-                  'events_registered': FieldValue.arrayUnion(
-                    [eventName],
-                  ),
-                },
-              );
-            }
-          },
-          onError: (e) => print("Error completing: $e"),
-        );
+            .where("userid", isEqualTo: currentUser)
+            .get();
+
+        for (var docSnapshot in userQuery.docs) {
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(docSnapshot.id)
+              .update({
+            'events_registered': FieldValue.arrayUnion([eventName]),
+          });
+        }
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Registration successful!'),
@@ -233,8 +227,6 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
       );
     }
   }
-
-  void check() {}
 
   void countRegisteredStudents() async {
     int? eventCount = await eventsRefrerence
@@ -325,7 +317,57 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                   child: !isRegistered
                       ? FilledButton.icon(
                           onPressed: () {
-                            _registerForEvent();
+                            try {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text(
+                                      'Alert',
+                                    ),
+                                    content: const Text(
+                                      'Are you sure you want to Register for this event. Once you register you wont be able to unregister.',
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        child: const Text(
+                                          'Yes',
+                                          style: TextStyle(
+                                            fontFamily: 'IBMPlexMono',
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          _registerForEvent();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: const Text(
+                                          'No',
+                                          style: TextStyle(
+                                            fontFamily: 'IBMPlexMono',
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        onPressed: () async {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } on Exception catch (_) {
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  behavior: SnackBarBehavior.floating,
+                                  content:
+                                      Text("Registration was not successful"),
+                                ),
+                              );
+                            }
                           },
                           icon: const Icon(Icons.add),
                           label: const Text('Register'),
