@@ -1,19 +1,24 @@
 class UserDetails {
-  final String name;
-  final String sic;
-  final String branch;
-  final String email;
-  final String year;
-  final int? phoneNumber;
-  final String imageUrl;
+  String name;
+  String sic;
+  String branch;
+  String email;
+  String year;
+  int? phoneNumber;
+  String imageUrl;
+  List likedProducts;
+  List registeredEvents;
+  List<String> cart;
 
-  UserDetails({
-    required this.name,
-    required this.sic,
-    required this.branch,
-    required this.email,
-    required this.year,
-    required this.phoneNumber,
-    required this.imageUrl,
-  });
+  UserDetails(
+      this.name,
+      this.sic,
+      this.branch,
+      this.email,
+      this.year,
+      this.phoneNumber,
+      this.imageUrl,
+      this.likedProducts,
+      this.registeredEvents,
+      this.cart);
 }

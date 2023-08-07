@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MerchDetails extends StatefulWidget {
@@ -26,11 +28,99 @@ class _MerchDetailsState extends State<MerchDetails> {
   List<String> sizes = ['S', 'M', 'L', 'XL', 'XXL'];
   late List<bool> selectedSizes;
   bool isLiked = false;
+  bool isItemInCart = false;
 
   @override
   void initState() {
     super.initState();
     selectedSizes = List<bool>.generate(sizes.length, (index) => false);
+    checkIfItemInCart();
+  }
+
+  Future<void> checkIfItemInCart() async {
+    String currentUser = FirebaseAuth.instance.currentUser!.uid;
+    final userQuery = await FirebaseFirestore.instance
+        .collection("users")
+        .where("userid", isEqualTo: currentUser)
+        .get();
+
+    for (var docSnapshot in userQuery.docs) {
+      Map<String, dynamic> data = docSnapshot.data();
+      if (data.containsKey('cart')) {
+        Map<String, dynamic> userCart = data['cart'] as Map<String, dynamic>;
+        if (userCart.containsKey(widget.merchName)) {
+          setState(() {
+            isItemInCart = true;
+          });
+          return; // No need to continue checking once we find the item
+        }
+      }
+    }
+
+    setState(() {
+      isItemInCart = false;
+    });
+  }
+
+  Future<void> _updateUserCart(
+    String userId,
+    String productId,
+    int quantity,
+    String selectedSize,
+  ) async {
+    final userQuery = await FirebaseFirestore.instance
+        .collection("users")
+        .where("userid", isEqualTo: userId)
+        .get();
+
+    for (var docSnapshot in userQuery.docs) {
+      DocumentReference userDocRef =
+          FirebaseFirestore.instance.collection('users').doc(docSnapshot.id);
+
+      DocumentSnapshot userSnapshot = await userDocRef.get();
+      if (userSnapshot.exists) {
+        Map<String, dynamic> data = userSnapshot.data() as Map<String, dynamic>;
+        if (data.containsKey('cart')) {
+          Map<String, dynamic> userCart =
+              userSnapshot['cart'] as Map<String, dynamic>;
+
+          if (userCart.containsKey(productId)) {
+            // Update existing item's quantity in cart
+            int currentQuantity = userCart[productId]['quantity'] as int;
+            int newQuantity = currentQuantity + quantity;
+            userCart[productId]['quantity'] = newQuantity;
+            userCart[productId]['size'] = selectedSize;
+          } else {
+            // Add new item to cart
+            userCart[productId] = {
+              'quantity': quantity,
+              'size': selectedSize,
+            };
+          }
+
+          await userDocRef.update({'cart': userCart});
+        } else {
+          // Initialize cart and add the first item
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(docSnapshot.id)
+              .set({
+            'cart': {
+              productId: {
+                'quantity': quantity,
+                'size': selectedSize,
+              }
+            },
+          }, SetOptions(merge: true));
+        }
+      }
+    }
+  }
+
+  Future<void> addToCart(
+      String productId, int quantity, String selectedSize) async {
+    String currentUser = FirebaseAuth.instance.currentUser!.uid;
+    await _updateUserCart(currentUser, productId, quantity, selectedSize);
   }
 
   @override
@@ -60,9 +150,9 @@ class _MerchDetailsState extends State<MerchDetails> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          const SliverAppBar(
+          SliverAppBar(
             pinned: true,
-            title: Text(
+            title: const Text(
               "Merch Details",
               style: TextStyle(
                 fontFamily: 'IBMPlexMono',
@@ -70,6 +160,14 @@ class _MerchDetailsState extends State<MerchDetails> {
                 // color: textColor,
               ),
             ),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  null;
+                },
+                icon: const Icon(Icons.shopping_cart),
+              ),
+            ],
           ),
           SliverToBoxAdapter(
             child: SingleChildScrollView(
@@ -220,23 +318,73 @@ class _MerchDetailsState extends State<MerchDetails> {
       bottomNavigationBar: widget.isForSale
           ? BottomAppBar(
               child: Row(
-              children: [
-                Expanded(
-                  child: FilledButton(
-                    child: const Text(
-                      "Buy Now",
-                      style: TextStyle(
-                        fontFamily: 'IBMPlexMono',
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        // color: textColor,
+                children: [
+                  Expanded(
+                    child: FilledButton(
+                      child: const Text(
+                        "Buy Now",
+                        style: TextStyle(
+                          fontFamily: 'IBMPlexMono',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          // color: textColor,
+                        ),
                       ),
+                      onPressed: () {},
                     ),
-                    onPressed: () {},
                   ),
-                ),
-              ],
-            ))
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: FilledButton(
+                      child: Text(
+                        isItemInCart ? "in Cart" : "Add to cart",
+                        style: const TextStyle(
+                          fontFamily: 'IBMPlexMono',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          // color: textColor,
+                        ),
+                      ),
+                      onPressed: () async {
+                        int selectedSizeIndex = selectedSizes.indexOf(true);
+
+                        if (selectedSizeIndex != -1) {
+                          String selectedSize = sizes[selectedSizeIndex];
+
+                          await addToCart(widget.merchName, 1, selectedSize);
+
+                          setState(() {
+                            isItemInCart =
+                                true; // Update the state to indicate the item was added
+                          });
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Select a Size'),
+                                content: const Text(
+                                    'Please select a size before adding to cart.'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            )
           : null,
     );
   }

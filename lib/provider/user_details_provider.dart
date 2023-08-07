@@ -3,28 +3,29 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/userdetails.dart';
 
-final userDataProvider = FutureProvider((ref) async {
-  try {
-    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get();
-    if (documentSnapshot.exists) {
+final realTimeUserDataProvider = StreamProvider<UserDetails?>((ref) {
+  final userDoc = FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid);
+
+  return userDoc.snapshots().map((snapshot) {
+    if (snapshot.exists) {
       Map<String, dynamic> userDataMap =
-          documentSnapshot.data()! as Map<String, dynamic>;
+          snapshot.data() as Map<String, dynamic>;
       return UserDetails(
-        name: userDataMap['name'],
-        sic: userDataMap['sic'],
-        branch: userDataMap['branch'],
-        email: userDataMap['email'],
-        year: userDataMap['year'],
-        phoneNumber: int.parse(userDataMap['phoneNumber']),
-        imageUrl: userDataMap['image_url'] ?? '',
+        userDataMap['name'],
+        userDataMap['sic'],
+        userDataMap['branch'],
+        userDataMap['email'],
+        userDataMap['year'],
+        int.parse(userDataMap['phoneNumber']),
+        userDataMap['image_url'] ?? '',
+        userDataMap['likedproducts'] ?? [],
+        userDataMap['events_registered'] ?? [],
+        List<String>.from(userDataMap['cart'] ?? []),
       );
     } else {
-      throw Exception('User data not found');
+      return null;
     }
-  } catch (e) {
-    throw Exception('Error fetching user data: $e');
-  }
+  });
 });
