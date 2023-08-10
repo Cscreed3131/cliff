@@ -60,6 +60,7 @@ class _MerchForSaleState extends State<MerchForSale> {
                       merchDesc: merchData['productdescription'],
                       photoUrl: merchImage,
                       isForSale: true,
+                      merchId: merchData.id.toString(),
                     ),
                     pageAnimationType: RightToLeftFadedTransition(),
                   ));

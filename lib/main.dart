@@ -1,8 +1,3 @@
-import 'package:cliff/screens/Admin/add_designs_screen.dart';
-import 'package:cliff/screens/Events/event_details_screen.dart';
-import 'package:cliff/screens/Home/registered_events_screen.dart';
-import 'package:cliff/screens/food/food_details_page.dart';
-import 'package:cliff/screens/history/history_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,6 +18,12 @@ import 'package:cliff/screens/food/food_screen.dart';
 import 'package:cliff/screens/Auth/singup_screen.dart';
 import 'package:cliff/screens/memories.dart';
 import 'package:cliff/screens/polls.dart';
+import 'package:cliff/screens/Admin/add_designs_screen.dart';
+import 'package:cliff/screens/Events/event_details_screen.dart';
+import 'package:cliff/screens/Home/registered_events_screen.dart';
+import 'package:cliff/screens/Merch/cart_screen.dart';
+import 'package:cliff/screens/food/food_details_page.dart';
+import 'package:cliff/screens/history/history_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -96,6 +97,8 @@ class MyApp extends StatelessWidget {
             AdminScreen.routeName: (ctx) => const AdminScreen(),
             CreateEventScreen.routeName: (ctx) => const CreateEventScreen(),
             HomePage.routeName: (ctx) => const HomePage(),
+            AddDesignsScreen.routeName: (ctx) => const AddDesignsScreen(),
+            CartScreen.routeName: (ctx) => const CartScreen(),
             MerchDetails.routeName: (ctx) {
               final Map<String, dynamic>? args = ModalRoute.of(ctx)!
                   .settings
@@ -106,9 +109,9 @@ class MyApp extends StatelessWidget {
                 merchDesc: args?['merchDesc'] ?? 'Default Description',
                 photoUrl: args?['photoUrl'] ?? 'Default Url',
                 isForSale: args?['isForSale'] ?? false,
+                merchId: args?['merchId'] ?? 'Default id',
               );
             },
-            AddDesignsScreen.routeName: (ctx) => const AddDesignsScreen(),
             EventDetailsScreen.routeName: (ctx) {
               final Map<String, dynamic>? args = ModalRoute.of(ctx)!
                   .settings

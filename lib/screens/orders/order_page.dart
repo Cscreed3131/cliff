@@ -5,7 +5,6 @@ import 'merch_orders.dart';
 
 class OrderPage extends StatefulWidget {
   const OrderPage({super.key});
-
   @override
   State<OrderPage> createState() => _OrderPageState();
 }
@@ -36,7 +35,6 @@ class _OrderPageState extends State<OrderPage> {
               ),
             ),
           ),
-
           SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,6 +1,10 @@
+import 'package:cliff/screens/Merch/cart_screen.dart';
+import 'package:cliff/widgets/merchwidget/cart_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:page_animation_transition/animations/right_to_left_faded_transition.dart';
+import 'package:page_animation_transition/page_animation_transition.dart';
 
 class MerchDetails extends StatefulWidget {
   static const routeName = '/merch-details';
@@ -10,7 +14,7 @@ class MerchDetails extends StatefulWidget {
   final String merchDesc;
   final String photoUrl;
   final bool isForSale;
-
+  final String merchId;
   const MerchDetails({
     super.key,
     required this.merchName,
@@ -18,6 +22,7 @@ class MerchDetails extends StatefulWidget {
     required this.merchDesc,
     required this.photoUrl,
     required this.isForSale,
+    required this.merchId,
   });
 
   @override
@@ -33,8 +38,11 @@ class _MerchDetailsState extends State<MerchDetails> {
   @override
   void initState() {
     super.initState();
-    selectedSizes = List<bool>.generate(sizes.length, (index) => false);
     checkIfItemInCart();
+    selectedSizes = List<bool>.generate(
+      sizes.length,
+      (index) => false,
+    );
   }
 
   Future<void> checkIfItemInCart() async {
@@ -48,7 +56,7 @@ class _MerchDetailsState extends State<MerchDetails> {
       Map<String, dynamic> data = docSnapshot.data();
       if (data.containsKey('cart')) {
         Map<String, dynamic> userCart = data['cart'] as Map<String, dynamic>;
-        if (userCart.containsKey(widget.merchName)) {
+        if (userCart.containsKey(widget.merchId)) {
           setState(() {
             isItemInCart = true;
           });
@@ -67,6 +75,7 @@ class _MerchDetailsState extends State<MerchDetails> {
     String productId,
     int quantity,
     String selectedSize,
+    String name,
   ) async {
     final userQuery = await FirebaseFirestore.instance
         .collection("users")
@@ -85,14 +94,20 @@ class _MerchDetailsState extends State<MerchDetails> {
               userSnapshot['cart'] as Map<String, dynamic>;
 
           if (userCart.containsKey(productId)) {
-            // Update existing item's quantity in cart
-            int currentQuantity = userCart[productId]['quantity'] as int;
-            int newQuantity = currentQuantity + quantity;
-            userCart[productId]['quantity'] = newQuantity;
-            userCart[productId]['size'] = selectedSize;
+            // Item is already in the cart, show snackbar
+            ScaffoldMessenger.of(context).clearSnackBars();
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Item is already in the cart'),
+                duration: Duration(milliseconds: 600),
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+            return;
           } else {
             // Add new item to cart
             userCart[productId] = {
+              'name': name,
               'quantity': quantity,
               'size': selectedSize,
             };
@@ -107,6 +122,7 @@ class _MerchDetailsState extends State<MerchDetails> {
               .set({
             'cart': {
               productId: {
+                'name': name,
                 'quantity': quantity,
                 'size': selectedSize,
               }
@@ -118,9 +134,19 @@ class _MerchDetailsState extends State<MerchDetails> {
   }
 
   Future<void> addToCart(
-      String productId, int quantity, String selectedSize) async {
+    String productId,
+    int quantity,
+    String selectedSize,
+    String name,
+  ) async {
     String currentUser = FirebaseAuth.instance.currentUser!.uid;
-    await _updateUserCart(currentUser, productId, quantity, selectedSize);
+    await _updateUserCart(
+      currentUser,
+      productId,
+      quantity,
+      selectedSize,
+      name,
+    );
   }
 
   @override
@@ -321,25 +347,8 @@ class _MerchDetailsState extends State<MerchDetails> {
                 children: [
                   Expanded(
                     child: FilledButton(
-                      child: const Text(
-                        "Buy Now",
-                        style: TextStyle(
-                          fontFamily: 'IBMPlexMono',
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          // color: textColor,
-                        ),
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: FilledButton(
                       child: Text(
-                        isItemInCart ? "in Cart" : "Add to cart",
+                        isItemInCart ? "Go to cart" : "Add to cart",
                         style: const TextStyle(
                           fontFamily: 'IBMPlexMono',
                           fontSize: 20,
@@ -348,38 +357,60 @@ class _MerchDetailsState extends State<MerchDetails> {
                         ),
                       ),
                       onPressed: () async {
-                        int selectedSizeIndex = selectedSizes.indexOf(true);
+                        if (!isItemInCart) {
+                          int selectedSizeIndex = selectedSizes.indexOf(true);
+                          if (selectedSizeIndex != -1) {
+                            String selectedSize = sizes[selectedSizeIndex];
 
-                        if (selectedSizeIndex != -1) {
-                          String selectedSize = sizes[selectedSizeIndex];
+                            await addToCart(
+                              widget.merchId,
+                              1,
+                              selectedSize,
+                              widget.merchName,
+                            );
 
-                          await addToCart(widget.merchName, 1, selectedSize);
-
-                          setState(() {
-                            isItemInCart =
-                                true; // Update the state to indicate the item was added
-                          });
+                            setState(() {
+                              isItemInCart =
+                                  true; // Update the state to indicate the item was added
+                            });
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Please select a size before adding to cart.',
+                                ),
+                                duration: Duration(
+                                  seconds: 2,
+                                ), // Adjust the duration as needed
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
+                          }
                         } else {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: const Text('Select a Size'),
-                                content: const Text(
-                                    'Please select a size before adding to cart.'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('OK'),
-                                  ),
-                                ],
-                              );
-                            },
+                          Navigator.of(context).push(
+                            PageAnimationTransition(
+                              page: const CartScreen(),
+                              pageAnimationType: RightToLeftFadedTransition(),
+                            ),
                           );
                         }
                       },
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: FilledButton(
+                      child: const Text(
+                        "Buy Now",
+                        style: TextStyle(
+                          fontFamily: 'IBMPlexMono',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onPressed: () {},
                     ),
                   ),
                 ],
