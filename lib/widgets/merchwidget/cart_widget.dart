@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../global_varibales.dart';
+import 'package:cliff/global_varibales.dart';
 
 class CartItem {
   final String name;
   final int quantity;
   final String size;
   final String productId;
+  final int price;
+  final String photoUrl;
 
   CartItem({
     required this.name,
     required this.quantity,
     required this.size,
     required this.productId,
+    required this.price,
+    required this.photoUrl,
   });
 }
 
@@ -24,6 +28,7 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+  List<CartItem> cartItems = [];
   Stream<List<CartItem>> getCartDataStream(String userId) {
     return FirebaseFirestore.instance
         .collection('users')
@@ -43,10 +48,32 @@ class _CartState extends State<Cart> {
           name: productData['name'],
           quantity: productData['quantity'],
           size: productData['size'],
+          price: productData['price'],
+          photoUrl: productData['photoUrl'],
         ));
       });
 
       return cartItems;
+    });
+  }
+
+  double calculateTotalPrice(List<CartItem> cartItems) {
+    double totalPrice = 0;
+    for (var item in cartItems) {
+      totalPrice += item.price * item.quantity;
+    }
+    return totalPrice;
+  }
+
+  void addItemToCart(CartItem item) {
+    setState(() {
+      cartItems.add(item);
+    });
+  }
+
+  void removeItemFromCart(String productId) {
+    setState(() {
+      cartItems.removeWhere((item) => item.productId == productId);
     });
   }
 
@@ -86,80 +113,94 @@ class _CartState extends State<Cart> {
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            return Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 10),
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondaryContainer,
-                                border: Border.all(
-                                  color: Theme.of(context).colorScheme.outline,
-                                ),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 10),
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondaryContainer,
+                                    border: Border.all(
+                                      color:
+                                          Theme.of(context).colorScheme.outline,
+                                    ),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        height: screenHeight * 0.1,
-                                        width: screenWidth * 0.25,
-                                        decoration: BoxDecoration(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondaryContainer,
-                                          border: Border.all(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .outline,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          image: const DecorationImage(
-                                            image: AssetImage(
-                                                'assets/images/merch.png'),
-                                            fit: BoxFit.fitWidth,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Row(
                                         children: [
-                                          Text(
-                                            cartItems[index].name,
-                                            style: TextStyle(
-                                              fontFamily: 'IBMPlexMono',
-                                              fontSize: font20,
-                                              fontWeight: FontWeight.bold,
+                                          Container(
+                                            height: screenHeight * 0.1,
+                                            width: screenWidth * 0.25,
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondaryContainer,
+                                              border: Border.all(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .outline,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                    cartItems[index].photoUrl),
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                           ),
-                                          Text(
-                                            'Price: ₹1000',
-                                            // 'Price: ₹${cartItems[index].price}',
-                                            style: TextStyle(
-                                              fontSize: font20,
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                cartItems[index].name,
+                                                style: TextStyle(
+                                                  fontFamily: 'IBMPlexMono',
+                                                  fontSize: font20,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Text(
+                                                'Size: ${cartItems[index].size}',
+                                                style: TextStyle(
+                                                  fontSize: font20 * 0.85,
+                                                  fontFamily: 'IBMPlexMono',
+                                                ),
+                                              ),
+                                              Text(
+                                                'Price: ₹${cartItems[index].price}',
+                                                style: TextStyle(
+                                                  fontSize: font20 * 0.85,
+                                                  fontFamily: 'IBMPlexMono',
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const Spacer(),
+                                          IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(
+                                              Icons.delete_rounded,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      const Spacer(),
-                                      IconButton(
-                                        onPressed: () {},
-                                        icon: const Icon(
-                                          Icons.delete_rounded,
-                                        ),
-                                      ),
                                     ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             );
                           },
                         ),

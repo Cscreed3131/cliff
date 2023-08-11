@@ -12,6 +12,8 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final font20 = screenHeight * 0.02;
     return Scaffold(
       drawer: const AppDrawer(),
       body: CustomScrollView(
@@ -33,11 +35,23 @@ class _CartScreenState extends State<CartScreen> {
               ),
             ),
           ),
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Cart(),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Text(
+                    "Cart total:",
+                    style: TextStyle(
+                      fontFamily: 'IBMPlexMono',
+                      fontSize: font20 * 0.85,
+                      fontWeight: FontWeight.bold,
+                      // color: textColor,
+                    ),
+                  ),
+                ),
+                const Cart(),
               ],
             ),
           )

@@ -1,5 +1,4 @@
 import 'package:cliff/screens/Merch/cart_screen.dart';
-import 'package:cliff/widgets/merchwidget/cart_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -70,13 +69,8 @@ class _MerchDetailsState extends State<MerchDetails> {
     });
   }
 
-  Future<void> _updateUserCart(
-    String userId,
-    String productId,
-    int quantity,
-    String selectedSize,
-    String name,
-  ) async {
+  Future<void> _updateUserCart(String userId, String productId, int quantity,
+      String selectedSize, String name, int price, String photoUrl) async {
     final userQuery = await FirebaseFirestore.instance
         .collection("users")
         .where("userid", isEqualTo: userId)
@@ -110,6 +104,8 @@ class _MerchDetailsState extends State<MerchDetails> {
               'name': name,
               'quantity': quantity,
               'size': selectedSize,
+              'price': price,
+              'photoUrl': photoUrl,
             };
           }
 
@@ -125,6 +121,8 @@ class _MerchDetailsState extends State<MerchDetails> {
                 'name': name,
                 'quantity': quantity,
                 'size': selectedSize,
+                'price': price,
+                'photoUrl': photoUrl,
               }
             },
           }, SetOptions(merge: true));
@@ -138,6 +136,8 @@ class _MerchDetailsState extends State<MerchDetails> {
     int quantity,
     String selectedSize,
     String name,
+    int price,
+    String photoUrl,
   ) async {
     String currentUser = FirebaseAuth.instance.currentUser!.uid;
     await _updateUserCart(
@@ -146,6 +146,8 @@ class _MerchDetailsState extends State<MerchDetails> {
       quantity,
       selectedSize,
       name,
+      price,
+      photoUrl,
     );
   }
 
@@ -158,19 +160,21 @@ class _MerchDetailsState extends State<MerchDetails> {
     //List<String> sizes = ['S', 'M', 'L', 'XL', 'XXL'];
     //List<bool> selectedSizes = [false, false, false, false, false];
     void handleChipSelection(int selectedIndex) {
-      setState(() {
-        for (int i = 0; i < selectedSizes.length; i++) {
-          if (selectedSizes[i] == true) {
-            selectedSizes[i] = false;
-          } else {
-            if (i == selectedIndex) {
-              selectedSizes[i] = true;
-            } else {
+      setState(
+        () {
+          for (int i = 0; i < selectedSizes.length; i++) {
+            if (selectedSizes[i] == true) {
               selectedSizes[i] = false;
+            } else {
+              if (i == selectedIndex) {
+                selectedSizes[i] = true;
+              } else {
+                selectedSizes[i] = false;
+              }
             }
           }
-        }
-      });
+        },
+      );
     }
 
     return Scaffold(
@@ -367,6 +371,8 @@ class _MerchDetailsState extends State<MerchDetails> {
                               1,
                               selectedSize,
                               widget.merchName,
+                              widget.merchPrice,
+                              widget.photoUrl,
                             );
 
                             setState(() {
