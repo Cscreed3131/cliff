@@ -1,3 +1,4 @@
+import 'package:cliff/widgets/merchwidget/car_icon_widget.dart';
 import 'package:cliff/widgets/merchwidget/merch_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -29,13 +30,8 @@ class BuyMerchScreen extends StatelessWidget {
 
             // added the icon button for cart will have to add a page to route it to.
             // should also contain a badge to display the number of items selected
-            actions: [
-              IconButton(
-                onPressed: () {
-                  null;
-                },
-                icon: const Icon(Icons.shopping_cart),
-              ),
+            actions: const [
+              CartIconWidget(),
             ],
           ),
           SliverToBoxAdapter(

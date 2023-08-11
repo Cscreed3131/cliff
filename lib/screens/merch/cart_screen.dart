@@ -1,4 +1,3 @@
-import 'package:cliff/widgets/homescreenwidget/app_drawer.dart';
 import 'package:cliff/widgets/merchwidget/cart_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -12,19 +11,19 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final font20 = screenHeight * 0.02;
+    // final screenHeight = MediaQuery.of(context).size.height;
+    // final font20 = screenHeight * 0.02;
     return Scaffold(
-      drawer: const AppDrawer(),
+      // drawer: const AppDrawer(),
       body: CustomScrollView(
         slivers: [
           SliverAppBar.large(
             leading: Builder(
               builder: (context) => IconButton(
                 icon: const Icon(
-                  Icons.menu,
+                  Icons.arrow_back_rounded,
                 ),
-                onPressed: () => Scaffold.of(context).openDrawer(),
+                onPressed: () => Navigator.of(context).pop(),
               ),
             ),
             title: const Text(
@@ -35,23 +34,11 @@ class _CartScreenState extends State<CartScreen> {
               ),
             ),
           ),
-          SliverToBoxAdapter(
+          const SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Text(
-                    "Cart total:",
-                    style: TextStyle(
-                      fontFamily: 'IBMPlexMono',
-                      fontSize: font20 * 0.85,
-                      fontWeight: FontWeight.bold,
-                      // color: textColor,
-                    ),
-                  ),
-                ),
-                const Cart(),
+                Cart(),
               ],
             ),
           )

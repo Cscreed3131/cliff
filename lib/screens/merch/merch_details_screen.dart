@@ -1,4 +1,5 @@
 import 'package:cliff/screens/Merch/cart_screen.dart';
+import 'package:cliff/widgets/merchwidget/car_icon_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -180,9 +181,9 @@ class _MerchDetailsState extends State<MerchDetails> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
+          const SliverAppBar(
             pinned: true,
-            title: const Text(
+            title: Text(
               "Merch Details",
               style: TextStyle(
                 fontFamily: 'IBMPlexMono',
@@ -191,12 +192,19 @@ class _MerchDetailsState extends State<MerchDetails> {
               ),
             ),
             actions: [
-              IconButton(
-                onPressed: () {
-                  null;
-                },
-                icon: const Icon(Icons.shopping_cart),
-              ),
+              // IconButton(
+              //   onPressed: () {
+              //     Navigator.of(context).push(
+              //       PageAnimationTransition(
+              //         page: const CartScreen(),
+              //         pageAnimationType: RightToLeftFadedTransition(),
+              //       ),
+              //     );
+              //   },
+              //   icon: const Icon(Icons.shopping_cart),
+              // ),
+
+              CartIconWidget(),
             ],
           ),
           SliverToBoxAdapter(
