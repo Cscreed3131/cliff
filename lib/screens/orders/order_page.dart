@@ -15,7 +15,7 @@ class _OrderPageState extends State<OrderPage> {
     final screenHeight = MediaQuery.of(context).size.height;
     final font20 = screenHeight * 0.02;
     return Scaffold(
-      drawer: const AppDrawer(),
+      drawer: AppDrawer(),
       body: CustomScrollView(
         slivers: [
           SliverAppBar.large(

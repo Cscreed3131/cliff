@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import '../models/userdetails.dart';
 
@@ -45,3 +46,30 @@ class UserDataProvider {
     return userId;
   }
 }
+
+final userDataProvider1 = StreamProvider.autoDispose((ref) {
+  final User? user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .where('userid', isEqualTo: user.uid)
+        .snapshots();
+  }
+  return Stream.value(null);
+});
+
+// WidgetRef? ref;
+// final userSnapshot = ref!.watch(userDataProvider1);
+// void check() {
+//   userSnapshot.when(
+//       data: (data) {
+//         if (data != null && data.docs.isNotEmpty) {
+//           final userData = data.docs[0].data();
+
+//           // Print the data to the console
+//           print('User Data: $userData[""]');
+//         }
+//       },
+//       error: (Object error, StackTrace stackTrace) {},
+//       loading: () {});
+// }

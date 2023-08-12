@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final font40 = screenWidth * 0.08;
 
     return Scaffold(
-      drawer: const AppDrawer(),
+      drawer: AppDrawer(),
       body: CustomScrollView(
         slivers: [
           SliverAppBar.large(

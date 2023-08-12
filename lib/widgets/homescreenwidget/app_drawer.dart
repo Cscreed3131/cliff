@@ -1,3 +1,4 @@
+import 'package:cliff/provider/user_data_provider.dart';
 import 'package:cliff/widgets/homescreenwidget/bottom_navigation_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
@@ -6,20 +7,38 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:cliff/screens/Auth/auth_screen.dart';
 import 'package:cliff/screens/Admin/admin_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // import 'package:cliff/models/userdetails.dart';
 // use cached Image type and structure this
-class AppDrawer extends StatefulWidget {
-  const AppDrawer({super.key});
+class AppDrawer extends ConsumerWidget {
+  AppDrawer({super.key});
 
-  @override
-  State<AppDrawer> createState() => _AppDrawerState();
-}
-
-class _AppDrawerState extends State<AppDrawer> {
   final currentUser = FirebaseAuth.instance.currentUser!.uid;
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userSnapshot = ref.watch(userDataProvider1);
+    Future<List<dynamic>> checkRole() async {
+      List<dynamic> roles = [];
+      final snapshot = userSnapshot;
+
+      snapshot.when(
+        data: (data) {
+          if (data != null && data.docs.isNotEmpty) {
+            final userData = data.docs[0].data();
+            roles = userData['user_role'];
+          }
+        },
+        error: (Object error, StackTrace stackTrace) {},
+        loading: () {},
+      );
+
+      return roles;
+    }
+
+    final rolesFuture = checkRole();
+
     return Drawer(
       elevation: 10,
       width: 250,
@@ -32,7 +51,7 @@ class _AppDrawerState extends State<AppDrawer> {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.secondaryContainer,
                 borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
+                  bottomLeft: Radius.circular(0),
                   bottomRight: Radius.circular(20),
                 ),
               ),
@@ -103,18 +122,34 @@ class _AppDrawerState extends State<AppDrawer> {
                 Navigator.of(context).pushReplacementNamed(HomePage.routeName);
               },
             ),
-            ListTile(
-              leading: const Icon(
-                Icons.admin_panel_settings_rounded,
-              ),
-              title: const Text(
-                'Adminstrator',
-                style: TextStyle(
-                  fontSize: 15,
-                ),
-              ),
-              onTap: () {
-                Navigator.of(context).pushNamed(AdminScreen.routeName);
+            FutureBuilder<List<dynamic>>(
+              future: rolesFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Container();
+                }
+
+                final roles = snapshot.data ?? [];
+                final isAdmin = roles.contains('admin');
+
+                if (isAdmin) {
+                  return ListTile(
+                    leading: const Icon(
+                      Icons.admin_panel_settings_rounded,
+                    ),
+                    title: const Text(
+                      'Administrator',
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed(AdminScreen.routeName);
+                    },
+                  );
+                }
+
+                return Container(); // Return an empty container if not admin
               },
             ),
             ListTile(

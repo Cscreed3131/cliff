@@ -94,7 +94,7 @@ class _RegisteredEventsScreenState extends State<RegisteredEventsScreen> {
                                 ),
                               ),
                               title: Text(
-                                arrayData.first,
+                                arrayData.first ?? '',
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 style: TextStyle(
