@@ -3,7 +3,6 @@ import 'package:cliff/widgets/homescreenwidget/home_grid_view.dart';
 import 'package:cliff/widgets/homescreenwidget/image_slider.dart';
 import 'package:flutter/material.dart';
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -32,13 +31,29 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             title: Row(
               children: [
-                CircleAvatar(
-                  radius: screenWidth * 0.05,
-                  backgroundImage: const AssetImage('assets/images/logo.png'),
+                // CircleAvatar(
+                //   radius: screenWidth * 0.10,
+                //   foregroundImage: const AssetImage('assets/cliff.png',),
+
+                // ),
+                Container(
+                  width: 70,
+                  height: 70,
+                  // margin: const EdgeInsets.only(top: 30, bottom: 10),
+                  padding: const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: AssetImage(
+                        'assets/cliff.png',
+                      ), // should change in the future
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+                // const SizedBox(
+                //   width: 10,
+                // ),
                 Text(
                   'Cliff',
                   style: TextStyle(
