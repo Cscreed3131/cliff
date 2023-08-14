@@ -30,6 +30,7 @@ final realTimeUserDataProvider =
           likedProducts: userData['likedproducts'],
           registeredEvents: userData['events_registered'],
           cart: userData['cart'],
+          roles: userData['user_role'],
         );
         yield userDetails;
       }

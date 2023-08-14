@@ -8,27 +8,19 @@ import 'package:cliff/screens/Auth/auth_screen.dart';
 import 'package:cliff/screens/Admin/admin_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// import 'package:cliff/models/userdetails.dart';
-// use cached Image type and structure this
 class AppDrawer extends ConsumerWidget {
-  AppDrawer({super.key});
-
-  final currentUser = FirebaseAuth.instance.currentUser!.uid;
-
+  const AppDrawer({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userDetails = ref.watch(realTimeUserDataProvider);
-    final userSnapshot = ref.watch(userDataProvider1);
+
     Future<List<dynamic>> checkRole() async {
       List<dynamic> roles = [];
-      final snapshot = userSnapshot;
+      final snapshot = userDetails;
 
       snapshot.when(
         data: (data) {
-          if (data != null && data.docs.isNotEmpty) {
-            final userData = data.docs[0].data();
-            roles = userData['user_role'];
-          }
+          roles = data.roles;
         },
         error: (Object error, StackTrace stackTrace) {},
         loading: () {},
@@ -38,7 +30,6 @@ class AppDrawer extends ConsumerWidget {
     }
 
     final rolesFuture = checkRole();
-    // userDetails.when(data: , error: error, loading: loading);
     return Drawer(
       elevation: 10,
       width: 250,
@@ -64,8 +55,8 @@ class AppDrawer extends ConsumerWidget {
                     return Column(
                       children: <Widget>[
                         Container(
-                          width: 100,
-                          height: 100,
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          height: MediaQuery.of(context).size.height * 0.1,
                           margin: const EdgeInsets.only(top: 30, bottom: 10),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
@@ -82,9 +73,21 @@ class AppDrawer extends ConsumerWidget {
                           ),
                         ),
                         Text(
-                          data.sic,
-                          style: const TextStyle(fontSize: 16),
+                          data.sic.toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            letterSpacing: 1,
+                          ),
                         ),
+                        if (data.roles.contains('admin'))
+                          const Chip(
+                            label: Text(
+                              'Adminstrator',
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            // backgroundColor: Colors.teal,
+                            elevation: 20,
+                          ),
                       ],
                     );
                   },
