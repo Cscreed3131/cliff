@@ -2,34 +2,40 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import '../models/userdetails.dart';
+import '../models/userdetails.dart';
 
-// final realTimeUserDataProvider = StreamProvider<UserDetails?>((ref) {
-//   final userDoc = FirebaseFirestore.instance
-//       .collection('users')
-//       .doc(FirebaseAuth.instance.currentUser!.uid);
+final realTimeUserDataProvider =
+    StreamProvider.autoDispose<UserDetails>((ref) async* {
+  ref.keepAlive();
+  final auth = FirebaseAuth.instance;
+  await for (final user in auth.authStateChanges()) {
+    if (user != null) {
+      // User is logged in, fetch user details
+      var userDoc = FirebaseFirestore.instance
+          .collection('users')
+          .where('userid', isEqualTo: user.uid)
+          .snapshots();
 
-//   return userDoc.snapshots().map((snapshot) {
-//     if (snapshot.exists) {
-//       Map<String, dynamic> userDataMap =
-//           snapshot.data() as Map<String, dynamic>;
-//       return UserDetails(
-//         userDataMap['name'],
-//         userDataMap['sic'],
-//         userDataMap['branch'],
-//         userDataMap['email'],
-//         userDataMap['year'],
-//         int.parse(userDataMap['phoneNumber']),
-//         userDataMap['image_url'] ?? '',
-//         userDataMap['likedproducts'] ?? [],
-//         userDataMap['events_registered'] ?? [],
-//         List<String>.from(userDataMap['cart'] ?? []),
-//       );
-//     } else {
-//       return null;
-//     }
-//   });
-// });
+      final data = await userDoc.first;
+      if (data.docs.isNotEmpty) {
+        final userData = data.docs.first.data();
+        final userDetails = UserDetails(
+          name: userData['name'],
+          sic: userData['sic'],
+          branch: userData['branch'],
+          email: userData['email'],
+          year: userData['year'],
+          phoneNumber: int.parse(userData['phoneNumber']),
+          imageUrl: userData['image_url'],
+          likedProducts: userData['likedproducts'],
+          registeredEvents: userData['events_registered'],
+          cart: userData['cart'],
+        );
+        yield userDetails;
+      }
+    }
+  }
+});
 
 class UserDataProvider {
   Future<String> getUserData() async {
@@ -73,3 +79,13 @@ final userDataProvider1 = StreamProvider.autoDispose((ref) {
 //       error: (Object error, StackTrace stackTrace) {},
 //       loading: () {});
 // }
+// name: userData['name'],
+//         sic: userData['sic'],
+//         branch: userData['branch'],
+//         email: userData['email'],
+//         year: userData['year'],
+//         phoneNumber: int.parse(userData['phoneNumber']),
+//         imageUrl: userData['image_url'],
+//         likedProducts: userData['likedproducts'],
+//         registeredEvents: userData['events_registered'],
+//         cart: userData['cart'],

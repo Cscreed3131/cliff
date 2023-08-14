@@ -1,6 +1,5 @@
 import 'package:cliff/provider/user_data_provider.dart';
 import 'package:cliff/widgets/homescreenwidget/bottom_navigation_bar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,6 +17,7 @@ class AppDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userDetails = ref.watch(realTimeUserDataProvider);
     final userSnapshot = ref.watch(userDataProvider1);
     Future<List<dynamic>> checkRole() async {
       List<dynamic> roles = [];
@@ -38,7 +38,7 @@ class AppDrawer extends ConsumerWidget {
     }
 
     final rolesFuture = checkRole();
-
+    // userDetails.when(data: , error: error, loading: loading);
     return Drawer(
       elevation: 10,
       width: 250,
@@ -56,56 +56,45 @@ class AppDrawer extends ConsumerWidget {
                 ),
               ),
               child: Center(
-                child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection('users')
-                        .where('userid', isEqualTo: currentUser)
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
-                      }
-
-                      if (snapshot.hasError ||
-                          !snapshot.hasData ||
-                          snapshot.data!.docs.isEmpty) {
-                        return const Text('Error loading user data');
-                      }
-
-                      // Extract the data from the first document in the QuerySnapshot
-                      final userDataMap = snapshot.data!.docs.first.data()
-                          as Map<String, dynamic>;
-                      final userName = userDataMap['name'];
-                      final userSic = userDataMap['sic'];
-                      final userImageUrl = userDataMap['image_url'];
-
-                      return Column(
-                        children: <Widget>[
-                          Container(
-                            width: 100,
-                            height: 100,
-                            margin: const EdgeInsets.only(top: 30, bottom: 10),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: NetworkImage(userImageUrl),
-                                fit: BoxFit.cover,
-                              ),
+                child: userDetails.when(
+                  data: (data) {
+                    // String userName = data.name;
+                    // String userSic = data.sic;
+                    // String userImageUrl = data.imageUrl;
+                    return Column(
+                      children: <Widget>[
+                        Container(
+                          width: 100,
+                          height: 100,
+                          margin: const EdgeInsets.only(top: 30, bottom: 10),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: NetworkImage(data.imageUrl),
+                              fit: BoxFit.cover,
                             ),
                           ),
-                          Text(
-                            userName,
-                            style: const TextStyle(
-                              fontSize: 22,
-                            ),
+                        ),
+                        Text(
+                          data.name,
+                          style: const TextStyle(
+                            fontSize: 22,
                           ),
-                          Text(
-                            userSic,
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      );
-                    }),
+                        ),
+                        Text(
+                          data.sic,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    );
+                  },
+                  error: (error, stackTrace) {
+                    return const Text('cant load file');
+                  },
+                  loading: () {
+                    return const CircularProgressIndicator();
+                  },
+                ),
               ),
             ),
             ListTile(
@@ -211,6 +200,7 @@ class AppDrawer extends ConsumerWidget {
                             onPressed: () async {
                               Navigator.of(context).pop();
                               await FirebaseAuth.instance.signOut();
+                              ref.invalidate(realTimeUserDataProvider);
                               await Navigator.of(context)
                                   .popAndPushNamed(AuthScreen.routeName);
                             },

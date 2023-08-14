@@ -1,5 +1,7 @@
 import 'package:cliff/models/cart.dart';
+import 'package:cliff/provider/user_data_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CartDataProvider {
   Stream<List<CartItem>> getCartDataStream(String userId) {
@@ -30,3 +32,18 @@ class CartDataProvider {
     });
   }
 }
+
+final cartDataStreamProvider =
+    StreamProvider.autoDispose<List<CartItem>>((ref) async* {
+  final userDetails = ref.watch(realTimeUserDataProvider);
+  if (userDetails.hasError) {
+    print(userDetails.error);
+  }
+  if (userDetails.isLoading) {
+    print('loading userdetails.dart');
+  }
+  if (userDetails.hasValue) {
+    String userId = userDetails.value!.sic;
+    yield* CartDataProvider().getCartDataStream(userId);
+  }
+});
