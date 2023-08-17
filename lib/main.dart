@@ -117,6 +117,7 @@ class MyApp extends StatelessWidget {
                   .settings
                   .arguments as Map<String, dynamic>?;
               return EventDetailsScreen(
+                eventId: args?['eventId'] ?? '',
                 title: args?['title'] ?? 'Default Title',
                 eventCode: args?['eventCode'] ?? 'Default Event Code',
                 eventDescription:
@@ -127,6 +128,7 @@ class MyApp extends StatelessWidget {
                 eventStartDateTime:
                     args?['eventFinishStartTime'] ?? 'Default Date and Time',
                 eventVenue: args?['eventVenue'] ?? 'Default Event Venue',
+                club: args?['club'] ?? 'Default Club',
                 clubMembersic1: args?['clubmembersic1'] ?? 'Default Sic',
                 clubMembersic2: args?['clubmembersic2'] ?? 'Default Sic',
               );

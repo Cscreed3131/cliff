@@ -26,7 +26,11 @@ class _MerchDesignsState extends ConsumerState<MerchDesigns> {
     super.initState();
     isLikedList =
         List.generate(widget.isForDisplayList.length, (index) => false);
-    loadLikes('21bcsg08');
+    ref.read(realTimeUserDataProvider).value!.sic;
+    loadLikes(ref
+        .read(realTimeUserDataProvider)
+        .value!
+        .sic); // user name provider se lena hai
   }
 
   Future<void> loadLikes(String currentUser) async {

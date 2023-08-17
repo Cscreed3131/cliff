@@ -32,6 +32,7 @@ class CreateEventScreenState extends State<CreateEventScreen> {
   var _eventVenue = '';
   var _clubMemberSic1 = '';
   var _clubMemberSic2 = '';
+  var _club = '';
 
   final _eventCodefocusNode = FocusNode();
   final _eventDescriptionfocusNode = FocusNode();
@@ -81,6 +82,8 @@ class CreateEventScreenState extends State<CreateEventScreen> {
           'eventstartdatetime': _startDateTime,
           'eventfinishdatetime': _finishDateTime,
           'eventdescription': _eventDescirption,
+          'registered_participants': [],
+          'club': _club,
         },
       );
       return true;
@@ -250,28 +253,58 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                TextFormField(
+                DropdownButtonFormField<String>(
                   decoration: const InputDecoration(
-                    labelText: 'Event Code',
+                    labelText: 'Club',
+                    labelStyle: TextStyle(fontSize: 20),
                     border: OutlineInputBorder(),
-                    labelStyle: TextStyle(
-                      fontSize: 20,
-                    ),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
                   ),
-                  focusNode: _eventCodefocusNode,
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (_) {
-                    FocusScope.of(context).requestFocus();
+                  value: _club.isNotEmpty ? _club : null,
+                  items: const [
+                    DropdownMenuItem<String>(
+                      value: 'Switch',
+                      child: Text('Switch'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'SQC',
+                      child: Text('SQC'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'CSS',
+                      child: Text('CSS'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'YFS',
+                      child: Text('YFS'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'Silicon Green Club',
+                      child: Text('Silicon Green Club'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'Silicon Robitics Club',
+                      child: Text('Silicon Robitics Club'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'Silicon Circuit Club',
+                      child: Text('Silicon Circuit Club'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'Meta Academics Cell',
+                      child: Text('Meta Academics Cell'),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      _club = value!;
+                    });
                   },
                   validator: (value) {
-                    // must be unique event code use firebase get command
-                    if (value!.isEmpty) {
-                      return 'Please enter The event Code.';
+                    if (value == null || value.isEmpty) {
+                      return 'Please select a club';
                     }
                     return null;
-                  },
-                  onSaved: (value) {
-                    _eventCode = value!;
                   },
                 ),
                 const SizedBox(

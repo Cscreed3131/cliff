@@ -2,7 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cliff/models/merch.dart';
 
-final merchandiseStreamProvider = StreamProvider<List<Merchandise>>((ref) {
+final merchandiseStreamProvider =
+    StreamProvider.autoDispose<List<Merchandise>>((ref) {
   return FirebaseFirestore.instance
       .collection('merchandise')
       .snapshots()

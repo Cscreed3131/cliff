@@ -1,33 +1,15 @@
-import 'package:cliff/provider/user_data_provider.dart';
+// import 'package:cliff/provider/user_data_provider.dart';
+// import 'package:cliff/provider/event_details_provider.dart';
 import 'package:cliff/screens/Home/registered_events_screen.dart';
 import 'package:cliff/widgets/eventswidget/event_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class EventsScreen extends ConsumerWidget {
+class EventsScreen extends StatelessWidget {
   const EventsScreen({super.key});
   static const routeName = '/events-screens';
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final userSnapshot = ref.watch(userDataProvider1);
-
-    void check() {
-      userSnapshot.when(
-          data: (data) {
-            if (data != null && data.docs.isNotEmpty) {
-              final userData = data.docs[0].data();
-
-              // Print the data to the console
-              print('User Data: ${userData['events_registered']}');
-            }
-          },
-          error: (Object error, StackTrace stackTrace) {},
-          loading: () {});
-    }
-
-    // final font20 = screenHeight * 0.02;
-
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -48,9 +30,11 @@ class EventsScreen extends ConsumerWidget {
               ),
             ),
             actions: [
+              // this will be a icon button. which has a batch in the top to show
+              //the number of events the user is currentlt registered in.
+              // basically this should change into widget which will be made today.
               IconButton(
                 onPressed: () {
-                  check();
                   Navigator.of(context)
                       .pushNamed(RegisteredEventsScreen.routeName);
                 },

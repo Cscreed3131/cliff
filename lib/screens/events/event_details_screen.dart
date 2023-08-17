@@ -1,22 +1,22 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cliff/screens/Events/widgets/count_registered_participants.dart';
+import 'package:cliff/screens/Events/widgets/get_members_details.dart';
+import 'package:cliff/screens/Events/widgets/registeration_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class EventDetailsScreen extends StatefulWidget {
   static const String routeName = '/event-details';
-
+  final String eventId;
   final String title;
   final String eventCode;
   final String eventVenue;
   final String eventImage;
-  final Timestamp eventStartDateTime;
-  final Timestamp eventFinishDateTime;
+  final DateTime eventStartDateTime;
+  final DateTime eventFinishDateTime;
   final String eventDescription;
+  final String club;
   final String clubMembersic1;
   final String clubMembersic2;
-  // final int registeredStudents;
 
   const EventDetailsScreen({
     super.key,
@@ -27,9 +27,10 @@ class EventDetailsScreen extends StatefulWidget {
     required this.eventFinishDateTime,
     required this.eventStartDateTime,
     required this.eventDescription,
+    required this.club,
     required this.clubMembersic1,
     required this.clubMembersic2,
-    // required this.registeredStudents,
+    required this.eventId,
   });
 
   @override
@@ -37,212 +38,12 @@ class EventDetailsScreen extends StatefulWidget {
 }
 
 class _EventDetailsScreenState extends State<EventDetailsScreen> {
-  String? clubMemberName1;
-  String? clubMemberName2;
-  String? clubMemberPhoneNumber1;
-  String? clubMemberPhoneNumber2;
-  String? clubMemberYear1;
-  String? clubMemberYear2;
-  String? clubMemberImage1;
-  String? clubMemberImage2;
   int? numberOfRegisteredStudent;
   String? currentUserSic;
   bool isRegistered = false;
-
-  @override
-  void initState() {
-    _getMemberdetails2();
-    _getMemberdetails1();
-    countRegisteredStudents();
-    checkRegistration();
-    super.initState();
-  }
-
-  void checkRegistration() async {
-    String currentUser = FirebaseAuth.instance.currentUser!.uid;
-    String eventName = widget.title;
-    try {
-      // Check if the user is already registered for this event
-      QuerySnapshot querySnapshot = await eventsRefrerence
-          .doc(eventName)
-          .collection('registered_students')
-          .where('user_id', isEqualTo: currentUser)
-          .get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        setState(() {
-          isRegistered = true;
-        });
-      } else {
-        setState(() {
-          isRegistered = false;
-        });
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Registration failed. Please try again later.')),
-      );
-    }
-  }
-
-  void _getMemberdetails1() async {
-    try {
-      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(widget.clubMembersic1)
-          .get();
-      if (documentSnapshot.exists) {
-        Map<String, dynamic> clubMember =
-            documentSnapshot.data()! as Map<String, dynamic>;
-        setState(() {
-          clubMemberName1 = clubMember['name'];
-          clubMemberPhoneNumber1 = clubMember['phoneNumber'];
-          clubMemberYear1 = clubMember['year'];
-          clubMemberImage1 = clubMember['image_url'];
-        });
-      } else {
-        // Handle the case when user data is not found
-        setState(() {
-          clubMemberName1 = 'User not found';
-          clubMemberPhoneNumber1 = '';
-          clubMemberYear1 = '';
-          clubMemberImage1 = '';
-        });
-      }
-    } catch (e) {
-      // Handle any exceptions that occur during data fetching
-      setState(() {
-        clubMemberName1 = 'Error fetching data';
-        clubMemberPhoneNumber1 = '';
-        clubMemberYear1 = '';
-        clubMemberImage1 = '';
-      });
-    }
-  }
-
-  void _getMemberdetails2() async {
-    try {
-      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(widget.clubMembersic2)
-          .get();
-      if (documentSnapshot.exists) {
-        Map<String, dynamic> clubMember =
-            documentSnapshot.data()! as Map<String, dynamic>;
-        setState(() {
-          clubMemberName2 = clubMember['name'];
-          clubMemberPhoneNumber2 = clubMember['phoneNumber'];
-          clubMemberYear2 = clubMember['year'];
-          clubMemberImage2 = clubMember['image_url'];
-        });
-      } else {
-        // Handle the case when user data is not found
-        setState(() {
-          clubMemberName2 = 'User not found';
-          clubMemberPhoneNumber2 = '';
-          clubMemberYear2 = '';
-          clubMemberImage2 = '';
-        });
-      }
-    } catch (e) {
-      // Handle any exceptions that occur during data fetching
-      setState(() {
-        clubMemberName2 = 'Error fetching data';
-        clubMemberPhoneNumber2 = '';
-        clubMemberYear2 = '';
-        clubMemberImage2 = '';
-      });
-    }
-  }
-
-  CollectionReference eventsRefrerence =
-      FirebaseFirestore.instance.collection('events');
-
-  void _registerForEvent() async {
-    String currentUser = FirebaseAuth.instance.currentUser!.uid;
-    String eventName = widget.title;
-
-    try {
-      // Check if the user is already registered for this event
-      QuerySnapshot querySnapshot = await eventsRefrerence
-          .doc(eventName)
-          .collection('registered_students')
-          .where('user_id', isEqualTo: currentUser)
-          .get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        setState(() {
-          isRegistered = true;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('You are already registered for this event.'),
-          ),
-        );
-      } else {
-        // User is not already registered, proceed with registration
-        await eventsRefrerence
-            .doc(eventName)
-            .collection('registered_students')
-            .add({
-          'user_id': currentUser,
-          'timestamp': FieldValue.serverTimestamp(),
-        });
-
-        countRegisteredStudents();
-        setState(() {
-          isRegistered = true;
-        });
-
-        final userQuery = await FirebaseFirestore.instance
-            .collection("users")
-            .where("userid", isEqualTo: currentUser)
-            .get();
-
-        for (var docSnapshot in userQuery.docs) {
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(docSnapshot.id)
-              .update({
-            'events_registered': FieldValue.arrayUnion([eventName]),
-          });
-        }
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Registration successful!'),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
-    } catch (e) {
-      print('Error registering for the event: $e');
-      ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Registration failed. Please try again later.'),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-    }
-  }
-
-  void countRegisteredStudents() async {
-    int? eventCount = await eventsRefrerence
-        .doc(widget.title)
-        .collection('registered_students')
-        .get()
-        .then((querySnapshot) => querySnapshot.size);
-    setState(() {
-      numberOfRegisteredStudent = eventCount ?? 0;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
     final font30 = screenHeight * 0.04;
     final font24 = screenHeight * 0.02;
     final titleStyle = TextStyle(
@@ -252,7 +53,6 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
     );
 
     return Scaffold(
-      // might remove this app bar if it look good
       appBar: AppBar(
         title: const Text('Event Details'),
       ),
@@ -288,97 +88,14 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            //FilledButton for number of registered people
             Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Chip(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    avatar: const Icon(Icons.people),
-                    label: Text(
-                      '$numberOfRegisteredStudent',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      ),
-                    ),
-                    backgroundColor:
-                        Theme.of(context).colorScheme.secondaryContainer,
-                    side: BorderSide.none,
-                  ),
-                ),
+                // FilledButton for number of registered people
+                CountRegisteredParticipants(eventId: widget.eventId),
                 const Spacer(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: !isRegistered
-                      ? FilledButton.icon(
-                          onPressed: () {
-                            try {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: const Text(
-                                      'Alert',
-                                    ),
-                                    content: const Text(
-                                      'Are you sure you want to Register for this event. Once you register you wont be able to unregister.',
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        child: const Text(
-                                          'Yes',
-                                          style: TextStyle(
-                                            fontFamily: 'IBMPlexMono',
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                          _registerForEvent();
-                                        },
-                                      ),
-                                      TextButton(
-                                        child: const Text(
-                                          'No',
-                                          style: TextStyle(
-                                            fontFamily: 'IBMPlexMono',
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                        onPressed: () async {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            } on Exception catch (_) {
-                              ScaffoldMessenger.of(context).clearSnackBars();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  behavior: SnackBarBehavior.floating,
-                                  content:
-                                      Text("Registration was not successful"),
-                                ),
-                              );
-                            }
-                          },
-                          icon: const Icon(Icons.add),
-                          label: const Text('Register'),
-                        )
-                      : OutlinedButton.icon(
-                          onPressed: () {
-                            _registerForEvent();
-                          },
-                          icon: const Icon(Icons.done),
-                          label: const Text('Registered'),
-                        ),
+                  child: RegisterationButton(eventId: widget.eventId),
                 ),
               ],
             ),
@@ -395,26 +112,27 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                   width: MediaQuery.of(context).size.width / 2,
                   child: Card(
                     child: ListTile(
-                      //copy code to clipboard
-                      onTap: () async {
-                        await Clipboard.setData(
-                            ClipboardData(text: widget.eventCode));
-                        ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Code copied to clipboard'),
-                          ),
-                        );
-                      },
+                      // copy code to clipboard
+                      // onTap: () async {
+                      //   await Clipboard.setData(
+                      //       ClipboardData(text: widget.eventCode));
+                      //   ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                      //   ScaffoldMessenger.of(context).showSnackBar(
+                      //     const SnackBar(
+                      //       content: Text('Code copied to clipboard'),
+                      //     ),
+                      //   );
+                      // },
 
                       leading: IconButton.filledTonal(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.code,
-                            color: Theme.of(context).colorScheme.primary,
-                          )),
-                      title: const Text('Code'),
-                      subtitle: Text(widget.eventCode),
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.diversity_2_rounded,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      title: const Text('Club'),
+                      subtitle: Text(widget.club),
                       titleTextStyle: titleStyle,
                     ),
                   ),
@@ -457,7 +175,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                       ),
                       subtitle: Text(
                         DateFormat('dd-MM-yy').format(
-                          widget.eventStartDateTime.toDate(),
+                          widget.eventStartDateTime,
                         ),
                       ),
                       titleTextStyle: titleStyle,
@@ -480,7 +198,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                       ),
                       subtitle: Text(
                         DateFormat('hh:mm a').format(
-                          widget.eventStartDateTime.toDate(),
+                          widget.eventStartDateTime,
                         ),
                       ),
                       titleTextStyle: titleStyle,
@@ -509,7 +227,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                       ),
                       subtitle: Text(
                         DateFormat('dd-MM-yy').format(
-                          widget.eventFinishDateTime.toDate(),
+                          widget.eventFinishDateTime,
                         ),
                       ),
                       titleTextStyle: titleStyle,
@@ -532,7 +250,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                       ),
                       subtitle: Text(
                         DateFormat('hh:mm a').format(
-                          widget.eventFinishDateTime.toDate(),
+                          widget.eventFinishDateTime,
                         ),
                       ),
                       titleTextStyle: titleStyle,
@@ -583,42 +301,8 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               ),
               child: Column(
                 children: [
-                  ListTile(
-                    leading: CircleAvatar(
-                      radius: screenWidth * 0.065,
-                      backgroundImage: NetworkImage(
-                        '$clubMemberImage1',
-                      ),
-                    ),
-                    isThreeLine: true,
-                    title: Text(
-                      '$clubMemberName1',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    subtitle: Text(
-                      'Year: $clubMemberYear1\nPhone Number: $clubMemberPhoneNumber1',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    titleTextStyle: titleStyle,
-                  ),
-                  ListTile(
-                    leading: CircleAvatar(
-                      radius: screenWidth * 0.065,
-                      backgroundImage: NetworkImage(
-                        '$clubMemberImage2',
-                      ),
-                    ),
-                    isThreeLine: true,
-                    title: Text(
-                      '$clubMemberName2',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    subtitle: Text(
-                      'Year: $clubMemberYear2 \nPhone Number: $clubMemberPhoneNumber2',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    titleTextStyle: titleStyle,
-                  ),
+                  GetMemberDetails(sic: widget.clubMembersic1),
+                  GetMemberDetails(sic: widget.clubMembersic2),
                 ],
               ),
             ),

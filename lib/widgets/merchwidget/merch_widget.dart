@@ -6,23 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'merch_for_sale.dart';
 
-// class Merch {
-//   final String name;
-//   final String isForSale;
-
-//   Merch({
-//     required this.name,
-//     required this.isForSale,
-//   });
-
-//   factory Merch.fromFireStore(Map<String, dynamic> data) {
-//     return Merch(
-//       name: data['productname'],
-//       isForSale: data['isforsale'],
-//     );
-//   }
-// }
-
 class MerchWidget extends ConsumerWidget {
   const MerchWidget({super.key});
 
@@ -64,6 +47,7 @@ class MerchWidget extends ConsumerWidget {
       );
     }, error: (error, stackTrace) {
       print(error.toString());
+      print(stackTrace);
       return const Text('Unable to load Merchandise');
     }, loading: () {
       return const CircularProgressIndicator();

@@ -1,5 +1,5 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cliff/models/event.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -13,155 +13,162 @@ class OnGoingEventWidget extends StatelessWidget {
     required this.font24,
   });
 
-  final List<QueryDocumentSnapshot<Object?>> ongoingEvents;
+  final List<Event> ongoingEvents;
   final double screenHeight;
   final double font24;
   final start = 300;
 
   @override
   Widget build(BuildContext context) {
-    return ongoingEvents.isNotEmpty ?  GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: ongoingEvents.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 1,
-        childAspectRatio: 1.41,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-      ),
-      itemBuilder: (context, index) {
-        final eventData = ongoingEvents[index];
-        Timestamp eventStartDateTimeStamp = eventData['eventstartdatetime'];
-        String eventStartDate =
-            DateFormat('dd-MM-yyyy').format(eventStartDateTimeStamp.toDate());
+    return ongoingEvents.isNotEmpty
+        ? GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: ongoingEvents.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 1,
+              childAspectRatio: 1.41,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+            ),
+            itemBuilder: (context, index) {
+              final eventData = ongoingEvents[index];
+              String eventStartDate =
+                  DateFormat('dd-MM-yyyy').format(eventData.eventStartDateTime);
 
-        return FadeIn(
-          duration: Duration(milliseconds: start * (index+1)),
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EventDetailsScreen(
-                    title: eventData['eventname'],
-                    eventCode: eventData['eventcode'],
-                    eventDescription: eventData['eventdescription'],
-                    eventFinishDateTime: eventData['eventfinishdatetime'],
-                    eventImage: eventData['image_url'],
-                    eventStartDateTime: eventData['eventstartdatetime'],
-                    eventVenue: eventData['eventVenue'],
-                    clubMembersic1: eventData['clubmembersic1'],
-                    clubMembersic2: eventData['clubmembersic2'],
-                    // registeredStudents: eventData['registeredStudents'],
-                  ),
-                ),
-              );
-            },
-            child: Card(
-              elevation: 5,
-              shape:
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-              shadowColor: Colors.transparent,
-              color:
-                  Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
-              child: Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    borderRadius: BorderRadius.circular(15)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: screenHeight * 0.165,
-                      width: double.infinity,
-                      margin: const EdgeInsets.all(10),
+              return FadeIn(
+                duration: Duration(milliseconds: start * (index + 1)),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EventDetailsScreen(
+                          eventId: eventData.eventId,
+                          title: eventData.eventName,
+                          eventCode: eventData.eventCode,
+                          eventDescription: eventData.eventDescription,
+                          eventFinishDateTime: eventData.eventFinishDateTime,
+                          eventImage: eventData.imageUrl,
+                          eventStartDateTime: eventData.eventStartDateTime,
+                          eventVenue: eventData.eventVenue,
+                          club: eventData.club,
+                          clubMembersic1: eventData.clubMemberSic1,
+                          clubMembersic2: eventData.clubMemberSic2,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    shadowColor: Colors.transparent,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primaryContainer
+                        .withOpacity(0.5),
+                    child: Container(
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.secondaryContainer,
-                        border: Border.all(
-                          color: Theme.of(context).colorScheme.outline,
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            eventData['image_url'],
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.primary,
                           ),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: Text(
-                        eventData['eventname'],
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: font24,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
-                          // color: textColor,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Row(
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(
-                            Icons.group,
-                            size: 18,
+                          Container(
+                            height: screenHeight * 0.165,
+                            width: double.infinity,
+                            margin: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .secondaryContainer,
+                              border: Border.all(
+                                color: Theme.of(context).colorScheme.outline,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  eventData.imageUrl,
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                           const SizedBox(
-                            width: 5,
+                            height: 10,
                           ),
-                          CircleAvatar(
-                            radius: 3,
-                            backgroundColor:
-                                Theme.of(context).colorScheme.outline,
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 8.0),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
                             child: Text(
-                              "200 Registered", // should be dynamic
+                              eventData.eventName,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: font24,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer,
                                 // color: textColor,
                               ),
                             ),
                           ),
-                          const Spacer(),
-                          Chip(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.diversity_2_rounded,
+                                  size: 18,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                CircleAvatar(
+                                  radius: 3,
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.outline,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Text(
+                                    eventData.club, // should be dynamic
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      // color: textColor,
+                                    ),
+                                  ),
+                                ),
+                                const Spacer(),
+                                Chip(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  label: Text(
+                                    eventStartDate,
+                                  ),
+                                  avatar: const Icon(Icons.timelapse_rounded),
+                                )
+                              ],
                             ),
-                            label: Text(
-                              eventStartDate,
-                            ),
-                            avatar: const Icon(Icons.timelapse_rounded),
-                          )
+                          ),
                         ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              );
+            },
+          )
+        : const Center(
+            child: Text(
+              "No Ongoing Events",
+              style: TextStyle(height: 2.5),
             ),
-          ),
-        );
-      },
-    ) : const Center(
-      child: Text(
-        "No Ongoing Events",
-        style: TextStyle(
-          height: 2.5
-        ),
-      ),
-    );
+          );
   }
 }
