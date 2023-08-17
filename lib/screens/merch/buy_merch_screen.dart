@@ -28,11 +28,10 @@ class BuyMerchScreen extends StatelessWidget {
               ),
             ),
 
-            // added the icon button for cart will have to add a page to route it to.
-            // should also contain a badge to display the number of items selected
             actions: const [
               CartIconWidget(),
-            ],
+            ], // icon button which has a badge in it to show the quantity of
+            //items in cart which updates upon adding and delete items from cart
           ),
           SliverToBoxAdapter(
             child: SingleChildScrollView(

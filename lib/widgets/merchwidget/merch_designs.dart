@@ -1,22 +1,24 @@
+import 'package:cliff/models/merch.dart';
+import 'package:cliff/provider/user_data_provider.dart';
 import 'package:cliff/screens/Merch/merch_details_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_animation_transition/animations/right_to_left_faded_transition.dart';
 import 'package:page_animation_transition/page_animation_transition.dart';
 
-class MerchDesigns extends StatefulWidget {
-  final List<QueryDocumentSnapshot<Object?>> isForDisplayList;
+class MerchDesigns extends ConsumerStatefulWidget {
+  final List<Merchandise> isForDisplayList;
   const MerchDesigns({
     super.key,
     required this.isForDisplayList,
   });
 
   @override
-  State<MerchDesigns> createState() => _MerchDesignsState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _MerchDesignsState();
 }
 
-class _MerchDesignsState extends State<MerchDesigns> {
+class _MerchDesignsState extends ConsumerState<MerchDesigns> {
   late List<bool> isLikedList;
 
   @override
@@ -24,39 +26,20 @@ class _MerchDesignsState extends State<MerchDesigns> {
     super.initState();
     isLikedList =
         List.generate(widget.isForDisplayList.length, (index) => false);
-    loadLikes();
+    loadLikes('21bcsg08');
   }
 
-  String currentUser = FirebaseAuth.instance.currentUser!.uid;
-  Future<void> loadLikes() async {
+  Future<void> loadLikes(String currentUser) async {
     for (int i = 0; i < widget.isForDisplayList.length; i++) {
-      DocumentSnapshot documentSnapshot = widget.isForDisplayList[i];
-      DocumentReference docRef = documentSnapshot.reference;
-      DocumentSnapshot merchSnapshot = await docRef.get();
-      var likes = merchSnapshot['likes'] as List?;
-      if (likes != null && likes.contains(currentUser)) {
+      Merchandise doc = widget.isForDisplayList[i];
+      var likes = doc.likes;
+      if (likes.contains(currentUser)) {
         setState(() {
           isLikedList[i] = true;
         });
       }
     }
   }
-
-  // Future<void> _updateUserLikedProducts(String userId, String productId) async {
-  //   final userQuery = await FirebaseFirestore.instance
-  //       .collection("users")
-  //       .where("userid", isEqualTo: userId)
-  //       .get();
-
-  //   for (var docSnapshot in userQuery.docs) {
-  //     await FirebaseFirestore.instance
-  //         .collection('users')
-  //         .doc(docSnapshot.id)
-  //         .update({
-  //       'likedproducts': FieldValue.arrayUnion([productId]),
-  //     });
-  //   }
-  // }
 
   Future<void> _updateUserLikedProducts(
       String userId, String productId, bool isLiked) async {
@@ -100,10 +83,12 @@ class _MerchDesignsState extends State<MerchDesigns> {
     }
   }
 
-  Future<void> toggleLike(int index) async {
-    String currentUser = FirebaseAuth.instance.currentUser!.uid;
-    DocumentSnapshot documentSnapshot = widget.isForDisplayList[index];
-    DocumentReference docRef = documentSnapshot.reference;
+  Future<void> toggleLike(int index, String currentUser) async {
+    // DocumentSnapshot documentSnapshot = widget.isForDisplayList[index].id;
+    // DocumentReference docRef = documentSnapshot.reference;
+    final docRef = FirebaseFirestore.instance
+        .collection('merchandise')
+        .doc(widget.isForDisplayList[index].id);
     DocumentSnapshot merchSnapshot = await docRef.get();
     var likes = merchSnapshot['likes'] as List?;
 
@@ -128,6 +113,8 @@ class _MerchDesignsState extends State<MerchDesigns> {
 
   @override
   Widget build(BuildContext context) {
+    // final likesNotifier = ref.watch(likesNotifierProvider);
+    final currentUser = ref.watch(realTimeUserDataProvider).value!.sic;
     final screenHeight = MediaQuery.of(context).size.height;
     final font20 = screenHeight * 0.02;
     int itemCount = widget.isForDisplayList.length;
@@ -161,16 +148,16 @@ class _MerchDesignsState extends State<MerchDesigns> {
                 ),
                 itemBuilder: (context, index) {
                   final merchData = widget.isForDisplayList[index];
-                  String merchName = merchData['productname'];
-                  String merchImage = merchData['image_url'];
+                  String merchName = merchData.productName;
+                  String merchImage = merchData.imageUrl;
                   return InkWell(
                     //navigate to merch details screen
                     onTap: () {
                       Navigator.of(context).push(PageAnimationTransition(
                         page: MerchDetails(
                           merchName: merchName,
-                          merchPrice: int.parse(merchData['productprice']),
-                          merchDesc: merchData['productdescription'],
+                          merchPrice: merchData.productPrice,
+                          merchDesc: merchData.productDescription,
                           photoUrl: merchImage,
                           isForSale: false,
                           merchId: merchData.id.toString(),
@@ -227,7 +214,7 @@ class _MerchDesignsState extends State<MerchDesigns> {
                           ),
                           FilledButton.tonalIcon(
                             onPressed: () {
-                              toggleLike(index);
+                              toggleLike(index, currentUser);
                             },
                             icon: isLikedList[index]
                                 ? const Icon(
@@ -236,8 +223,8 @@ class _MerchDesignsState extends State<MerchDesigns> {
                                   )
                                 : const Icon(Icons.favorite_border),
                             label: Text(
-                                '${widget.isForDisplayList[index]['likes'].length} Likes'),
-                          )
+                                '${widget.isForDisplayList[index].likes.length} Likes'),
+                          ),
                         ],
                       ),
                     ),

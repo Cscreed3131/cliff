@@ -10,7 +10,7 @@ class MerchDetails extends StatefulWidget {
   static const routeName = '/merch-details';
 
   final String merchName;
-  final int merchPrice;
+  final double merchPrice;
   final String merchDesc;
   final String photoUrl;
   final bool isForSale;
@@ -71,7 +71,7 @@ class _MerchDetailsState extends State<MerchDetails> {
   }
 
   Future<void> _updateUserCart(String userId, String productId, int quantity,
-      String selectedSize, String name, int price, String photoUrl) async {
+      String selectedSize, String name, double price, String photoUrl) async {
     final userQuery = await FirebaseFirestore.instance
         .collection("users")
         .where("userid", isEqualTo: userId)
@@ -137,7 +137,7 @@ class _MerchDetailsState extends State<MerchDetails> {
     int quantity,
     String selectedSize,
     String name,
-    int price,
+    double price,
     String photoUrl,
   ) async {
     String currentUser = FirebaseAuth.instance.currentUser!.uid;

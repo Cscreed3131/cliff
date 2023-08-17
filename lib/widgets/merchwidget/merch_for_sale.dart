@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cliff/models/merch.dart';
 import 'package:flutter/material.dart';
 import 'package:page_animation_transition/animations/right_to_left_faded_transition.dart';
 import 'package:page_animation_transition/page_animation_transition.dart';
@@ -6,7 +6,7 @@ import 'package:page_animation_transition/page_animation_transition.dart';
 import '../../screens/Merch/merch_details_screen.dart';
 
 class MerchForSale extends StatefulWidget {
-  final List<QueryDocumentSnapshot<Object?>> isForSaleList;
+  final List<Merchandise> isForSaleList;
 
   const MerchForSale({super.key, required this.isForSaleList});
 
@@ -19,7 +19,7 @@ class _MerchForSaleState extends State<MerchForSale> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final font20 = screenHeight * 0.02;
-    int itemCount = widget.isForSaleList.length;
+    final itemCount = widget.isForSaleList.length;
     return itemCount > 0
         ? GridView.builder(
             itemCount: itemCount,
@@ -34,36 +34,26 @@ class _MerchForSaleState extends State<MerchForSale> {
             ),
             itemBuilder: (context, index) {
               final merchData = widget.isForSaleList[index];
-              final merchName = merchData['productname'];
-              final merchPrice = int.parse(merchData['productprice']);
-              final merchImage = merchData['image_url'];
+              final merchName = merchData.productName;
+              final merchPrice = merchData.productPrice;
+              final merchImage = merchData.imageUrl;
 
               return InkWell(
                 //navigate to merch details screen
                 onTap: () {
-                  /*Navigator.pushNamed(
-                    context,
-                    MerchDetails.routeName,
-                    arguments: {
-                      'merchName': merchName,
-                      'merchPrice': merchPrice,
-                      'merchDesc': merchData['productdescription'],
-                      'photoUrl': merchImage,
-                      'isForSale': true,
-                    },
-                  );*/
-
-                  Navigator.of(context).push(PageAnimationTransition(
-                    page: MerchDetails(
-                      merchName: merchName,
-                      merchPrice: int.parse(merchData['productprice']),
-                      merchDesc: merchData['productdescription'],
-                      photoUrl: merchImage,
-                      isForSale: true,
-                      merchId: merchData.id.toString(),
+                  Navigator.of(context).push(
+                    PageAnimationTransition(
+                      page: MerchDetails(
+                        merchName: merchName,
+                        merchPrice: merchPrice,
+                        merchDesc: merchData.productDescription,
+                        photoUrl: merchImage,
+                        isForSale: true,
+                        merchId: merchData.id,
+                      ),
+                      pageAnimationType: RightToLeftFadedTransition(),
                     ),
-                    pageAnimationType: RightToLeftFadedTransition(),
-                  ));
+                  );
                 },
                 child: Container(
                   decoration: BoxDecoration(

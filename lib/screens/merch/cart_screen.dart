@@ -11,8 +11,6 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
-    // final screenHeight = MediaQuery.of(context).size.height;
-    // final font20 = screenHeight * 0.02;
     return Scaffold(
       // drawer: const AppDrawer(),
       body: CustomScrollView(
