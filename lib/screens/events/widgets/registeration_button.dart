@@ -36,8 +36,13 @@ class RegisterationButton extends ConsumerWidget {
       // Reference to the event document
       DocumentReference eventRef =
           FirebaseFirestore.instance.collection('events').doc(eventId);
+      DocumentReference userRef =
+          FirebaseFirestore.instance.collection('users').doc(currentUserSic);
 
       // Add the current user's SIC to the registeredParticipants array
+      userRef.update({
+        'events_registered': FieldValue.arrayUnion([eventId])
+      });
       eventRef.update({
         'registered_participants': FieldValue.arrayUnion([currentUserSic]),
       }).then((_) {

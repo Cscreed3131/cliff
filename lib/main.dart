@@ -1,3 +1,4 @@
+import 'package:cliff/provider/user_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,12 +40,13 @@ void main() async {
 
 Color brandColor = const Color(0xff2e99ec);
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(realTimeUserDataProvider);
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? dark) {
         ColorScheme lightColorScheme;
