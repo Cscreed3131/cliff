@@ -11,7 +11,6 @@ import 'package:cliff/widgets/event_image_picker.dart';
 class CreateEventScreen extends StatefulWidget {
   const CreateEventScreen({super.key});
   static const routeName = '/Create-event';
-
   @override
   State<CreateEventScreen> createState() => CreateEventScreenState();
 }
@@ -33,6 +32,8 @@ class CreateEventScreenState extends State<CreateEventScreen> {
   var _clubMemberSic1 = '';
   var _clubMemberSic2 = '';
   var _club = '';
+  var _isTeamEvent = false;
+  int? _teamMembers;
 
   final _eventCodefocusNode = FocusNode();
   final _eventDescriptionfocusNode = FocusNode();
@@ -84,6 +85,8 @@ class CreateEventScreenState extends State<CreateEventScreen> {
           'eventdescription': _eventDescirption,
           'registered_participants': [],
           'club': _club,
+          'is_team_event': _isTeamEvent,
+          'maximum_team_members': _teamMembers ?? 0,
         },
       );
       return true;
@@ -394,6 +397,60 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                 const SizedBox(
                   height: 10,
                 ),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.grey, // Border color
+                      width: 1.0, // Border width
+                    ),
+                    borderRadius: BorderRadius.circular(3.0), // Border radius
+                  ),
+                  child: SwitchListTile(
+                    title: const Text(
+                      'Is this a team event',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    value: _isTeamEvent,
+                    onChanged: (value) {
+                      // Update the state of the switch based on the new value.
+                      setState(() {
+                        _isTeamEvent = value;
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                if (_isTeamEvent)
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Maximum team members',
+                      border: OutlineInputBorder(),
+                      labelStyle: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    validator: (value) {
+                      // must be unique event code use firebase get command
+                      if (value!.isEmpty) {
+                        return 'Please enter the maximum no. of team mates allowed';
+                      }
+                      if (int.parse(value) > 10 || int.parse(value) < 0) {
+                        return 'Please enter a number between 0 and 10';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _teamMembers = int.parse(value!);
+                    },
+                  ),
+                if (_isTeamEvent)
+                  const SizedBox(
+                    height: 10,
+                  ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -531,7 +588,7 @@ class CreateEventScreenState extends State<CreateEventScreen> {
                 Row(
                   children: [
                     _isSubmitting
-                        ? Center(child: const CircularProgressIndicator())
+                        ? const Center(child: CircularProgressIndicator())
                         : Expanded(
                             child: FilledButton(
                               onPressed: () async {

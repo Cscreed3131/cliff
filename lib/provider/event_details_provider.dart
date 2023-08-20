@@ -11,6 +11,7 @@ final eventDetailsStreamProvider =
       .map((querySnapshot) {
     return querySnapshot.docs.map((doc) {
       Map<String, dynamic> data = doc.data();
+      // print(data['is_team_event']);
       return Event(
         eventId: doc.id,
         eventName: data['eventname'],
@@ -25,6 +26,8 @@ final eventDetailsStreamProvider =
         club: data['club'],
         imageUrl: data['image_url'],
         registeredParticipants: data['registered_participants'],
+        isTeamEvent: data['is_team_event'],
+        maxParticipants: data['maximum_team_members'],
       );
     }).toList();
   });

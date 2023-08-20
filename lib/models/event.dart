@@ -10,6 +10,8 @@ class Event {
   final String clubMemberSic2;
   final String club;
   final String imageUrl;
+  final bool isTeamEvent;
+  final int maxParticipants;
   final List<dynamic> registeredParticipants;
 
   Event({
@@ -25,5 +27,7 @@ class Event {
     required this.club,
     required this.imageUrl,
     required this.registeredParticipants,
+    required this.isTeamEvent,
+    required this.maxParticipants,
   });
 }
