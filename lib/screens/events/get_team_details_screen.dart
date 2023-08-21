@@ -25,12 +25,41 @@ class _GetTeamDetailsState extends ConsumerState<GetTeamDetails> {
   String teamIdeaDescription = '';
   List<String>? studentIds = [];
 
-  Future<void> _submit() async {
+  Future<bool> _validateSic(List<String> sic, BuildContext context) async {
     final isValid = _form.currentState!.validate();
     if (!isValid) {
-      return;
+      return false;
     }
     _form.currentState!.save();
+
+    try {
+      bool flag = true;
+
+      for (int i = 0; i < sic.length; i++) {
+        final doc = FirebaseFirestore.instance.collection('users').doc(sic[i]);
+
+        final docSnapshot = await doc.get();
+
+        if (!docSnapshot.exists) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('User does not exist for SIC: ${sic[i]}'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+          flag = false;
+          break; // Break the loop if a user doesn't exist
+        }
+      }
+
+      return flag;
+    } on FirebaseException catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<void> _submit() async {
     try {
       // Fetch the existing registeredTeams data
       final documentSnapshot = await FirebaseFirestore.instance
@@ -39,7 +68,6 @@ class _GetTeamDetailsState extends ConsumerState<GetTeamDetails> {
           .get();
       Map<String, dynamic> eventData = documentSnapshot.data() ?? {};
 
-      // Append the new team registration data
       if (eventData.containsKey('registered_teams')) {
         Map<String, dynamic> registeredTeams = eventData['registered_teams'];
         if (registeredTeams.containsKey(teamName)) {
@@ -270,8 +298,20 @@ class _GetTeamDetailsState extends ConsumerState<GetTeamDetails> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await _submit();
-          Navigator.of(context).pop();
+          await _validateSic(studentIds!, context)
+              ? {
+                  await _submit(),
+                  Navigator.of(context).pop(),
+                }
+              : {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        "Please review the form once again before submitting ",
+                      ),
+                    ),
+                  ),
+                };
         },
         child: const Icon(Icons.save),
       ),

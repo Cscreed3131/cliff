@@ -21,7 +21,7 @@ import 'package:cliff/screens/memories.dart';
 import 'package:cliff/screens/polls.dart';
 import 'package:cliff/screens/Admin/add_designs_screen.dart';
 import 'package:cliff/screens/Events/event_details_screen.dart';
-import 'package:cliff/screens/Home/registered_events_screen.dart';
+import 'package:cliff/screens/Events/registered_events_screen.dart';
 import 'package:cliff/screens/Merch/cart_screen.dart';
 import 'package:cliff/screens/food/food_details_page.dart';
 import 'package:cliff/screens/history/history_screen.dart';

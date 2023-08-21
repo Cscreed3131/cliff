@@ -1,6 +1,6 @@
 // import 'package:cliff/provider/user_data_provider.dart';
 // import 'package:cliff/provider/event_details_provider.dart';
-import 'package:cliff/screens/Home/registered_events_screen.dart';
+import 'package:cliff/screens/Events/registered_events_screen.dart';
 import 'package:cliff/widgets/eventswidget/event_widget.dart';
 import 'package:flutter/material.dart';
 
