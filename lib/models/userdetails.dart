@@ -7,7 +7,7 @@ class UserDetails {
   final int? phoneNumber;
   final String imageUrl;
   final List likedProducts;
-  final List registeredEvents;
+  final List<dynamic> registeredEvents;
   final Map<String, dynamic> cart;
   final List<dynamic> roles;
 

@@ -38,32 +38,32 @@ final realTimeUserDataProvider =
   }
 });
 
-class UserDataProvider {
-  Future<String> getUserData() async {
-    String userId = '';
-    var currrentUser = FirebaseAuth.instance.currentUser!.uid;
-    final userQuery = await FirebaseFirestore.instance
-        .collection("users")
-        .where("userid", isEqualTo: currrentUser)
-        .get();
-    for (var docSnapshot in userQuery.docs) {
-      userId = docSnapshot.id;
-    }
+// class UserDataProvider {
+//   Future<String> getUserData() async {
+//     String userId = '';
+//     var currrentUser = FirebaseAuth.instance.currentUser!.uid;
+//     final userQuery = await FirebaseFirestore.instance
+//         .collection("users")
+//         .where("userid", isEqualTo: currrentUser)
+//         .get();
+//     for (var docSnapshot in userQuery.docs) {
+//       userId = docSnapshot.id;
+//     }
 
-    return userId;
-  }
-}
+//     return userId;
+//   }
+// }
 
-final userDataProvider1 = StreamProvider.autoDispose((ref) {
-  final User? user = FirebaseAuth.instance.currentUser;
-  if (user != null) {
-    return FirebaseFirestore.instance
-        .collection('users')
-        .where('userid', isEqualTo: user.uid)
-        .snapshots();
-  }
-  return Stream.value(null);
-});
+// final userDataProvider1 = StreamProvider.autoDispose((ref) {
+//   final User? user = FirebaseAuth.instance.currentUser;
+//   if (user != null) {
+//     return FirebaseFirestore.instance
+//         .collection('users')
+//         .where('userid', isEqualTo: user.uid)
+//         .snapshots();
+//   }
+//   return Stream.value(null);
+// });
 
 // WidgetRef? ref;
 // final userSnapshot = ref!.watch(userDataProvider1);
