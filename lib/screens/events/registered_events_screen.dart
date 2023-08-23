@@ -55,10 +55,14 @@ class _RegisteredEventsListTileState
     extends ConsumerState<RegisteredEventsListTile> {
   @override
   Widget build(BuildContext context) {
+    final completedEvents = ref.watch(completedEventListProvider).value;
+    print(completedEvents);
     final eventsData = ref.watch(registeredEventsDataProvider);
     return eventsData.when(
       data: (data) {
-        List<dynamic> userRegisteredEventsList = data;
+        List<dynamic> userRegisteredEventsList = data
+            .where((element) => !completedEvents!.contains(element))
+            .toList();
         int itemCount = userRegisteredEventsList.length;
         return userRegisteredEventsList.isNotEmpty
             ? MediaQuery.removePadding(
@@ -132,11 +136,6 @@ class _RegisteredEventsListTileState
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-
-                                // trailing: IconButton(
-                                //   onPressed: () {},
-                                //   icon: const Icon(Icons.arrow_forward_ios),
-                                // ),
                               ),
                             );
                           }
@@ -159,60 +158,6 @@ class _RegisteredEventsListTileState
                         return const CircularProgressIndicator();
                       },
                     );
-                    // return Container(
-                    //   margin: const EdgeInsets.all(10),
-                    //   decoration: BoxDecoration(
-                    //     color: Theme.of(context).colorScheme.secondaryContainer,
-                    //     border: Border.all(
-                    //       color: Theme.of(context).colorScheme.outline,
-                    //     ),
-                    //     borderRadius: BorderRadius.circular(20),
-                    //   ),
-                    //   child: ListTile(
-                    //     leading: Container(
-                    //       height: widget.screenHeight * 0.2,
-                    //       width: widget.screenWidth * 0.25,
-                    //       decoration: BoxDecoration(
-                    //         color: Theme.of(context)
-                    //             .colorScheme
-                    //             .primaryContainer
-                    //             .withOpacity(0.5),
-                    //         border: Border.all(
-                    //           color: Theme.of(context).colorScheme.outline,
-                    //         ),
-                    //         borderRadius: BorderRadius.circular(20),
-                    //         image: const DecorationImage(
-                    //           image: AssetImage('assets/images/events.png'),
-                    //           fit: BoxFit.fitWidth,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     title: Text(
-                    //       userRegisteredEventsList[index] ?? '',
-                    //       overflow: TextOverflow.ellipsis,
-                    //       maxLines: 2,
-                    //       style: TextStyle(
-                    //         color: Theme.of(context).colorScheme.onSurface,
-                    //         fontFamily: 'IBMPlexMono',
-                    //         fontWeight: FontWeight.bold,
-                    //       ),
-                    //     ),
-                    //     subtitle: Text(
-                    //       'Event date',
-                    //       overflow: TextOverflow.ellipsis,
-                    //       maxLines: 2,
-                    //       style: TextStyle(
-                    //         color: Theme.of(context).colorScheme.onSurface,
-                    //         fontFamily: 'IBMPlexMono',
-                    //         fontWeight: FontWeight.bold,
-                    //       ),
-                    //     ),
-                    //     trailing: IconButton(
-                    //       onPressed: () {},
-                    //       icon: const Icon(Icons.arrow_forward_ios),
-                    //     ),
-                    //   ),
-                    // );
                   },
                 ),
               )

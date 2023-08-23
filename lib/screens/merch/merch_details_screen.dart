@@ -192,18 +192,6 @@ class _MerchDetailsState extends State<MerchDetails> {
               ),
             ),
             actions: [
-              // IconButton(
-              //   onPressed: () {
-              //     Navigator.of(context).push(
-              //       PageAnimationTransition(
-              //         page: const CartScreen(),
-              //         pageAnimationType: RightToLeftFadedTransition(),
-              //       ),
-              //     );
-              //   },
-              //   icon: const Icon(Icons.shopping_cart),
-              // ),
-
               CartIconWidget(),
             ],
           ),
@@ -251,37 +239,14 @@ class _MerchDetailsState extends State<MerchDetails> {
                             // color: textColor,
                           ),
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              "₹${widget.merchPrice}",
-                              style: TextStyle(
-                                fontFamily: 'IBMPlexMono',
-                                fontSize: font30,
-                                fontWeight: FontWeight.bold,
-                                // color: textColor,
-                              ),
-                            ),
-                            const Spacer(),
-
-                            // //like button
-                            // !widget.isForSale ? FilterChip(
-                            //   label: const Text(
-                            //     '24 likes',
-                            //   ),
-                            //   showCheckmark: false,
-                            //   avatar: Icon(
-                            //     isLiked ? Icons.favorite : Icons.favorite_border,
-                            //     color: Colors.red,
-                            //   ),
-                            //   selected: isLiked,
-                            //   onSelected: (bool selected) {
-                            //     setState(() {
-                            //       isLiked = selected;
-                            //     });
-                            //   },
-                            // ) : const SizedBox(),
-                          ],
+                        Text(
+                          "₹${widget.merchPrice}",
+                          style: TextStyle(
+                            fontFamily: 'IBMPlexMono',
+                            fontSize: font30,
+                            fontWeight: FontWeight.bold,
+                            // color: textColor,
+                          ),
                         ),
                         const SizedBox(
                           height: 10,
@@ -355,79 +320,59 @@ class _MerchDetailsState extends State<MerchDetails> {
       ),
       bottomNavigationBar: widget.isForSale
           ? BottomAppBar(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: FilledButton(
-                      child: Text(
-                        isItemInCart ? "Go to cart" : "Add to cart",
-                        style: const TextStyle(
-                          fontFamily: 'IBMPlexMono',
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          // color: textColor,
-                        ),
-                      ),
-                      onPressed: () async {
-                        if (!isItemInCart) {
-                          int selectedSizeIndex = selectedSizes.indexOf(true);
-                          if (selectedSizeIndex != -1) {
-                            String selectedSize = sizes[selectedSizeIndex];
+              child: Expanded(
+                child: FilledButton(
+                  child: Text(
+                    isItemInCart ? "Go to cart" : "Add to cart",
+                    style: const TextStyle(
+                      fontFamily: 'IBMPlexMono',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      // color: textColor,
+                    ),
+                  ),
+                  onPressed: () async {
+                    if (!isItemInCart) {
+                      int selectedSizeIndex = selectedSizes.indexOf(true);
+                      if (selectedSizeIndex != -1) {
+                        String selectedSize = sizes[selectedSizeIndex];
 
-                            await addToCart(
-                              widget.merchId,
-                              1,
-                              selectedSize,
-                              widget.merchName,
-                              widget.merchPrice,
-                              widget.photoUrl,
-                            );
+                        await addToCart(
+                          widget.merchId,
+                          1,
+                          selectedSize,
+                          widget.merchName,
+                          widget.merchPrice,
+                          widget.photoUrl,
+                        );
 
-                            setState(() {
-                              isItemInCart =
-                                  true; // Update the state to indicate the item was added
-                            });
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  'Please select a size before adding to cart.',
-                                ),
-                                duration: Duration(
-                                  seconds: 2,
-                                ), // Adjust the duration as needed
-                                behavior: SnackBarBehavior.floating,
-                              ),
-                            );
-                          }
-                        } else {
-                          Navigator.of(context).push(
-                            PageAnimationTransition(
-                              page: const CartScreen(),
-                              pageAnimationType: RightToLeftFadedTransition(),
+                        setState(() {
+                          isItemInCart =
+                              true; // Update the state to indicate the item was added
+                        });
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Please select a size before adding to cart.',
                             ),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: FilledButton(
-                      child: const Text(
-                        "Buy Now",
-                        style: TextStyle(
-                          fontFamily: 'IBMPlexMono',
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                            duration: Duration(
+                              seconds: 2,
+                            ), // Adjust the duration as needed
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      }
+                    } else {
+                      Navigator.of(context).push(
+                        PageAnimationTransition(
+                          page: const CartScreen(),
+                          pageAnimationType: RightToLeftFadedTransition(),
                         ),
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
-                ],
+                      );
+                    }
+                  },
+                ),
               ),
             )
           : null,

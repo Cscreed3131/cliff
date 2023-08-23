@@ -1,5 +1,8 @@
+import 'package:cliff/models/event.dart';
+import 'package:cliff/provider/event_details_provider.dart';
 import 'package:cliff/provider/user_data_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final registeredEventsDataProvider =
@@ -19,4 +22,56 @@ final registeredEventsDataProvider =
       return eventsData;
     },
   );
+});
+
+final completedEventListProvider =
+    StreamProvider.autoDispose<List<dynamic>>((ref) {
+  final eventsData = ref.watch(eventDetailsStreamProvider);
+  final List<dynamic> completedEventsIds = [];
+  eventsData.whenData((data) {
+    final DateTime currentDate = getCurrentDate();
+    final TimeOfDay currentTime = getCurrentTime();
+    final List<Event> completedEvents = data
+        .where((event) =>
+            event.eventFinishDateTime.isBefore(currentDate) ||
+            (event.eventFinishDateTime.isAtSameMomentAs(currentDate)
+                ? event.eventFinishDateTime.hour < currentTime.hour ||
+                    (event.eventFinishDateTime.hour == currentTime.hour &&
+                        event.eventFinishDateTime.minute <= currentTime.minute)
+                : false))
+        .toList();
+
+    completedEventsIds.addAll(completedEvents.map((event) => event.eventId));
+  });
+  return Stream.value(completedEventsIds);
+});
+
+DateTime getCurrentDate() => DateTime.now();
+TimeOfDay getCurrentTime() => TimeOfDay.now();
+
+final notCompletedEventsProvider = StreamProvider.autoDispose<List>((ref) {
+  List l1 = [];
+  ref.watch(registeredEventsDataProvider).when(
+        data: (data) {
+          l1 = data;
+        },
+        error: (error, stackTrace) {
+          print(error);
+        },
+        loading: () {},
+      );
+
+  List l2 = [];
+  ref.watch(completedEventListProvider).when(
+        data: (data) {
+          l2 = data;
+        },
+        error: (error, stackTrace) {
+          print(error);
+        },
+        loading: () {},
+      );
+  List notCompletedEventsList =
+      l1.where((element) => !l2.contains(element)).toList();
+  return Stream.value(notCompletedEventsList); // return as a stream
 });

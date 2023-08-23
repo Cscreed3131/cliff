@@ -128,8 +128,10 @@ class UpComingEventsWidgets extends StatelessWidget {
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: Text(
                                   eventData.club, // should be dynamic
+                                  maxLines: 1,
+                                  overflow: TextOverflow.clip,
                                   style: const TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 15,
                                     // color: textColor,
                                   ),
                                 ),
@@ -138,9 +140,11 @@ class UpComingEventsWidgets extends StatelessWidget {
                               Chip(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50),
+                                  // side: BorderSide.none,
                                 ),
                                 label: Text(
                                   eventStartDate,
+                                  overflow: TextOverflow.ellipsis,
                                   // should date dynamically and the date should
                                 ),
                                 avatar: const Icon(Icons.today),

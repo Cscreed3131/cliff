@@ -1,6 +1,4 @@
-// import 'package:cliff/provider/user_data_provider.dart';
-// import 'package:cliff/provider/event_details_provider.dart';
-import 'package:cliff/screens/Events/registered_events_screen.dart';
+import 'package:cliff/screens/Events/widgets/event_schedule_icon_button.dart';
 import 'package:cliff/widgets/eventswidget/event_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +8,7 @@ class EventsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -29,17 +28,8 @@ class EventsScreen extends StatelessWidget {
                 // color: textColor,
               ),
             ),
-            actions: [
-              // this will be a icon button. which has a batch in the top to show
-              //the number of events the user is currentlt registered in.
-              // basically this should change into widget which will be made today.
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed(RegisteredEventsScreen.routeName);
-                },
-                icon: const Icon(Icons.event),
-              ),
+            actions: const [
+              EventScheduleIconButton(),
             ],
           ),
           SliverToBoxAdapter(

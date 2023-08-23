@@ -145,7 +145,7 @@ class _MerchDesignsState extends ConsumerState<MerchDesigns> {
                 padding: const EdgeInsets.all(10),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 0.7, // 1.41
+                  childAspectRatio: 0.68, // 1.41
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                   // mainAxisExtent: 280,
@@ -194,7 +194,8 @@ class _MerchDesignsState extends ConsumerState<MerchDesigns> {
                               borderRadius: BorderRadius.circular(20),
                               image: DecorationImage(
                                 image: NetworkImage(
-                                    merchImage), // fetch from backend
+                                  merchImage,
+                                ), // fetch from backend
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -213,9 +214,9 @@ class _MerchDesignsState extends ConsumerState<MerchDesigns> {
                               // color: textColor,
                             ),
                           ),
-                          const SizedBox(
-                            height: 5,
-                          ),
+                          // const SizedBox(
+                          //   height: 2,
+                          // ),
                           FilledButton.tonalIcon(
                             onPressed: () {
                               toggleLike(index, currentUser);

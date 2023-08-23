@@ -18,22 +18,20 @@ class _FoodCardState extends State<FoodCard> {
   int count = 0;
   @override
   Widget build(BuildContext context) {
-
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return FadeIn(
       delay: Duration(milliseconds: delay * widget.index),
       child: InkWell(
-        onTap: (){
-          Navigator.of(context).pushNamed(
-              FoodDetailsPage.routeName, arguments: {
+        onTap: () {
+          Navigator.of(context)
+              .pushNamed(FoodDetailsPage.routeName, arguments: {
             'id': items[widget.index].id,
             'name': items[widget.index].name,
             'category': items[widget.index].category,
             'imgUrl': items[widget.index].imgUrl,
             'price': items[widget.index].price,
             'description': items[widget.index].description,
-
           });
         },
         child: Container(
@@ -96,60 +94,65 @@ class _FoodCardState extends State<FoodCard> {
                           fontSize: 15,
                         ),
                       ),
-
                       SizedBox(
-                        width: screenWidth * 0.2,
+                        width: screenWidth * 0.23,
                       ),
-
-                      !isAddedtoCart ? FadeIn(
-                        child: FilledButton(
-                            onPressed: (){
-                              setState(() {
-                                isAddedtoCart = true;
-                                count = 1;
-                              });
-                            },
-                            child: const Text('Add to cart')
-                        ),
-                      )
-                      : Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surfaceVariant,
-                          border: Border.all(
-                            color: Theme.of(context).colorScheme.outline,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: FadeIn(
-                          child: Row(
-                            children: [
-                              IconButton(
-                                onPressed: (){
+                      // const Spacer(),
+                      !isAddedtoCart
+                          ? FadeIn(
+                              child: FilledButton.icon(
+                                label: const Text('Add'),
+                                onPressed: () {
                                   setState(() {
-                                    count > 1 ? count-- : isAddedtoCart = false;
+                                    isAddedtoCart = true;
+                                    count = 1;
                                   });
                                 },
-                                icon: const Icon(Icons.remove),
+                                icon: const Icon(Icons.fastfood_rounded),
                               ),
-                              Text(
-                                '$count',
-                                style: const TextStyle(
-                                  fontFamily: 'IBMPlexMono',
-                                  fontSize: 15,
+                            )
+                          : Container(
+                              decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .surfaceVariant,
+                                border: Border.all(
+                                  color: Theme.of(context).colorScheme.outline,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: FadeIn(
+                                child: Row(
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          count > 1
+                                              ? count--
+                                              : isAddedtoCart = false;
+                                        });
+                                      },
+                                      icon: const Icon(Icons.remove),
+                                    ),
+                                    Text(
+                                      '$count',
+                                      style: const TextStyle(
+                                        fontFamily: 'IBMPlexMono',
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          count++;
+                                        });
+                                      },
+                                      icon: const Icon(Icons.add),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              IconButton(
-                                onPressed: (){
-                                  setState(() {
-                                    count++;
-                                  });
-                                },
-                                icon: const Icon(Icons.add),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                            ),
                     ],
                   ),
                 ],

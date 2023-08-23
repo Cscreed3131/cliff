@@ -34,7 +34,7 @@ class OnGoingEventWidget extends StatelessWidget {
             itemBuilder: (context, index) {
               final eventData = ongoingEvents[index];
               String eventStartDate =
-                  DateFormat('dd-MM-yyyy').format(eventData.eventStartDateTime);
+                  DateFormat('dd-MM-yy').format(eventData.eventStartDateTime);
 
               return FadeIn(
                 duration: Duration(milliseconds: start * (index + 1)),
@@ -78,7 +78,7 @@ class OnGoingEventWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            height: screenHeight * 0.165,
+                            height: screenHeight * 0.157,
                             width: double.infinity,
                             margin: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
@@ -136,9 +136,11 @@ class OnGoingEventWidget extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8.0),
                                   child: Text(
+                                    maxLines: 2,
+                                    overflow: TextOverflow.clip,
                                     eventData.club, // should be dynamic
                                     style: const TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 15,
                                       // color: textColor,
                                     ),
                                   ),
