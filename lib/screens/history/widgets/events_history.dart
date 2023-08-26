@@ -102,7 +102,10 @@ class EventsHistoryWidget extends ConsumerWidget {
                                   );
                                 }
                               }
-                              return null;
+                              return const Center(
+                                child: Text(
+                                    'Register in events to show in events History'),
+                              );
                             },
                             error: (Object error, StackTrace stackTrace) {
                               return const Center(
