@@ -271,7 +271,7 @@ class _AddDesignsScreenState extends State<AddDesignsScreen> {
                                                 behavior:
                                                     SnackBarBehavior.floating,
                                                 content: Text(
-                                                  'product Created',
+                                                  'product Added',
                                                 ),
                                               ),
                                             ),

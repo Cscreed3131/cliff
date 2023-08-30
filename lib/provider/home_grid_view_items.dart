@@ -35,11 +35,11 @@ final gridItemsProvider = Provider<List<ImageItem>>(
         "Alumni",
         Icons.person_outline,
       ),
-      ImageItem(
-        5,
-        "Memories",
-        Icons.photo_album_outlined,
-      ),
+      // ImageItem(
+      //   5,
+      //   "Memories",
+      //   Icons.photo_album_outlined,
+      // ),
     ];
   },
 );

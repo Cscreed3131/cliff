@@ -1,11 +1,11 @@
 import 'package:cliff/widgets/homescreenwidget/app_drawer.dart';
+import 'package:cliff/widgets/homescreenwidget/announcements_icon_button.dart';
 import 'package:cliff/widgets/homescreenwidget/home_grid_view.dart';
 import 'package:cliff/widgets/homescreenwidget/image_slider.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final font40 = screenWidth * 0.08;
 
     return Scaffold(
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: CustomScrollView(
         slivers: [
           SliverAppBar.large(
@@ -29,13 +29,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: const Icon(Icons.menu),
               ),
             ),
+            actions: const [
+              AnnouncementIconButton(),
+            ],
             title: Row(
               children: [
-                // CircleAvatar(
-                //   radius: screenWidth * 0.10,
-                //   foregroundImage: const AssetImage('assets/cliff.png',),
-
-                // ),
                 Container(
                   width: 70,
                   height: 70,

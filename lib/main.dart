@@ -1,4 +1,6 @@
 import 'package:cliff/provider/user_data_provider.dart';
+import 'package:cliff/screens/Admin/create_announcement.dart';
+import 'package:cliff/screens/Home/announcements_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -101,6 +103,7 @@ class MyApp extends ConsumerWidget {
             HomePage.routeName: (ctx) => const HomePage(),
             AddDesignsScreen.routeName: (ctx) => const AddDesignsScreen(),
             CartScreen.routeName: (ctx) => const CartScreen(),
+            CreateAnnouncement.routeName: (ctx) => const CreateAnnouncement(),
             MerchDetails.routeName: (ctx) {
               final Map<String, dynamic>? args = ModalRoute.of(ctx)!
                   .settings
@@ -148,6 +151,7 @@ class MyApp extends ConsumerWidget {
                 description: args?['description'] ?? 'Default Description',
               );
             },
+            AnnouncementScreen.routeName: (cxt) => const AnnouncementScreen(),
           },
         );
       },
