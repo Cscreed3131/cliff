@@ -1,4 +1,5 @@
 import 'package:cliff/screens/Admin/add_designs_screen.dart';
+import 'package:cliff/screens/Admin/add_food_item_screen.dart';
 import 'package:cliff/screens/Admin/create_announcement.dart';
 import 'package:cliff/screens/Admin/create_event_screens.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ final List<ListItem> items = [
   ListItem(1, 'Add Event', "assets/images/events.png"),
   ListItem(2, 'Add Designs', "assets/images/merch.png"),
   ListItem(3, 'Announcements', "assets/images/events.png"),
-  // ListItem(4, 'Item 4'),
+  ListItem(4, 'Add Food Item', "assets/images/merch.png"),
   // ListItem(5, 'Item 5'),
 ];
 
@@ -45,7 +46,7 @@ class AdminScreenState extends State<AdminScreen> {
           mainAxisSpacing: 10.0,
           crossAxisSpacing: 10.0,
           childAspectRatio: 1.0,
-          mainAxisExtent: 200,
+          mainAxisExtent: 150,
         ),
         itemCount: items.length,
         itemBuilder: (context, index) {
@@ -59,6 +60,8 @@ class AdminScreenState extends State<AdminScreen> {
                 Navigator.of(context).pushNamed(AddDesignsScreen.routeName);
               } else if (item.id == 3) {
                 Navigator.of(context).pushNamed(CreateAnnouncement.routeName);
+              } else if (item.id == 4) {
+                Navigator.of(context).pushNamed(AddFoodItems.routeName);
               }
             },
             child: Padding(

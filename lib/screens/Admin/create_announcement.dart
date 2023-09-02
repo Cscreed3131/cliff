@@ -1,4 +1,3 @@
-import 'package:cliff/provider/registered_events_data_provider.dart';
 import 'package:cliff/screens/Home/announcements_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -155,18 +154,20 @@ class _BuildFormState extends State<BuildForm> {
             ElevatedButton(
               onPressed: () async {
                 await _submit()
-                    ? ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Uploading was successful'),
+                    ? {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Uploading was successful'),
+                          ),
                         ),
-                      )
+                        Navigator.of(context)
+                            .pushReplacementNamed(AnnouncementScreen.routeName)
+                      }
                     : ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Uploading was Unsuccessful'),
                         ),
                       );
-                Navigator.of(context)
-                    .pushReplacementNamed(AnnouncementScreen.routeName);
               },
               child: const Text('Submit'),
             ),

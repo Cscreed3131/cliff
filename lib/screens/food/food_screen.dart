@@ -1,44 +1,32 @@
+import 'package:cliff/provider/food_provider.dart';
 import 'package:cliff/screens/food/widgets/food_card.dart';
 import 'package:cliff/widgets/foodwidget/plate_icon_button.dart';
 import 'package:flutter/material.dart';
-import '../../global_varibales.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FoodScreen extends StatefulWidget {
+class FoodScreen extends ConsumerStatefulWidget {
   const FoodScreen({super.key});
   static const routeName = '/food';
   @override
-  State<FoodScreen> createState() => _FoodScreenState();
+  ConsumerState<FoodScreen> createState() => _FoodScreenState();
 }
 
-class _FoodScreenState extends State<FoodScreen> {
+class _FoodScreenState extends ConsumerState<FoodScreen> {
   List<String> categories = [
-    "All", //0
-    "Breakfast", //1
-    "North Indian", //2
-    "South Indian", //3
-    "Beverages", //4
-    "Desserts", //5
+    "All",
+    "Breakfast",
+    "North Indian",
+    "South Indian",
+    "Beverages",
+    "Desserts",
   ];
-  List<bool> selectedCategories = [
-    true,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
-
-  void handleChipSelection(int selectedIndex) {
-    setState(() {
-      for (int i = 0; i < selectedCategories.length; i++) {
-        selectedCategories[i] = (i == selectedIndex);
-      }
-    });
-  }
+  int selectedCategoryIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    // List categories = fetchAndSetCategories(ref);
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -55,7 +43,6 @@ class _FoodScreenState extends State<FoodScreen> {
                 fontFamily: 'IBMPlexMono',
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
-                // color: textColor,
               ),
             ),
             actions: const [
@@ -64,41 +51,42 @@ class _FoodScreenState extends State<FoodScreen> {
           ),
           SliverToBoxAdapter(
             child: Column(
-              //crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                //event image container, this will not change (probably)
                 Container(
-                    height: screenHeight * 0.2,
-                    width: double.infinity,
-                    margin: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.secondaryContainer,
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.outline,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                      image: const DecorationImage(
-                        image: AssetImage('assets/images/image4.png'),
-                        fit: BoxFit.fitWidth,
-                      ),
-                    )),
-
+                  height: screenHeight * 0.2,
+                  width: double.infinity,
+                  margin: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                    image: const DecorationImage(
+                      image: AssetImage('assets/images/image4.png'),
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
+                ),
                 SizedBox(
                   height: 60,
                   width: double.infinity,
                   child: ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    itemCount: 6,
+                    itemCount: categories.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: FilterChip(
-                          selected: selectedCategories[index],
+                          selected: selectedCategoryIndex == index,
                           onSelected: (bool value) {
-                            handleChipSelection(index);
+                            setState(() {
+                              selectedCategoryIndex = index;
+                            });
                           },
                           label: Text(categories[index]),
                         ),
@@ -106,107 +94,43 @@ class _FoodScreenState extends State<FoodScreen> {
                     },
                   ),
                 ),
-
                 const SizedBox(
-                  height: 20,
+                  height: 5,
                 ),
-
-                selectedCategories[0]
-                    ? MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
-                        child: ListView.builder(
-                          itemCount: items.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return FoodCard(index: index);
-                          },
-                        ),
-                      )
-                    : const SizedBox(),
-
-                selectedCategories[1]
-                    ? MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
-                        child: ListView.builder(
-                          itemCount: items.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return items[index].category == 'Breakfast'
-                                ? FoodCard(index: index)
-                                : const SizedBox();
-                          },
-                        ),
-                      )
-                    : const SizedBox(),
-                selectedCategories[2]
-                    ? MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
-                        child: ListView.builder(
-                          itemCount: items.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return items[index].category == 'North Indian'
-                                ? FoodCard(index: index)
-                                : const SizedBox();
-                          },
-                        ),
-                      )
-                    : const SizedBox(),
-                selectedCategories[3]
-                    ? MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
-                        child: ListView.builder(
-                          itemCount: items.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return items[index].category == 'South Indian'
-                                ? FoodCard(index: index)
-                                : const SizedBox();
-                          },
-                        ),
-                      )
-                    : const SizedBox(),
-                selectedCategories[4]
-                    ? MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
-                        child: ListView.builder(
-                          itemCount: items.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return items[index].category == 'Beverages'
-                                ? FoodCard(index: index)
-                                : const SizedBox();
-                          },
-                        ),
-                      )
-                    : const SizedBox(),
-
-                selectedCategories[5]
-                    ? MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
-                        child: ListView.builder(
-                          itemCount: items.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return items[index].category == 'Desserts'
-                                ? FoodCard(index: index)
-                                : const SizedBox();
-                          },
-                        ),
-                      )
-                    : const SizedBox(),
+                MediaQuery.removePadding(
+                  context: context,
+                  removeTop: true,
+                  child: ref.watch(foodItemStreamProvider).when(data: (data) {
+                    return ListView.builder(
+                      itemCount: data.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final item = data[index];
+                        if (selectedCategoryIndex == 0 ||
+                            item.category ==
+                                categories[selectedCategoryIndex]) {
+                          return FoodCard(
+                            index: index,
+                            foodData: data,
+                          );
+                        } else {
+                          return const SizedBox();
+                        }
+                      },
+                    );
+                  }, error: (error, stackTrace) {
+                    print(error);
+                    print(stackTrace);
+                    return const Center(
+                      child: Text('unable to load food items'),
+                    );
+                  }, loading: () {
+                    return const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    );
+                  }),
+                ),
               ],
             ),
           ),

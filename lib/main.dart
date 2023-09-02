@@ -1,4 +1,5 @@
 import 'package:cliff/provider/user_data_provider.dart';
+import 'package:cliff/screens/Admin/add_food_item_screen.dart';
 import 'package:cliff/screens/Admin/create_announcement.dart';
 import 'package:cliff/screens/Home/announcements_screen.dart';
 import 'package:flutter/material.dart';
@@ -143,15 +144,16 @@ class MyApp extends ConsumerWidget {
                   .settings
                   .arguments as Map<String, dynamic>?;
               return FoodDetailsPage(
-                id: args?['id'] ?? 0,
+                // id: args?['id'] ?? 0,
                 name: args?['name'] ?? 'Default Name',
                 category: args?['category'] ?? 'Default Category',
                 imgUrl: args?['imgUrl'] ?? 'Default Url',
-                price: args?['price'] ?? 0,
+                price: args?['price'] ?? 0.0,
                 description: args?['description'] ?? 'Default Description',
               );
             },
             AnnouncementScreen.routeName: (cxt) => const AnnouncementScreen(),
+            AddFoodItems.routeName: (ctx) => const AddFoodItems(),
           },
         );
       },

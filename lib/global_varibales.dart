@@ -1,4 +1,3 @@
-import 'package:cliff/models/food_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,28 +14,28 @@ final pageGradient = LinearGradient(
   stops: const [0, 1],
 );
 
-List<FoodItem> items = [
-  FoodItem(1, 'Pasta', 'Breakfast', 'assets/images/image4.png', 20,
-      'Food test Food test Food Food test Food test Food Food test Food test Food '),
-  FoodItem(2, 'Vada', 'South Indian', 'assets/images/image4.png', 20,
-      'Food test Food test Food Food test Food test Food Food test Food test Food '),
-  FoodItem(3, 'Paratha', 'North Indian', 'assets/images/image4.png', 20,
-      'Food test Food test Food Food test Food test Food Food test Food test Food '),
-  FoodItem(4, 'Dosa', 'South Indian', 'assets/images/image4.png', 20,
-      'Food test Food test Food Food test Food test Food Food test Food test Food '),
-  FoodItem(5, 'Chola Bhatura', 'North Indian', 'assets/images/image4.png', 20,
-      'Food test Food test Food Food test Food test Food Food test Food test Food '),
-  FoodItem(6, 'Brownie', 'Desserts', 'assets/images/image4.png', 20,
-      'Food test Food test Food Food test Food test Food Food test Food test Food '),
-  FoodItem(7, 'Bruschetta', 'Breakfast', 'assets/images/image4.png', 20,
-      'Food test Food test Food Food test Food test Food Food test Food test Food '),
-  FoodItem(8, 'Quesadillas ', 'Breakfast', 'assets/images/image4.png', 20,
-      'Food test Food test Food Food test Food test Food Food test Food test Food '),
-  FoodItem(9, 'Lassi', 'Beverages', 'assets/images/image4.png', 20,
-      'Food test Food test Food Food test Food test Food Food test Food test Food '),
-  FoodItem(10, 'Soda', 'Beverages', 'assets/images/image4.png', 20,
-      'Food test Food test Food Food test Food test Food Food test Food test Food '),
-];
+// List<FoodItem> items = [
+//   FoodItem(1, 'Pasta', 'Breakfast', 'assets/images/image4.png', 20,
+//       'Food test Food test Food Food test Food test Food Food test Food test Food '),
+//   FoodItem(2, 'Vada', 'South Indian', 'assets/images/image4.png', 20,
+//       'Food test Food test Food Food test Food test Food Food test Food test Food '),
+//   FoodItem(3, 'Paratha', 'North Indian', 'assets/images/image4.png', 20,
+//       'Food test Food test Food Food test Food test Food Food test Food test Food '),
+//   FoodItem(4, 'Dosa', 'South Indian', 'assets/images/image4.png', 20,
+//       'Food test Food test Food Food test Food test Food Food test Food test Food '),
+//   FoodItem(5, 'Chola Bhatura', 'North Indian', 'assets/images/image4.png', 20,
+//       'Food test Food test Food Food test Food test Food Food test Food test Food '),
+//   FoodItem(6, 'Brownie', 'Desserts', 'assets/images/image4.png', 20,
+//       'Food test Food test Food Food test Food test Food Food test Food test Food '),
+//   FoodItem(7, 'Bruschetta', 'Breakfast', 'assets/images/image4.png', 20,
+//       'Food test Food test Food Food test Food test Food Food test Food test Food '),
+//   FoodItem(8, 'Quesadillas ', 'Breakfast', 'assets/images/image4.png', 20,
+//       'Food test Food test Food Food test Food test Food Food test Food test Food '),
+//   FoodItem(9, 'Lassi', 'Beverages', 'assets/images/image4.png', 20,
+//       'Food test Food test Food Food test Food test Food Food test Food test Food '),
+//   FoodItem(10, 'Soda', 'Beverages', 'assets/images/image4.png', 20,
+//       'Food test Food test Food Food test Food test Food Food test Food test Food '),
+// ];
 
 //Alumni section
 class AlumniItem {

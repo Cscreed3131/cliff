@@ -18,7 +18,6 @@ class _EventImagePickerState extends State<EventImagePicker> {
     final pickedImage = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       imageQuality: 100,
-      maxWidth: 150,
     );
     if (pickedImage == null) {
       return;
@@ -45,7 +44,7 @@ class _EventImagePickerState extends State<EventImagePicker> {
               color: Colors.grey,
               width: 1,
             ),
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(20),
           ),
           child: _pickedImageFile == null
               ? Center(

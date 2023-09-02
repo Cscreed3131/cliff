@@ -10,12 +10,12 @@ final foodItemStreamProvider =
   return foodItemsCollection.snapshots().map((snapshot) {
     return snapshot.docs.map((doc) {
       return FoodItem(
-        doc['id'],
-        doc['name'],
-        doc['category'],
-        doc['image'],
-        doc['price'],
-        doc['description'],
+        // id: doc['id'],
+        name: doc['name'],
+        category: doc['category'],
+        imgUrl: doc['imageUrl'],
+        price: doc['price'],
+        description: doc['description'],
       );
     }).toList();
   });
