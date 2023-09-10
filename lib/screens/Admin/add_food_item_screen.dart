@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cliff/provider/food_provider.dart';
 import 'package:cliff/screens/food/food_screen.dart';
 import 'package:cliff/widgets/event_image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AddFoodItems extends StatelessWidget {
   const AddFoodItems({super.key});
@@ -28,14 +30,14 @@ class AddFoodItems extends StatelessWidget {
   }
 }
 
-class BuildForm extends StatefulWidget {
+class BuildForm extends ConsumerStatefulWidget {
   const BuildForm({super.key});
 
   @override
-  State<BuildForm> createState() => _BuildFormState();
+  ConsumerState<BuildForm> createState() => _BuildFormState();
 }
 
-class _BuildFormState extends State<BuildForm> {
+class _BuildFormState extends ConsumerState<BuildForm> {
   List<String> categories = [
     "All",
     "Breakfast",
@@ -56,7 +58,7 @@ class _BuildFormState extends State<BuildForm> {
   final _descriptionFocusNode = FocusNode();
   final _priceFocusNode = FocusNode();
 
-  Future<bool> _submit() async {
+  Future<bool> _submit(int id) async {
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
       return false;
@@ -79,7 +81,6 @@ class _BuildFormState extends State<BuildForm> {
           FirebaseStorage.instance.ref().child('food_items').child('$name.jpg');
       await storageRef.putFile(_selectedImage!);
       final imageUrl = await storageRef.getDownloadURL();
-
       FirebaseFirestore.instance.collection('food_items').doc().set({
         'added_by': FirebaseAuth.instance.currentUser!.uid,
         'date_and_time': timestamp,
@@ -88,6 +89,8 @@ class _BuildFormState extends State<BuildForm> {
         'price': price,
         'category': category,
         'imageUrl': imageUrl,
+        'available': true,
+        'id': id + 1,
       });
       return true;
     } on FirebaseException catch (e) {
@@ -105,6 +108,19 @@ class _BuildFormState extends State<BuildForm> {
 
   @override
   Widget build(BuildContext context) {
+    int? id;
+    ref.watch(foodItemStreamProvider).when(
+        data: (data) {
+          id = data.length;
+        },
+        error: (error, stackTrace) {
+          print(error);
+          print(stackTrace);
+          id = null;
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Can't set id of the food item.")));
+        },
+        loading: () {});
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: FormBuilder(
@@ -173,12 +189,7 @@ class _BuildFormState extends State<BuildForm> {
                 if (value.split(RegExp(r'\s+')).length <= 5) {
                   return 'Please enter a description which has more than 5 words ';
                 }
-                if (value.isNotEmpty) {
-                  RegExp specialCharacters = RegExp(r'[!@#\$%^&*()?":{}|<>]');
-                  if (specialCharacters.hasMatch(value)) {
-                    return 'Description cannot contain special characters';
-                  }
-                }
+
                 return null;
               },
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -209,6 +220,12 @@ class _BuildFormState extends State<BuildForm> {
                 if (double.tryParse(value) == null ||
                     double.parse(value) <= 0) {
                   return 'Please enter a valid positive number';
+                }
+                if (value.isNotEmpty) {
+                  RegExp specialCharacters = RegExp(r'[!@#\$%^&*()?":{}|<>]');
+                  if (specialCharacters.hasMatch(value)) {
+                    return 'Description cannot contain special characters';
+                  }
                 }
                 return null;
               },
@@ -266,7 +283,7 @@ class _BuildFormState extends State<BuildForm> {
             ),
             ElevatedButton(
               onPressed: () async {
-                await _submit()
+                await _submit(id!)
                     ? {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(

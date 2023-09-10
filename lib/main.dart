@@ -2,6 +2,7 @@ import 'package:cliff/provider/user_data_provider.dart';
 import 'package:cliff/screens/Admin/add_food_item_screen.dart';
 import 'package:cliff/screens/Admin/create_announcement.dart';
 import 'package:cliff/screens/Home/announcements_screen.dart';
+import 'package:cliff/screens/classroom/scheduled_classes.dart';
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -154,6 +155,7 @@ class MyApp extends ConsumerWidget {
             },
             AnnouncementScreen.routeName: (cxt) => const AnnouncementScreen(),
             AddFoodItems.routeName: (ctx) => const AddFoodItems(),
+            ScheduledClasses.routeName: (ctx) => const ScheduledClasses(),
           },
         );
       },

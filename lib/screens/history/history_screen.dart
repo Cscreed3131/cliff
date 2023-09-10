@@ -24,27 +24,27 @@ class _HistoryScreenState extends State<HistoryScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: const AppDrawer(),
-        body: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) => [
-            SliverAppBar(
-              leading: Builder(
-                builder: (context) => IconButton(
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                  icon: const Icon(Icons.menu),
-                ),
+      drawer: const AppDrawer(),
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverAppBar(
+            leading: Builder(
+              builder: (context) => IconButton(
+                onPressed: () => Scaffold.of(context).openDrawer(),
+                icon: const Icon(Icons.menu),
               ),
-              pinned: true,
-              title: Text(
-                'History',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface,
-                  fontFamily: 'IBMPlexMono',
-                  fontWeight: FontWeight.bold,
-                ),
+            ),
+            pinned: true,
+            title: Text(
+              'History',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface,
+                fontFamily: 'IBMPlexMono',
+                fontWeight: FontWeight.bold,
               ),
+            ),
 
-              /*flexibleSpace: FlexibleSpaceBar(
+            /*flexibleSpace: FlexibleSpaceBar(
               titlePadding: EdgeInsets.only(
                   left: innerBoxIsScrolled ? 50 : 20,
                   bottom: innerBoxIsScrolled ? screenWidth * 0.06 : screenWidth * 0.01
@@ -68,24 +68,26 @@ class _HistoryScreenState extends State<HistoryScreen>
               ),
             ),*/
 
-              //tab bar with 3 items
-              bottom: TabBar(
-                controller: _tabController,
-                tabs: const [
-                  Tab(
-                    text: 'Food',
-                  ),
-                  Tab(
-                    text: 'Events',
-                  ),
-                  Tab(
-                    text: 'Merch',
-                  ),
-                ],
-              ),
+            //tab bar with 3 items
+            bottom: TabBar(
+              controller: _tabController,
+              tabs: const [
+                Tab(
+                  text: 'Food',
+                ),
+                Tab(
+                  text: 'Events',
+                ),
+                Tab(
+                  text: 'Merch',
+                ),
+              ],
             ),
-          ],
-          body: TabBarView(controller: _tabController, children: const [
+          ),
+        ],
+        body: TabBarView(
+          controller: _tabController,
+          children: const [
             //food tab
             FoodHistory(),
 
@@ -94,7 +96,9 @@ class _HistoryScreenState extends State<HistoryScreen>
 
             //merch tab
             MerchHistory(),
-          ]),
-        ));
+          ],
+        ),
+      ),
+    );
   }
 }

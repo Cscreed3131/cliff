@@ -1,5 +1,5 @@
 name: cliff
-description: A new Flutter project.
+description: An all round app which for college students.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -52,6 +52,8 @@ dependencies:
   flutter_hooks: ^0.20.0
   flutter_form_builder: ^9.1.0
   url_launcher: ^6.1.12
+  syncfusion_flutter_calendar: ^22.2.12
+  # table_calendar: ^3.0.9
 
 dev_dependencies:
   flutter_test:

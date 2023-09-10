@@ -20,7 +20,7 @@ class FoodCard extends ConsumerStatefulWidget {
 class _FoodCardState extends ConsumerState<FoodCard> {
   int start = 200;
   int delay = 100;
-  bool isAddedtoCart = false;
+  bool isAddedoCart = false;
   int count = 0;
   @override
   Widget build(BuildContext context) {
@@ -109,62 +109,38 @@ class _FoodCardState extends ConsumerState<FoodCard> {
                         //   width: screenWidth * 0.23,
                         // ),
                         const Spacer(),
-                        !isAddedtoCart
-                            ? FadeIn(
-                                child: FilledButton.icon(
-                                  label: const Text('Add'),
-                                  onPressed: () {
-                                    setState(() {
-                                      isAddedtoCart = true;
-                                      count = 1;
-                                    });
-                                  },
-                                  icon: const Icon(Icons.fastfood_rounded),
-                                ),
-                              )
-                            : Container(
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .surfaceVariant,
-                                  border: Border.all(
-                                    color:
-                                        Theme.of(context).colorScheme.outline,
-                                  ),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: FadeIn(
-                                  child: Row(
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {
+                        FadeIn(
+                          child: FilledButton.icon(
+                            label: const Text('Add'),
+                            onPressed: () {
+                              setState(
+                                () {
+                                  isAddedoCart = true;
+                                  count = 1;
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return BottomSheetContent(
+                                        initialCount: count,
+                                        onCountChanged: (newCount) {
                                           setState(() {
-                                            count > 1
-                                                ? count--
-                                                : isAddedtoCart = false;
+                                            count = newCount;
                                           });
                                         },
-                                        icon: const Icon(Icons.remove),
-                                      ),
-                                      Text(
-                                        '$count',
-                                        style: const TextStyle(
-                                          fontFamily: 'IBMPlexMono',
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            count++;
-                                          });
-                                        },
-                                        icon: const Icon(Icons.add),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                                        image: data[index].imgUrl,
+                                        name: data[index].name,
+                                        category: data[index].category,
+                                        description: data[index].description,
+                                        price: data[index].price,
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                            icon: const Icon(Icons.fastfood_rounded),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -173,6 +149,175 @@ class _FoodCardState extends ConsumerState<FoodCard> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class BottomSheetContent extends StatefulWidget {
+  final int initialCount;
+  final String name;
+  final String image;
+  final String category;
+  final double price;
+  final String description;
+  final Function(int) onCountChanged;
+
+  const BottomSheetContent({
+    super.key,
+    required this.initialCount,
+    required this.onCountChanged,
+    required this.name,
+    required this.image,
+    required this.category,
+    required this.price,
+    required this.description,
+  });
+
+  @override
+  State<BottomSheetContent> createState() => _BottomSheetContentState();
+}
+
+class _BottomSheetContentState extends State<BottomSheetContent> {
+  int count = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    count = widget.initialCount;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final font30 = screenHeight * 0.035;
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.secondaryContainer,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 10,
+            ),
+            height: screenHeight * 0.3,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Theme.of(context).colorScheme.outline,
+              ),
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(
+                image: NetworkImage(widget.image),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+            alignment: Alignment.centerLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.name,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontFamily: 'IBMPlexMono',
+                    fontSize: font30,
+                    fontWeight: FontWeight.bold,
+                    // color: textColor,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  widget.description,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: 130,
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton.filled(
+                      onPressed: () {
+                        setState(() {
+                          if (count > 1) {
+                            count--;
+                            widget.onCountChanged(count);
+                          } else {
+                            Navigator.of(context).pop();
+                          }
+                        });
+                      },
+                      icon: const Icon(Icons.remove),
+                    ),
+                    Text(
+                      '$count',
+                      style: const TextStyle(
+                        fontFamily: 'IBMPlexMono',
+                        fontSize: 15,
+                      ),
+                    ),
+                    IconButton.filled(
+                      onPressed: () {
+                        setState(() {
+                          count++;
+                          widget.onCountChanged(count);
+                        });
+                      },
+                      icon: const Icon(Icons.add),
+                    ),
+                  ],
+                ),
+              ),
+              // const Spacer(),
+              // const Text('hey'),
+              // const Spacer(),
+              // Chip(
+              //   label: Text('${widget.price * count}'),
+              // ),
+              Padding(
+                padding: const EdgeInsets.only(right: 16, left: 16),
+                child: FilledButton.icon(
+                  onPressed: () {},
+                  icon: const Icon(Icons.fastfood),
+                  label: Text(
+                    'Add item ₹${(widget.price * count).round()}',
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
