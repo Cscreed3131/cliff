@@ -1,4 +1,5 @@
 import 'package:cliff/provider/user_data_provider.dart';
+import 'package:cliff/screens/Admin/add_class_timetable.dart';
 import 'package:cliff/screens/Admin/add_food_item_screen.dart';
 import 'package:cliff/screens/Admin/create_announcement.dart';
 import 'package:cliff/screens/Home/announcements_screen.dart';
@@ -156,6 +157,7 @@ class MyApp extends ConsumerWidget {
             AnnouncementScreen.routeName: (cxt) => const AnnouncementScreen(),
             AddFoodItems.routeName: (ctx) => const AddFoodItems(),
             ScheduledClasses.routeName: (ctx) => const ScheduledClasses(),
+            AddClassTimeTable.routeName: (ctx) => const AddClassTimeTable(),
           },
         );
       },

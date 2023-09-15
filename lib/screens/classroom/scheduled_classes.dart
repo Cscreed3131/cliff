@@ -38,31 +38,31 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> {
                   ),
                 ),
               ),
-              SliverToBoxAdapter(
+              const SliverToBoxAdapter(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Container(
-                        height: screenHeight * 0.2,
-                        width: double.infinity,
-                        margin: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Theme.of(context).colorScheme.outline,
-                          ),
-                          color:
-                              Theme.of(context).colorScheme.secondaryContainer,
-                          borderRadius: BorderRadius.circular(20),
-                          image: const DecorationImage(
-                            image: AssetImage('assets/images/empty.png'),
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
+                      // Container(
+                      //   height: screenHeight * 0.2,
+                      //   width: double.infinity,
+                      //   margin: const EdgeInsets.all(10),
+                      //   decoration: BoxDecoration(
+                      //     border: Border.all(
+                      //       color: Theme.of(context).colorScheme.outline,
+                      //     ),
+                      //     color:
+                      //         Theme.of(context).colorScheme.secondaryContainer,
+                      //     borderRadius: BorderRadius.circular(20),
+                      //     image: const DecorationImage(
+                      //       image: AssetImage('assets/images/empty.png'),
+                      //       fit: BoxFit.fitWidth,
+                      //     ),
+                      //   ),
+                      // ),
+                      SizedBox(
                         height: 20,
                       ),
-                      const DailyPlanWidget(),
+                      DailyPlanWidget(),
                     ],
                   ),
                 ),

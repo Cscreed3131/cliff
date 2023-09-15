@@ -1,3 +1,4 @@
+import 'package:cliff/screens/Admin/add_class_timetable.dart';
 import 'package:cliff/screens/Admin/add_designs_screen.dart';
 import 'package:cliff/screens/Admin/add_food_item_screen.dart';
 import 'package:cliff/screens/Admin/create_announcement.dart';
@@ -17,7 +18,7 @@ final List<ListItem> items = [
   ListItem(2, 'Add Designs', "assets/images/merch.png"),
   ListItem(3, 'Announcements', "assets/images/events.png"),
   ListItem(4, 'Add Food Item', "assets/images/merch.png"),
-  // ListItem(5, 'Item 5'),
+  ListItem(5, 'Add Timetable', "assets/images/empty.png"),
 ];
 
 class AdminScreen extends StatefulWidget {
@@ -62,6 +63,8 @@ class AdminScreenState extends State<AdminScreen> {
                 Navigator.of(context).pushNamed(CreateAnnouncement.routeName);
               } else if (item.id == 4) {
                 Navigator.of(context).pushNamed(AddFoodItems.routeName);
+              } else if (item.id == 5) {
+                Navigator.of(context).pushNamed(AddClassTimeTable.routeName);
               }
             },
             child: Padding(
