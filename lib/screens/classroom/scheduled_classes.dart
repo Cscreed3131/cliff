@@ -1,3 +1,4 @@
+import 'package:cliff/screens/classroom/providers/class_timetable_provider.dart';
 import 'package:cliff/screens/classroom/widgets/schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,7 +16,20 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> {
   final ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+    // final screenHeight = MediaQuery.of(context).size.height;
+    ref.watch(timeTableProvider).when(
+        data: (data) {
+          data.forEach((element) {
+            element.data.forEach((key, value) {
+              print(value.color);
+            });
+          });
+        },
+        error: (error, stackTrace) {
+          print(stackTrace);
+          print(error);
+        },
+        loading: () {});
     return Scaffold(
       body: Stack(
         children: [

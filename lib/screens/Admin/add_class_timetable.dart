@@ -1,10 +1,11 @@
 import 'package:cliff/provider/user_data_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+
+// add as much logic as needed to make this perfect.
 
 class AddClassTimeTable extends StatelessWidget {
   const AddClassTimeTable({super.key});
@@ -31,6 +32,8 @@ class BuildForm extends ConsumerStatefulWidget {
 
 class _BuildFormState extends ConsumerState<BuildForm> {
   final _formKey = GlobalKey<FormBuilderState>();
+
+  String classNumber = '';
   String selectedColor = '';
   String className = '';
   String classLocation = '';
@@ -40,13 +43,16 @@ class _BuildFormState extends ConsumerState<BuildForm> {
   DateTime? repeatTill;
   bool flag = false;
 
-  Future<bool> _submit() async {
+  bool validateAndSaveForm() {
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
       return false;
     }
     _formKey.currentState!.save();
+    return true;
+  }
 
+  Future<bool> _submit() async {
     try {
       String? branchName;
       String? year;
@@ -66,18 +72,23 @@ class _BuildFormState extends ConsumerState<BuildForm> {
           .doc(year)
           .collection('sections')
           .doc(section)
-          .collection('timetable')
-          .doc(day)
-          .set({
-        classDuration: {
+          .collection(day)
+          .doc(classNumber)
+          .set(
+        {
           'className': className,
           'classLocation': classLocation,
+          'day': day,
+          'classDuration': classDuration,
           'startDateTime': Timestamp.fromDate(startDateTime!),
           'endDateTime': Timestamp.fromDate(endDateTime!),
           'repeatTill': Timestamp.fromDate(repeatTill!),
           'color': selectedColor,
-        }
-      }, SetOptions(merge: true));
+        },
+        SetOptions(
+          merge: true,
+        ),
+      );
 
       return true;
     } on FirebaseException catch (e) {
@@ -94,6 +105,59 @@ class _BuildFormState extends ConsumerState<BuildForm> {
         key: _formKey,
         child: Column(
           children: [
+            FormBuilderDropdown(
+              name: 'Drop Down',
+              decoration: InputDecoration(
+                alignLabelWithHint: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                labelText: 'Class No',
+              ),
+              alignment: Alignment.bottomCenter,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Class number can't be empty";
+                }
+                return null;
+              },
+              onSaved: (newValue) {
+                classNumber = newValue!;
+              },
+              items: const [
+                DropdownMenuItem(
+                  value: 'Class 1',
+                  child: Text('Class 1'),
+                ),
+                DropdownMenuItem(
+                  value: 'Class 2',
+                  child: Text('Class 2'),
+                ),
+                DropdownMenuItem(
+                  value: 'Class 3',
+                  child: Text('Class 3'),
+                ),
+                DropdownMenuItem(
+                  value: 'Class 4',
+                  child: Text('Class 4'),
+                ),
+                DropdownMenuItem(
+                  value: 'Class 5',
+                  child: Text('Class 5'),
+                ),
+                DropdownMenuItem(
+                  value: 'Class 6',
+                  child: Text('Class 6'),
+                ),
+                DropdownMenuItem(
+                  value: 'Class 7',
+                  child: Text('Class 7'),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             FormBuilderTextField(
               name: 'Event name',
               maxLines: 1,
@@ -157,7 +221,7 @@ class _BuildFormState extends ConsumerState<BuildForm> {
               ),
               validator: (value) {
                 if (value == null) {
-                  return 'Please enter a end time';
+                  return 'Please enter an end time';
                 }
                 return null;
               },
@@ -271,6 +335,13 @@ class _BuildFormState extends ConsumerState<BuildForm> {
               initialValue: '0xff22a699',
               onSaved: (newValue) {
                 selectedColor = newValue!;
+              },
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Color cannot be empty';
+                }
+                return null;
               },
               options: const [
                 FormBuilderChipOption(
@@ -434,19 +505,64 @@ class _BuildFormState extends ConsumerState<BuildForm> {
             ElevatedButton.icon(
               icon: const Icon(Icons.add_circle_outline_sharp),
               onPressed: () async {
-                await _submit()
-                    ? {
+                validateAndSaveForm()
+                    ? showDialog(
+                        context: context,
+                        builder: (context) {
+                          final dateFormat = DateFormat('MMM EEE hh:mm a');
+                          String start = dateFormat.format(startDateTime!);
+                          String end = dateFormat.format(endDateTime!);
+                          String repeat = dateFormat.format(repeatTill!);
+                          return AlertDialog(
+                            title: const Text('Alert'),
+                            content: Text(
+                              "Number: $classNumber\nName: $className\nLocation: $classLocation\nDay: $day\nStart: $start\nEnd: $end\nRepeat: $repeat",
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () async {
+                                  await _submit()
+                                      ? {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                  'Uploading was successful'),
+                                            ),
+                                          ),
+                                        }
+                                      : ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                'Uploading was Unsuccessful'),
+                                          ),
+                                        );
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                },
+                                child: const Text('OK'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                },
+                                child: const Text('Cancel'),
+                              ),
+                            ],
+                          );
+                        },
+                      )
+                    : {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Uploading was successful'),
+                            content: Text(
+                              'Please verify once again before adding',
+                            ),
                           ),
                         ),
-                      }
-                    : ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Uploading was Unsuccessful'),
-                        ),
-                      );
+                      };
               },
               label: const Text('Add'),
             ),

@@ -40,7 +40,7 @@ final cartDataStreamProvider =
     print(userDetails.error);
   }
   if (userDetails.isLoading) {
-    print('loading userdetails.dart');
+    print('loading userdetails');
   }
   if (userDetails.hasValue) {
     String userId = userDetails.value!.sic;
