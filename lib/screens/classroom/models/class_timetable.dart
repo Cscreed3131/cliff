@@ -8,6 +8,7 @@ class TimetableEntry {
   final DateTime repeatUntil;
   final String day;
   final String color;
+  bool isAllDay = false;
 
   TimetableEntry({
     required this.classNumber,

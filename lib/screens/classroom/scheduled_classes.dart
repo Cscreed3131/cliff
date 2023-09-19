@@ -16,36 +16,6 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> {
   final ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
-    // final screenHeight = MediaQuery.of(context).size.height;
-    ref.watch(timeTableProvider).when(
-        data: (data) {
-          data.dayWiseTimetable.forEach(
-            (key1, value) {
-              value.forEach(
-                (element) {
-                  element.forEach(
-                    (element) {
-                      element.data.forEach(
-                        (key, value) {
-                          print(
-                            {
-                              key1: {key: value.classLocation}
-                            },
-                          );
-                        },
-                      );
-                    },
-                  );
-                },
-              );
-            },
-          );
-        },
-        error: (error, stackTrace) {
-          print(stackTrace);
-          print(error);
-        },
-        loading: () {});
     return Scaffold(
       body: Stack(
         children: [

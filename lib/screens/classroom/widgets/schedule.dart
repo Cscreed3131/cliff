@@ -1,7 +1,7 @@
+import 'package:cliff/screens/classroom/providers/class_timetable_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-// import 'package:table_calendar/table_calendar.dart';
 
 class DailyPlanWidget extends ConsumerStatefulWidget {
   const DailyPlanWidget({super.key});
@@ -79,7 +79,7 @@ class _DailyPlanWidgetState extends ConsumerState<DailyPlanWidget> {
               timeSlotViewSettings: const TimeSlotViewSettings(
                 nonWorkingDays: <int>[DateTime.sunday],
               ),
-              dataSource: MeetingDataSource(_getDataSource()),
+              dataSource: _getDataSource(ref),
             ),
           ),
         ),
@@ -88,60 +88,56 @@ class _DailyPlanWidgetState extends ConsumerState<DailyPlanWidget> {
   }
 }
 
-List<TimeTable> _getDataSource() {
-  final List<TimeTable> classes = <TimeTable>[];
-  final DateTime today = DateTime.now();
-  final DateTime startTime =
-      DateTime(today.year, today.month, today.day, 18, 20, 0);
-  final DateTime endTime = startTime.add(const Duration(minutes: 60));
-  classes.add(TimeTable(
-      'Conference', startTime, endTime, const Color(0xFF0F8644), false));
-  return classes;
-}
-
-class MeetingDataSource extends CalendarDataSource {
-  MeetingDataSource(List<TimeTable> source) {
+class _AppointmentDataSource extends CalendarDataSource {
+  _AppointmentDataSource(List<Appointment> source) {
     appointments = source;
   }
-
-  @override
-  DateTime getStartTime(int index) {
-    return appointments![index].from;
-  }
-
-  @override
-  DateTime getEndTime(int index) {
-    return appointments![index].to;
-  }
-
-  @override
-  String getSubject(int index) {
-    return appointments![index].eventName;
-  }
-
-  @override
-  Color getColor(int index) {
-    return appointments![index].background;
-  }
-
-  @override
-  bool isAllDay(int index) {
-    return appointments![index].isAllDay;
-  }
 }
 
-class TimeTable {
-  TimeTable(
-    this.eventName,
-    this.from,
-    this.to,
-    this.background,
-    this.isAllDay,
+_AppointmentDataSource _getDataSource(WidgetRef ref) {
+  final timetableData = ref.watch(timeTableProvider);
+  return timetableData.when(
+    data: (data) {
+      List<Appointment> classes = <Appointment>[];
+      data.dayWiseTimetable.forEach(
+        (day, dayWiseData) {
+          dayWiseData.forEach(
+            (element) {
+              for (var i in element) {
+                i.data.forEach(
+                  (classNumber, timetableEntry) {
+                    print(timetableEntry.className);
+                    classes.add(
+                      Appointment(
+                        startTime: timetableEntry.startDateTime,
+                        endTime: timetableEntry.endDateTime,
+                        subject: timetableEntry.className,
+                        // location: timetableEntry.classLocation,
+                        color: Color(
+                          int.parse(timetableEntry.color),
+                        ),
+                        endTimeZone: '',
+                        startTimeZone: '',
+                      ),
+                    );
+                  },
+                );
+              }
+            },
+          );
+        },
+      );
+      print(classes);
+      return _AppointmentDataSource(classes);
+    },
+    error: (error, stackTrace) {
+      print(error);
+      print(stackTrace);
+      return _AppointmentDataSource([]);
+    },
+    loading: () {
+      print('loading....');
+      return _AppointmentDataSource([]);
+    },
   );
-
-  String eventName;
-  DateTime from;
-  DateTime to;
-  Color background;
-  bool isAllDay;
 }
