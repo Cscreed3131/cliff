@@ -19,11 +19,27 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> {
     // final screenHeight = MediaQuery.of(context).size.height;
     ref.watch(timeTableProvider).when(
         data: (data) {
-          data.forEach((element) {
-            element.data.forEach((key, value) {
-              print(value.color);
-            });
-          });
+          data.dayWiseTimetable.forEach(
+            (key1, value) {
+              value.forEach(
+                (element) {
+                  element.forEach(
+                    (element) {
+                      element.data.forEach(
+                        (key, value) {
+                          print(
+                            {
+                              key1: {key: value.classLocation}
+                            },
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+              );
+            },
+          );
         },
         error: (error, stackTrace) {
           print(stackTrace);

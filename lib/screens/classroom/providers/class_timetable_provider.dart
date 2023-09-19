@@ -3,8 +3,7 @@ import 'package:cliff/screens/classroom/models/class_timetable.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final timeTableProvider =
-    StreamProvider.autoDispose<List<TimetableDayWise>>((ref) {
+final timeTableProvider = StreamProvider.autoDispose<Timetable>((ref) {
   String? branch;
   String? year;
   String? section = 'J'.toUpperCase();
@@ -14,27 +13,44 @@ final timeTableProvider =
     year = value.year;
   });
 
-  return fetchDayWiseTimetable(branch, year, section);
+  // Define a list of days for which you want to fetch data
+  final List<String> days = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday'
+  ];
+
+  final Map<String, Stream<List<TimetableDayWise>>> timetableData = {};
+
+  for (final day in days) {
+    timetableData[day] = fetchDayWiseTimetable(branch, year, section, day);
+  }
+
+  return Stream.value(Timetable(dayWiseTimetable: timetableData));
 });
 
 Stream<List<TimetableDayWise>> fetchDayWiseTimetable(
-    String? branch, String? year, String section) {
-  final collectionReferenceMonday = FirebaseFirestore.instance
+    String? branch, String? year, String section, String day) {
+  final collectionReference = FirebaseFirestore.instance
       .collection('timetables')
       .doc(branch)
       .collection('years')
       .doc(year)
       .collection('sections')
       .doc(section)
-      .collection('Monday');
-  return collectionReferenceMonday.snapshots().map((querySnapshot) {
+      .collection(day); // Use the 'day' parameter here
+
+  return collectionReference.snapshots().map((querySnapshot) {
     return querySnapshot.docs.map((doc) {
       Map<String, dynamic> data = doc.data();
       return TimetableDayWise(
-        day: "Monday",
+        day: day, // Use the 'day' parameter here
         data: {
           doc.id: TimetableEntry(
-            // classNumber: data['classNumber'],
+            classNumber: doc.id,
             timeSlot: data['classDuration'],
             className: data['className'],
             classLocation: data['classLocation'],
@@ -49,6 +65,7 @@ Stream<List<TimetableDayWise>> fetchDayWiseTimetable(
     }).toList();
   });
 }
+
 
 // final dayWiseTimetableData = Provider<Map<String, List<TimetableEntry>>>((ref) {
 //   return {
