@@ -16,6 +16,18 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> {
   final ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final data1 = ref.watch(timeTableProvider);
+    data1.when(data: (data) {
+      for (var element in data) {
+        print(element.className);
+      }
+    }, error: (error, stackTrace) {
+      print(error);
+      print(stackTrace);
+    }, loading: () {
+      print('loading');
+    });
     return Scaffold(
       body: Stack(
         children: [
@@ -29,6 +41,7 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> {
                   },
                   icon: const Icon(Icons.arrow_back),
                 ),
+                // leading: ,
                 title: const Text(
                   "Classroom",
                   style: TextStyle(
@@ -38,31 +51,31 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> {
                   ),
                 ),
               ),
-              const SliverToBoxAdapter(
+              SliverToBoxAdapter(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      // Container(
-                      //   height: screenHeight * 0.2,
-                      //   width: double.infinity,
-                      //   margin: const EdgeInsets.all(10),
-                      //   decoration: BoxDecoration(
-                      //     border: Border.all(
-                      //       color: Theme.of(context).colorScheme.outline,
-                      //     ),
-                      //     color:
-                      //         Theme.of(context).colorScheme.secondaryContainer,
-                      //     borderRadius: BorderRadius.circular(20),
-                      //     image: const DecorationImage(
-                      //       image: AssetImage('assets/images/empty.png'),
-                      //       fit: BoxFit.fitWidth,
-                      //     ),
-                      //   ),
-                      // ),
-                      SizedBox(
-                        height: 20,
+                      Container(
+                        height: screenHeight * 0.2,
+                        width: double.infinity,
+                        margin: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.outline,
+                          ),
+                          color:
+                              Theme.of(context).colorScheme.secondaryContainer,
+                          borderRadius: BorderRadius.circular(20),
+                          image: const DecorationImage(
+                            image: AssetImage('assets/images/empty.png'),
+                            fit: BoxFit.fitWidth,
+                          ),
+                        ),
                       ),
-                      DailyPlanWidget(),
+                      const SizedBox(
+                        height: 0,
+                      ),
+                      const DailyPlanWidget(),
                     ],
                   ),
                 ),

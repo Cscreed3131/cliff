@@ -72,18 +72,23 @@ class _BuildFormState extends ConsumerState<BuildForm> {
           .doc(year)
           .collection('sections')
           .doc(section)
-          .collection(day)
-          .doc(classNumber)
+          .collection('timetable')
+          .doc('classes')
           .set(
         {
-          'className': className,
-          'classLocation': classLocation,
-          'day': day,
-          'classDuration': classDuration,
-          'startDateTime': Timestamp.fromDate(startDateTime!),
-          'endDateTime': Timestamp.fromDate(endDateTime!),
-          'repeatTill': Timestamp.fromDate(repeatTill!),
-          'color': selectedColor,
+          'classes': {
+            '$day-$classNumber': {
+              'className': className,
+              'classId': '$day-$classNumber',
+              'classLocation': classLocation,
+              'day': day,
+              'classDuration': classDuration,
+              'startDateTime': Timestamp.fromDate(startDateTime!),
+              'endDateTime': Timestamp.fromDate(endDateTime!),
+              'repeatTill': Timestamp.fromDate(repeatTill!),
+              'color': selectedColor,
+            }
+          }
         },
         SetOptions(
           merge: true,

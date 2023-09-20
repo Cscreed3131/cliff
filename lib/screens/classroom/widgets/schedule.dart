@@ -30,7 +30,7 @@ class _DailyPlanWidgetState extends ConsumerState<DailyPlanWidget> {
             padding: const EdgeInsets.only(
               bottom: 10,
             ),
-            height: screenHeight,
+            height: screenHeight * 0.85,
             child: SfCalendar(
               firstDayOfWeek: 1,
               allowedViews: const [
@@ -49,11 +49,11 @@ class _DailyPlanWidgetState extends ConsumerState<DailyPlanWidget> {
                 textAlign: TextAlign.center,
                 textStyle: TextStyle(
                   fontFamily: 'IBMPlexMono',
-                  fontSize: 25,
+                  fontSize: 20,
                 ),
               ),
               // headHeight
-              headerDateFormat: 'MMM yyyy',
+              headerDateFormat: 'MMM yy',
               headerHeight: 60,
               showNavigationArrow: true,
 
@@ -80,6 +80,7 @@ class _DailyPlanWidgetState extends ConsumerState<DailyPlanWidget> {
                 nonWorkingDays: <int>[DateTime.sunday],
               ),
               dataSource: _getDataSource(ref),
+              appointmentTextStyle: const TextStyle(fontSize: 10),
             ),
           ),
         ),
@@ -99,34 +100,16 @@ _AppointmentDataSource _getDataSource(WidgetRef ref) {
   return timetableData.when(
     data: (data) {
       List<Appointment> classes = <Appointment>[];
-      data.dayWiseTimetable.forEach(
-        (day, dayWiseData) {
-          dayWiseData.forEach(
-            (element) {
-              for (var i in element) {
-                i.data.forEach(
-                  (classNumber, timetableEntry) {
-                    print(timetableEntry.className);
-                    classes.add(
-                      Appointment(
-                        startTime: timetableEntry.startDateTime,
-                        endTime: timetableEntry.endDateTime,
-                        subject: timetableEntry.className,
-                        // location: timetableEntry.classLocation,
-                        color: Color(
-                          int.parse(timetableEntry.color),
-                        ),
-                        endTimeZone: '',
-                        startTimeZone: '',
-                      ),
-                    );
-                  },
-                );
-              }
-            },
-          );
-        },
-      );
+      for (var element in data) {
+        classes.add(Appointment(
+          startTime: element.startDateTime,
+          endTime: element.endDateTime,
+          color: Color(int.parse(element.color)),
+          subject: element.className,
+          isAllDay: element.isAllDay,
+          location: element.classLocation,
+        ));
+      }
       print(classes);
       return _AppointmentDataSource(classes);
     },

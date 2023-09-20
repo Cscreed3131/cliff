@@ -1,6 +1,6 @@
 class TimetableEntry {
-  final String classNumber;
-  final String timeSlot;
+  final String classid;
+  final String timeDuration;
   final String className;
   final String classLocation;
   final DateTime startDateTime;
@@ -11,8 +11,8 @@ class TimetableEntry {
   bool isAllDay = false;
 
   TimetableEntry({
-    required this.classNumber,
-    required this.timeSlot,
+    required this.classid,
+    required this.timeDuration,
     required this.className,
     required this.classLocation,
     required this.startDateTime,
@@ -20,21 +20,5 @@ class TimetableEntry {
     required this.day,
     required this.repeatUntil,
     required this.color,
-  });
-}
-
-class TimetableDayWise {
-  final String day;
-  final Map<String, TimetableEntry> data;
-  TimetableDayWise({
-    required this.day,
-    required this.data,
-  });
-}
-
-class Timetable {
-  Map<String, Stream<List<TimetableDayWise>>> dayWiseTimetable;
-  Timetable({
-    required this.dayWiseTimetable,
   });
 }
