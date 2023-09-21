@@ -35,8 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
             title: Row(
               children: [
                 Container(
-                  width: 70,
-                  height: 70,
+                  width: 50,
+                  height: 50,
                   // margin: const EdgeInsets.only(top: 30, bottom: 10),
                   padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(

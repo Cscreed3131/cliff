@@ -10,18 +10,21 @@ class AnnouncementScreen extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar.large(
+          SliverAppBar(
+            snap: true,
+            floating: true,
             leading: IconButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              icon: const Icon(Icons.arrow_back),
+              //added close icon
+              icon: const Icon(Icons.close),
             ),
-            title: const Text(
+            title: Text(
               "Announcements",
               style: TextStyle(
                 fontFamily: 'IBMPlexMono',
-                fontSize: 30,
+                fontSize: MediaQuery.of(context).size.width * 0.05,
                 fontWeight: FontWeight.bold,
                 // color: textColor,
               ),

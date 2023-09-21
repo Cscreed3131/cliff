@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cliff/models/food_item.dart';
-import 'package:cliff/screens/food/food_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -30,124 +29,111 @@ class _FoodCardState extends ConsumerState<FoodCard> {
     final screenWidth = MediaQuery.of(context).size.width;
     return FadeIn(
       delay: Duration(milliseconds: delay * index),
-      child: InkWell(
-        onTap: () {
-          Navigator.of(context)
-              .pushNamed(FoodDetailsPage.routeName, arguments: {
-            // 'id': data[index].id,
-            'name': data[index].name,
-            'category': data[index].category,
-            'imgUrl': data[index].imgUrl,
-            'price': data[index].price,
-            'description': data[index].description,
-          });
-        },
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.secondaryContainer,
-            border: Border.all(
-              color: Theme.of(context).colorScheme.outline,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.secondaryContainer,
+          border: Border.all(
+            color: Theme.of(context).colorScheme.outline,
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          children: [
+            Container(
+              height: screenHeight * 0.1,
+              width: screenHeight * 0.1,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondaryContainer,
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.outline,
+                ),
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                  image: NetworkImage(
+                      data[index].imgUrl), // should be networkImage
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
             ),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Row(
-            children: [
-              Container(
-                height: screenHeight * 0.1,
-                width: screenHeight * 0.1,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondaryContainer,
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                  image: DecorationImage(
-                    image: NetworkImage(
-                        data[index].imgUrl), // should be networkImage
-                    fit: BoxFit.fitWidth,
-                  ),
-                ),
+            Container(
+              width: screenWidth * 0.633,
+              padding: const EdgeInsets.only(
+                left: 10,
               ),
-              Container(
-                width: screenWidth * 0.633,
-                padding: const EdgeInsets.only(
-                  left: 10,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      data[index].name,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontFamily: 'IBMPlexMono',
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data[index].name,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'IBMPlexMono',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Text(
-                      data[index].category,
-                      style: const TextStyle(
-                        fontFamily: 'IBMPlexMono',
-                        fontSize: 15,
-                      ),
+                  ),
+                  Text(
+                    data[index].category,
+                    style: const TextStyle(
+                      fontFamily: 'IBMPlexMono',
+                      fontSize: 15,
                     ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          '₹ ${data[index].price}',
-                          style: const TextStyle(
-                            fontFamily: 'IBMPlexMono',
-                            fontSize: 15,
-                          ),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '₹ ${data[index].price}',
+                        style: const TextStyle(
+                          fontFamily: 'IBMPlexMono',
+                          fontSize: 15,
                         ),
-                        // SizedBox(
-                        //   width: screenWidth * 0.23,
-                        // ),
-                        const Spacer(),
-                        FadeIn(
-                          child: FilledButton.icon(
-                            label: const Text('Add'),
-                            onPressed: () {
-                              setState(
-                                () {
-                                  isAddedoCart = true;
-                                  count = 1;
-                                  showModalBottomSheet(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return BottomSheetContent(
-                                        initialCount: count,
-                                        onCountChanged: (newCount) {
-                                          setState(() {
-                                            count = newCount;
-                                          });
-                                        },
-                                        image: data[index].imgUrl,
-                                        name: data[index].name,
-                                        category: data[index].category,
-                                        description: data[index].description,
-                                        price: data[index].price,
-                                      );
-                                    },
-                                  );
-                                },
-                              );
-                            },
-                            icon: const Icon(Icons.fastfood_rounded),
-                          ),
+                      ),
+                      // SizedBox(
+                      //   width: screenWidth * 0.23,
+                      // ),
+                      const Spacer(),
+                      FadeIn(
+                        child: FilledButton.icon(
+                          label: const Text('Add'),
+                          onPressed: () {
+                            setState(
+                              () {
+                                isAddedoCart = true;
+                                count = 1;
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return BottomSheetContent(
+                                      initialCount: count,
+                                      onCountChanged: (newCount) {
+                                        setState(() {
+                                          count = newCount;
+                                        });
+                                      },
+                                      image: data[index].imgUrl,
+                                      name: data[index].name,
+                                      category: data[index].category,
+                                      description: data[index].description,
+                                      price: data[index].price,
+                                    );
+                                  },
+                                );
+                              },
+                            );
+                          },
+                          icon: const Icon(Icons.fastfood_rounded),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -202,6 +188,20 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            height: 5,
+            width: 50,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.outline,
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
           Container(
             margin: const EdgeInsets.symmetric(
               horizontal: 16,
