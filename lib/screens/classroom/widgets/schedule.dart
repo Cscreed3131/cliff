@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class DailyPlanWidget extends ConsumerStatefulWidget {
+  /*final CalendarView? calendarView;*/
   const DailyPlanWidget({super.key});
 
   @override
