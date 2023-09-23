@@ -32,7 +32,7 @@ class AppDrawer extends ConsumerWidget {
     final rolesFuture = checkRole();
     return Drawer(
       elevation: 10,
-      width: 250,
+      width: MediaQuery.of(context).size.width * 0.7,
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -41,10 +41,7 @@ class AppDrawer extends ConsumerWidget {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.secondaryContainer,
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(0),
-                  bottomRight: Radius.circular(20),
-                ),
+
               ),
               child: Center(
                 child: userDetails.when(

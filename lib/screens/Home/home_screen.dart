@@ -14,7 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final font40 = screenWidth * 0.08;
+    final font30 = screenWidth * 0.07;
 
     return Scaffold(
       drawer: const AppDrawer(),
@@ -35,8 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
             title: Row(
               children: [
                 Container(
-                  width: 50,
-                  height: 50,
+                  width: 40,
+                  height: 40,
                   // margin: const EdgeInsets.only(top: 30, bottom: 10),
                   padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(
@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Cliff',
                   style: TextStyle(
                     fontFamily: 'IBMPlexMono',
-                    fontSize: font40,
+                    fontSize: font30,
                     fontWeight: FontWeight.bold,
                     // color: textColor,
                   ),

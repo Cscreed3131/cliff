@@ -151,25 +151,31 @@ class _BuildFormState extends State<BuildForm> {
             const SizedBox(
               height: 10,
             ),
-            ElevatedButton(
-              onPressed: () async {
-                await _submit()
-                    ? {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Uploading was successful'),
-                          ),
-                        ),
-                        Navigator.of(context)
-                            .pushReplacementNamed(AnnouncementScreen.routeName)
-                      }
-                    : ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Uploading was Unsuccessful'),
-                        ),
-                      );
-              },
-              child: const Text('Submit'),
+            Row(
+              children: [
+                Expanded(
+                  child: FilledButton(
+                    onPressed: () async {
+                      await _submit()
+                          ? {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Uploading was successful'),
+                                ),
+                              ),
+                              Navigator.of(context)
+                                  .pushReplacementNamed(AnnouncementScreen.routeName)
+                            }
+                          : ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Uploading was Unsuccessful'),
+                              ),
+                            );
+                    },
+                    child: const Text('Submit'),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

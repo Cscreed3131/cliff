@@ -325,7 +325,7 @@ class _BuildFormState extends ConsumerState<BuildForm> {
             ),
             FormBuilderChoiceChip(
               name: 'chip_options',
-              alignment: WrapAlignment.center,
+              alignment: WrapAlignment.start,
               crossAxisAlignment: WrapCrossAlignment.center,
               decoration: const InputDecoration(
                 border: InputBorder.none,
@@ -507,69 +507,80 @@ class _BuildFormState extends ConsumerState<BuildForm> {
                 ),
               ],
             ),
-            ElevatedButton.icon(
-              icon: const Icon(Icons.add_circle_outline_sharp),
-              onPressed: () async {
-                validateAndSaveForm()
-                    ? showDialog(
-                        context: context,
-                        builder: (context) {
-                          final dateFormat = DateFormat('MMM EEE hh:mm a');
-                          String start = dateFormat.format(startDateTime!);
-                          String end = dateFormat.format(endDateTime!);
-                          String repeat = dateFormat.format(repeatTill!);
-                          return AlertDialog(
-                            title: const Text('Alert'),
-                            content: Text(
-                              "Number: $classNumber\nName: $className\nLocation: $classLocation\nDay: $day\nStart: $start\nEnd: $end\nRepeat: $repeat",
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () async {
-                                  await _submit()
-                                      ? {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                              content: Text(
-                                                  'Uploading was successful'),
-                                            ),
-                                          ),
-                                        }
-                                      : ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                                'Uploading was Unsuccessful'),
-                                          ),
-                                        );
-                                  Navigator.of(context)
-                                      .pop(); // Close the dialog
-                                },
-                                child: const Text('OK'),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: FilledButton.icon(
+                    icon: const Icon(Icons.add_circle_outline_sharp),
+                    onPressed: () async {
+                      validateAndSaveForm()
+                          ? showDialog(
+                              context: context,
+                              builder: (context) {
+                                final dateFormat = DateFormat('MMM EEE hh:mm a');
+                                String start = dateFormat.format(startDateTime!);
+                                String end = dateFormat.format(endDateTime!);
+                                String repeat = dateFormat.format(repeatTill!);
+                                return AlertDialog(
+                                  title: const Text('Confirmation'),
+                                  content: Text(
+                                    "Number: $classNumber\nName: $className\nLocation: $classLocation\nDay: $day\nStart: $start\nEnd: $end\nRepeat: $repeat",
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () async {
+                                        await _submit()
+                                            ? {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  const SnackBar(
+                                                    behavior: SnackBarBehavior.floating,
+                                                    content: Text(
+                                                        'Uploading was successful'),
+                                                  ),
+                                                ),
+                                              }
+                                            : ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                                const SnackBar(
+                                                  behavior: SnackBarBehavior.floating,
+                                                  content: Text(
+                                                      'Uploading was Unsuccessful'),
+                                                ),
+                                              );
+                                        Navigator.of(context)
+                                            .pop(); // Close the dialog
+                                      },
+                                      child: const Text('OK'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pop(); // Close the dialog
+                                      },
+                                      child: const Text('Cancel'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            )
+                          : {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Please verify once again before adding',
+                                  ),
+                                ),
                               ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context)
-                                      .pop(); // Close the dialog
-                                },
-                                child: const Text('Cancel'),
-                              ),
-                            ],
-                          );
-                        },
-                      )
-                    : {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Please verify once again before adding',
-                            ),
-                          ),
-                        ),
-                      };
-              },
-              label: const Text('Add'),
+                            };
+                    },
+                    label: const Text('Add'),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

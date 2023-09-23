@@ -94,7 +94,7 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
               CircleAvatar(
                 radius: screenHeight * 0.035,
-                backgroundImage: const AssetImage('assets/images/logo.png'),
+                backgroundImage: const AssetImage('assets/cliff.png'),
               ),
               Text(
                 'Cliff',
