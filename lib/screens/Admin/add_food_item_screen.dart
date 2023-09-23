@@ -236,7 +236,7 @@ class _BuildFormState extends ConsumerState<BuildForm> {
             // const SizedBox(height: 10,),
             FormBuilderChoiceChip(
               name: 'chip_options',
-              alignment: WrapAlignment.center,
+              alignment: WrapAlignment.start,
               crossAxisAlignment: WrapCrossAlignment.center,
               decoration: const InputDecoration(
                 border: InputBorder.none,
@@ -281,26 +281,32 @@ class _BuildFormState extends ConsumerState<BuildForm> {
               },
               onReset: () {},
             ),
-            ElevatedButton(
-              onPressed: () async {
-                await _submit(id!)
-                    ? {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Uploading was successful'),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        ),
-                        Navigator.of(context)
-                            .pushReplacementNamed(FoodScreen.routeName),
-                      }
-                    : ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Uploading was Unsuccessful'),
-                        ),
-                      );
-              },
-              child: const Text('Submit'),
+            Row(
+              children: [
+                Expanded(
+                  child: FilledButton(
+                    onPressed: () async {
+                      await _submit(id!)
+                          ? {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Uploading was successful'),
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              ),
+                              Navigator.of(context)
+                                  .pushReplacementNamed(FoodScreen.routeName),
+                            }
+                          : ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Uploading was Unsuccessful'),
+                              ),
+                            );
+                    },
+                    child: const Text('Submit'),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

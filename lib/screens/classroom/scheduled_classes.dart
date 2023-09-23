@@ -3,6 +3,8 @@ import 'package:cliff/screens/classroom/widgets/schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class ScheduledClasses extends ConsumerStatefulWidget {
   const ScheduledClasses({Key? key}) : super(key: key);
@@ -16,6 +18,7 @@ class ScheduledClasses extends ConsumerStatefulWidget {
 class _ScheduledClassesState extends ConsumerState<ScheduledClasses> with TickerProviderStateMixin{
   final ScrollController _scrollController = ScrollController();
   late AnimationController _hideFabAnimation;
+  final CalendarView _calendarView = CalendarView.day;
   int _selectedIndex = 0;
 
 
@@ -33,6 +36,7 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> with Ticker
   }
 
 
+
   bool _handleScrollNotification(ScrollNotification notification) {
     if (notification.depth == 0) {
       if (notification is UserScrollNotification) {
@@ -41,13 +45,14 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> with Ticker
           case ScrollDirection.forward:
             if (userScroll.metrics.maxScrollExtent !=
                 userScroll.metrics.minScrollExtent) {
-              _hideFabAnimation.forward();
+              _hideFabAnimation.reverse();
             }
             break;
           case ScrollDirection.reverse:
             if (userScroll.metrics.maxScrollExtent !=
                 userScroll.metrics.minScrollExtent) {
-              _hideFabAnimation.reverse();
+
+              _hideFabAnimation.forward();
             }
             break;
           case ScrollDirection.idle:
@@ -58,8 +63,40 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> with Ticker
     return false;
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+
+    List<TodaysScheduledClass> getTodaysScheduledClass(WidgetRef ref) {
+      final _timetableData = ref.watch(timeTableProvider);
+      final List<TodaysScheduledClass> _todaysScheduledClass = [];
+      _timetableData.when(data: (data) {
+        for (var element in data) {
+          _todaysScheduledClass.add(
+            TodaysScheduledClass(
+              className: element.className,
+              classStartTime: element.startDateTime,
+              classEndTime: element.endDateTime,
+              classRoom: element.classLocation,
+              classColor: Color(int.parse(element.color)),
+            ),
+          );
+        }
+      }, error: (error, stackTrace) {
+        print(error);
+        print(stackTrace);
+      }, loading: () {
+        print('loading');
+      });
+      print("PRINTING FROM SCHEDULED CLASSESD");
+      print(_todaysScheduledClass);
+      return _todaysScheduledClass;
+
+    }
+
+    getTodaysScheduledClass(ref);
+
     final screenHeight = MediaQuery.of(context).size.height;
     final data1 = ref.watch(timeTableProvider);
     data1.when(data: (data) {
@@ -75,7 +112,7 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> with Ticker
     return NotificationListener<ScrollNotification>(
       onNotification: _handleScrollNotification,
       child: Scaffold(
-        endDrawer: NavigationDrawer(
+        /*endDrawer: NavigationDrawer(
           onDestinationSelected: (index) {
             setState(() {
               _selectedIndex = index;
@@ -124,7 +161,7 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> with Ticker
               icon: Icon(Icons.calendar_view_month),
             ),
           ]
-        ),
+        ),*/
         body: CustomScrollView(
           controller: _scrollController,
           slivers: [
@@ -158,20 +195,68 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> with Ticker
                         border: Border.all(
                           color: Theme.of(context).colorScheme.outline,
                         ),
-                        color:
-                            Theme.of(context).colorScheme.secondaryContainer,
                         borderRadius: BorderRadius.circular(20),
-                        image: const DecorationImage(
-                          image: AssetImage('assets/images/empty.png'),
-                          fit: BoxFit.fitWidth,
+                        color: Theme.of(context).colorScheme.secondaryContainer,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+
+                            //Today's date in the format of "Monday, 12th July 2021", uses intl
+                            Text(
+                              '${DateFormat('EEEE, d MMMM yyyy').format(DateTime.now())}',
+                              style: TextStyle(
+                                fontFamily: 'IBMPlexMono',
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Text(
+                              'You have 3 classes today',
+                              style: TextStyle(
+                                fontFamily: 'IBMPlexMono',
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            //A list of chips consisting of items from the getTodaysScheduledClass() function, wrapped
+                            Wrap(
+                              spacing: 10,
+                              children: [
+                                for (var element in getTodaysScheduledClass(ref))
+                                  Chip(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    label: Text(
+                                      element.className,
+                                      style: TextStyle(
+                                        fontFamily: 'IBMPlexMono',
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    backgroundColor: element.classColor,
+                                  ),
+                              ],),
+
+                          ],
                         ),
                       ),
                     ),
+                    //A card showing all the classes that are scheduled for the day
                     const SizedBox(
                       height: 0,
                     ),
-                    const DailyPlanWidget(
-                      //_calendarDetails,
+
+                    DailyPlanWidget(
+                      _calendarView,
                     ),
                   ],
                 ),
@@ -201,4 +286,21 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> with Ticker
       ),
     );
   }
+}
+
+
+class TodaysScheduledClass {
+  final String className;
+  final DateTime classStartTime;
+  final DateTime classEndTime;
+  final String classRoom;
+  final Color classColor;
+
+  TodaysScheduledClass({
+    required this.className,
+    required this.classStartTime,
+    required this.classEndTime,
+    required this.classRoom,
+    required this.classColor,
+  });
 }

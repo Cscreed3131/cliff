@@ -1,11 +1,12 @@
 import 'package:cliff/screens/classroom/providers/class_timetable_provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class DailyPlanWidget extends ConsumerStatefulWidget {
-  /*final CalendarView? calendarView;*/
-  const DailyPlanWidget({super.key});
+  final CalendarView? calendarView;
+  const DailyPlanWidget(this.calendarView, {super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -33,7 +34,7 @@ class _DailyPlanWidgetState extends ConsumerState<DailyPlanWidget> {
             ),
             height: screenHeight * 0.85,
             child: SfCalendar(
-              firstDayOfWeek: 1,
+              firstDayOfWeek: 7,
               allowedViews: const [
                 CalendarView.day,
                 CalendarView.month,
@@ -42,7 +43,7 @@ class _DailyPlanWidgetState extends ConsumerState<DailyPlanWidget> {
               ],
 
               // Initial view
-              view: CalendarView.day,
+              view: CalendarView.schedule,
               showCurrentTimeIndicator: true,
 
               // HeaderStyle
@@ -102,6 +103,14 @@ _AppointmentDataSource _getDataSource(WidgetRef ref) {
     data: (data) {
       List<Appointment> classes = <Appointment>[];
       for (var element in data) {
+        if(kDebugMode){
+          print(element.startDateTime);
+          print(element.endDateTime);
+          print(element.color);
+          print(element.className);
+          print(element.isAllDay);
+          print(element.classLocation);
+        }
         classes.add(Appointment(
           startTime: element.startDateTime,
           endTime: element.endDateTime,

@@ -17,11 +17,13 @@ class RegisteredEventsScreen extends StatelessWidget {
     return Scaffold(
         body: CustomScrollView(
       slivers: [
-        SliverAppBar.large(
+        const SliverAppBar(
+          floating: true,
+          snap: true,
           title: Text(
             'Registered Events',
             style: TextStyle(
-              fontSize: font38,
+              //fontSize: font38,
               fontWeight: FontWeight.bold,
               fontFamily: 'IBMPlexMono',
             ),
@@ -162,13 +164,28 @@ class _RegisteredEventsListTileState
                 ),
               )
             : Center(
-                child: Text(
-                  'No events registered',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurface,
-                    fontFamily: 'IBMPlexMono',
-                    fontWeight: FontWeight.bold,
-                  ),
+                heightFactor: MediaQuery.of(context).size.height * 0.005,
+                child: const Column(
+                  children: [
+                    //big text emoji here
+                    Text(
+                      //'(⊙_⊙)',
+                      '¯\\_(ツ)_/¯',
+                      style: TextStyle(
+                        fontSize: 50,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Text(
+                      'No registered events',
+                      style: TextStyle(
+                        fontFamily: 'IBMPlexMono',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               );
       },
