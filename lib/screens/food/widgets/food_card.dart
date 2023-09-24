@@ -192,8 +192,8 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
             height: 10,
           ),
           Container(
-            height: 5,
-            width: 50,
+            height: MediaQuery.of(context).size.height * 0.005,
+            width: MediaQuery.of(context).size.width * 0.2,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.outline,
               borderRadius: BorderRadius.circular(20),
