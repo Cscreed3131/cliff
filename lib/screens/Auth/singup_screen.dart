@@ -140,7 +140,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               CircleAvatar(
                 radius: screenHeight * 0.035,
-                backgroundImage: const AssetImage('assets/cliff.png'),
+                backgroundImage: const AssetImage('assets/icon/icon.png'),
               ),
               Text(
                 'Cliff',
