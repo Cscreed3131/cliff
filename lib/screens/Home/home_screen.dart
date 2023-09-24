@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       image: AssetImage(
-                        'assets/cliff.png',
+                        'assets/icon/icon.png',
                       ), // should change in the future
                       fit: BoxFit.cover,
                     ),
