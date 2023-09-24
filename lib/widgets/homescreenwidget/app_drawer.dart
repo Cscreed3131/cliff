@@ -31,6 +31,12 @@ class AppDrawer extends ConsumerWidget {
 
     final rolesFuture = checkRole();
     return Drawer(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(0),
+          bottomRight: Radius.circular(0),
+        ),
+      ),
       elevation: 10,
       width: MediaQuery.of(context).size.width * 0.7,
       child: SingleChildScrollView(

@@ -68,34 +68,6 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> with Ticker
   @override
   Widget build(BuildContext context) {
 
-    List<TodaysScheduledClass> getTodaysScheduledClass(WidgetRef ref) {
-      final _timetableData = ref.watch(timeTableProvider);
-      final List<TodaysScheduledClass> _todaysScheduledClass = [];
-      _timetableData.when(data: (data) {
-        for (var element in data) {
-          _todaysScheduledClass.add(
-            TodaysScheduledClass(
-              className: element.className,
-              classStartTime: element.startDateTime,
-              classEndTime: element.endDateTime,
-              classRoom: element.classLocation,
-              classColor: Color(int.parse(element.color)),
-            ),
-          );
-        }
-      }, error: (error, stackTrace) {
-        print(error);
-        print(stackTrace);
-      }, loading: () {
-        print('loading');
-      });
-      print("PRINTING FROM SCHEDULED CLASSESD");
-      print(_todaysScheduledClass);
-      return _todaysScheduledClass;
-
-    }
-
-    getTodaysScheduledClass(ref);
 
     final screenHeight = MediaQuery.of(context).size.height;
     final data1 = ref.watch(timeTableProvider);
@@ -187,69 +159,23 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> with Ticker
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Container(
-                      height: screenHeight * 0.2,
-                      width: double.infinity,
-                      margin: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).colorScheme.outline,
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                        color: Theme.of(context).colorScheme.secondaryContainer,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-
-                            //Today's date in the format of "Monday, 12th July 2021", uses intl
-                            Text(
-                              '${DateFormat('EEEE, d MMMM yyyy').format(DateTime.now())}',
-                              style: TextStyle(
-                                fontFamily: 'IBMPlexMono',
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            const Text(
-                              'You have 3 classes today',
-                              style: TextStyle(
-                                fontFamily: 'IBMPlexMono',
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            //A list of chips consisting of items from the getTodaysScheduledClass() function, wrapped
-                            Wrap(
-                              spacing: 10,
-                              children: [
-                                for (var element in getTodaysScheduledClass(ref))
-                                  Chip(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                    label: Text(
-                                      element.className,
-                                      style: TextStyle(
-                                        fontFamily: 'IBMPlexMono',
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    backgroundColor: element.classColor,
-                                  ),
-                              ],),
-
-                          ],
-                        ),
-                      ),
+                  Container(
+                  height: screenHeight * 0.2,
+                  width: double.infinity,
+                  margin: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.outline,
                     ),
+                    color:
+                    Theme.of(context).colorScheme.secondaryContainer,
+                    borderRadius: BorderRadius.circular(20),
+                    image: const DecorationImage(
+                      image: AssetImage('assets/images/empty.png'),
+                      fit: BoxFit.fitWidth,
+                      ),
+                    )
+                  ),
                     //A card showing all the classes that are scheduled for the day
                     const SizedBox(
                       height: 0,
@@ -286,21 +212,4 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> with Ticker
       ),
     );
   }
-}
-
-
-class TodaysScheduledClass {
-  final String className;
-  final DateTime classStartTime;
-  final DateTime classEndTime;
-  final String classRoom;
-  final Color classColor;
-
-  TodaysScheduledClass({
-    required this.className,
-    required this.classStartTime,
-    required this.classEndTime,
-    required this.classRoom,
-    required this.classColor,
-  });
 }

@@ -53,6 +53,7 @@ dependencies:
   flutter_form_builder: ^9.1.0
   url_launcher: ^6.1.12
   syncfusion_flutter_calendar: ^22.2.12
+  qr_flutter: ^4.1.0
   # table_calendar: ^3.0.9
 
 dev_dependencies:

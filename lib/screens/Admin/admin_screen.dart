@@ -9,16 +9,17 @@ class ListItem {
   final int id;
   final String value;
   final String imgUrl;
+  final IconData icon;
 
-  ListItem(this.id, this.value, this.imgUrl);
+  ListItem(this.id, this.value, this.imgUrl, this.icon);
 }
 
 final List<ListItem> items = [
-  ListItem(1, 'Add Event', "assets/images/events.png"),
-  ListItem(2, 'Add Designs', "assets/images/merch.png"),
-  ListItem(3, 'Announcements', "assets/images/events.png"),
-  ListItem(4, 'Add Food Item', "assets/images/merch.png"),
-  ListItem(5, 'Add Timetable', "assets/images/empty.png"),
+  ListItem(1, 'Add Event', "assets/images/events.png", Icons.event),
+  ListItem(2, 'Add Designs', "assets/images/merch.png", Icons.design_services),
+  ListItem(3, 'Announcements', "assets/images/events.png", Icons.announcement),
+  ListItem(4, 'Add Food Item', "assets/images/merch.png", Icons.food_bank),
+  ListItem(5, 'Add Timetable', "assets/images/empty.png", Icons.timelapse),
 ];
 
 class AdminScreen extends StatefulWidget {
@@ -33,7 +34,7 @@ class AdminScreenState extends State<AdminScreen> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final containerBorderRadius = BorderRadius.circular(screenHeight * 0.02);
-    final font30 = screenHeight * 0.05;
+    //final font30 = screenHeight * 0.05;
 
     return Scaffold(
       appBar: AppBar(
@@ -47,7 +48,7 @@ class AdminScreenState extends State<AdminScreen> {
           mainAxisSpacing: 10.0,
           crossAxisSpacing: 10.0,
           childAspectRatio: 1.0,
-          mainAxisExtent: 150,
+          mainAxisExtent: 185,
         ),
         itemCount: items.length,
         itemBuilder: (context, index) {
@@ -71,43 +72,52 @@ class AdminScreenState extends State<AdminScreen> {
                 padding: const EdgeInsets.all(10),
                 child: ClipRRect(
                   borderRadius: containerBorderRadius,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .secondaryContainer
-                          .withOpacity(0.5),
-                      border: Border.all(
-                          color: Theme.of(context).colorScheme.outline),
-                      borderRadius: containerBorderRadius,
-                      image: DecorationImage(
-                        image: AssetImage(items[index].imgUrl),
-                        fit: BoxFit.cover,
-                      ),
+
+                  //a card showing the options for admin
+                  child: Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        items[index].value,
-                        style: TextStyle(
-                          fontSize: font30,
-                          height: 2,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          shadows: const [
-                            Shadow(
-                              color: Colors.black,
-                              blurRadius: 50,
-                              offset: Offset(0, 0),
+                    shadowColor: Colors.transparent,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primaryContainer
+                        .withOpacity(0.5),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 10).copyWith(top: 10),
+                          height: screenHeight * 0.1,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            image: DecorationImage(
+                              image: AssetImage(item.imgUrl),
+                              fit: BoxFit.cover,
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
+                        ListTile(
+                          leading: Icon(
+                            item.icon,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          title: Text(
+                            item.value,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'IBMPlexMono',
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        )
+                      ],
+                    )
                   ),
-                )),
+                )
+            ),
           );
         },
       ),

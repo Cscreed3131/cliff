@@ -1,5 +1,6 @@
 import 'package:cliff/widgets/homescreenwidget/app_drawer.dart';
 import 'package:cliff/widgets/homescreenwidget/announcements_icon_button.dart';
+import 'package:cliff/widgets/homescreenwidget/classroom_widget.dart';
 import 'package:cliff/widgets/homescreenwidget/home_grid_view.dart';
 import 'package:cliff/widgets/homescreenwidget/image_slider.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    //final screenHeight = MediaQuery.of(context).size.height;
     final font30 = screenWidth * 0.07;
 
     return Scaffold(
@@ -69,13 +74,17 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+
                 Padding(
                   padding: EdgeInsets.only(top: 30, bottom: 20),
                   child: ImageSlider(),
                 ),
+
+                ClassroomWidget(),
+
                 Padding(
                   padding:
-                      EdgeInsets.only(top: 20, bottom: 30, right: 20, left: 20),
+                      EdgeInsets.only(top: 0, bottom: 30, right: 20, left: 20),
                   child: HomeGridView(),
                 ),
               ],
