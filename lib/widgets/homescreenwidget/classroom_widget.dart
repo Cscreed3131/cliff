@@ -133,7 +133,7 @@ class _ClassroomWidgetState extends ConsumerState<ClassroomWidget> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              backgroundColor: element.classColor,
+                              backgroundColor: element.classColor.withOpacity(0.8),
                             ),
                         ],),
                     ) : const SizedBox(),

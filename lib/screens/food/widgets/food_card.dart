@@ -237,14 +237,12 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                     // color: textColor,
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+
                 Text(
                   widget.description,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                 ),
@@ -283,7 +281,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                       '$count',
                       style: const TextStyle(
                         fontFamily: 'IBMPlexMono',
-                        fontSize: 15,
+                        fontSize: 20,
                       ),
                     ),
                     IconButton.filled(
