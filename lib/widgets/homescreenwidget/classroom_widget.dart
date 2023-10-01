@@ -123,6 +123,10 @@ class _ClassroomWidgetState extends ConsumerState<ClassroomWidget> {
                         children: [
                           for (var element in getTodaysScheduledClass(ref))
                             Chip(
+                              side: BorderSide.none,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
                               // shape: RoundedRectangleBorder(
                               //   borderRadius: BorderRadius.circular(50),
                               // ),

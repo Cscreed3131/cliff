@@ -5,6 +5,8 @@ import 'package:cliff/widgets/homescreenwidget/home_grid_view.dart';
 import 'package:cliff/widgets/homescreenwidget/image_slider.dart';
 import 'package:flutter/material.dart';
 
+import '../placements/placement_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
   @override
@@ -69,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
               child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -87,6 +89,86 @@ class _HomeScreenState extends State<HomeScreen> {
                       EdgeInsets.only(top: 0, bottom: 30, right: 20, left: 20),
                   child: HomeGridView(),
                 ),
+
+                // a card for the placements screen
+                Padding(
+                  padding: EdgeInsets.only(top: 0, bottom: 30),
+                  child: SizedBox(
+                    //height: screenHeight * 0.23,
+                    width: screenWidth * 0.87,
+                    child: Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      shadowColor: Colors.transparent,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primaryContainer
+                          .withOpacity(0.5),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ListTile(
+                                onTap: () => Navigator.of(context).pushNamed(PlacementsScreen.routeName),
+                                leading: Icon(
+                                  Icons.work_outline,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                                title: Text(
+                                  'Placements',
+                                  style: TextStyle(
+                                      fontFamily: 'IBMPlexMono',
+                                      fontSize: screenWidth * 0.05,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                subtitle: Text(
+                                  '1 company this week',
+                                  style: TextStyle(
+                                    fontFamily: 'IBMPlexMono',
+                                    fontSize: screenWidth * 0.04,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer,
+                                  ),
+                                ),
+
+                                trailing: Icon(
+                                  Icons.arrow_forward,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                              // Padding(
+                              //   padding: EdgeInsets.only(
+                              //       left: screenWidth * 0.05,
+                              //       right: screenWidth * 0.05,
+                              //       bottom: screenWidth * 0.05),
+                              //   child: Text(
+                              //     'View your scheduled classes for today and tomorrow',
+                              //     style: TextStyle(
+                              //       fontFamily: 'IBMPlexMono',
+                              //       fontSize: screenWidth * 0.04,
+                              //       color: Theme.of(context)
+                              //           .colorScheme
+                              //           .onPrimaryContainer,
+                              //     ),
+                              //   ),
+                              // ),
+                            ],
+                          )),
+                    ),
+                  ),
+                ),
+
               ],
             ),
           )),
