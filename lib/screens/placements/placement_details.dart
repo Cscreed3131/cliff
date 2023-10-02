@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cliff/screens/placements/placements_quiz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -199,14 +200,22 @@ class _PlacementDetailsState extends State<PlacementDetails> with TickerProvider
                           const SizedBox(
                             width: 20,
                           ),
+                          IconButton.filledTonal(
+                            icon: Icon(Icons.quiz_outlined),
+                            onPressed: () {
+                              Navigator.of(context).pushNamed(PlacementsQuiz.routeName);
+                            },
+                          ),
                           IconButton(
                             icon: Icon(Icons.language_outlined, color: Theme.of(context).colorScheme.primary,),
                             onPressed: () {  },
                           ),
                           IconButton(
                             icon: Icon(Icons.share_outlined, color: Theme.of(context).colorScheme.primary,),
-                            onPressed: () {  },
-                          )
+                            onPressed: () {
+                            },
+                          ),
+
                         ],
                       ),
 

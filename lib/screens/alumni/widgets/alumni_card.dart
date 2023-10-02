@@ -63,7 +63,7 @@ class _AlumniCardState extends State<AlumniCard> {
                     child: Row(
                       children: [
                         Container(
-                          height: screenHeight * 0.165,
+                          height: screenHeight * 0.2,
                           width: screenHeight * 0.165,
                           decoration: BoxDecoration(
                             color: Theme.of(context)
@@ -101,7 +101,7 @@ class _AlumniCardState extends State<AlumniCard> {
                             Row(
                               children: [
                                 Text(
-                                  alumniDetails[index].branch,
+                                  alumniDetails[index].branch+" ",
                                   style: const TextStyle(
                                     fontFamily: 'IBMPlexMono',
                                     fontSize: 15,
@@ -113,7 +113,7 @@ class _AlumniCardState extends State<AlumniCard> {
                                       Theme.of(context).colorScheme.outline,
                                 ),
                                 Text(
-                                  alumniDetails[index].year.toString(),
+                                  " "+alumniDetails[index].year.toString(),
                                   style: const TextStyle(
                                     fontFamily: 'IBMPlexMono',
                                     fontSize: 15,

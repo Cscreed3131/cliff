@@ -68,16 +68,16 @@ class _ClassroomWidgetState extends ConsumerState<ClassroomWidget> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
-            shadowColor: Colors.transparent,
+            //shadowColor: Colors.transparent,
             color: Theme.of(context)
                 .colorScheme
                 .primaryContainer
                 .withOpacity(0.5),
             child: Container(
                 decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+                    // border: Border.all(
+                    //   color: Theme.of(context).colorScheme.primary,
+                    // ),
                     borderRadius: BorderRadius.circular(15)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -42,7 +42,7 @@ class CurrentPlacements extends StatelessWidget {
                 color: Theme.of(context)
                     .colorScheme
                     .primaryContainer
-                    .withOpacity(0.5),
+                    .withOpacity(0.3),
                 child: Container(
 
                   decoration: BoxDecoration(

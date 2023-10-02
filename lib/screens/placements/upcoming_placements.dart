@@ -45,7 +45,7 @@ class UpcomingPlacements extends StatelessWidget {
                 color: Theme.of(context)
                     .colorScheme
                     .primaryContainer
-                    .withOpacity(0.5),
+                    .withOpacity(0.2),
                 child: Container(
 
                   decoration: BoxDecoration(

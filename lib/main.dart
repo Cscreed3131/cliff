@@ -6,6 +6,8 @@ import 'package:cliff/screens/Home/announcements_screen.dart';
 import 'package:cliff/screens/classroom/scheduled_classes.dart';
 import 'package:cliff/screens/placements/placement_details.dart';
 import 'package:cliff/screens/placements/placement_screen.dart';
+import 'package:cliff/screens/placements/placements_quiz.dart';
+import 'package:cliff/screens/placements/placements_trainer.dart';
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,7 +47,7 @@ void main() async {
   );
 }
 
-Color brandColor = const Color(0xff2e99ec);
+Color brandColor = const Color(0xF1F6F9);
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
@@ -162,6 +164,8 @@ class MyApp extends ConsumerWidget {
             AddClassTimeTable.routeName: (ctx) => const AddClassTimeTable(),
             PlacementsScreen.routeName: (ctx) => const PlacementsScreen(),
             PlacementDetails.routeName: (ctx) => const PlacementDetails(),
+            PlacementsTrainer.routeName: (ctx) => const PlacementsTrainer(),
+            PlacementsQuiz.routeName: (ctx) => const PlacementsQuiz(),
           },
         );
       },

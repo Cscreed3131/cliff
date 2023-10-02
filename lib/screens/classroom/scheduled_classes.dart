@@ -1,9 +1,10 @@
+import 'dart:ui';
+
 import 'package:cliff/screens/classroom/providers/class_timetable_provider.dart';
 import 'package:cliff/screens/classroom/widgets/schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class ScheduledClasses extends ConsumerStatefulWidget {
@@ -19,7 +20,6 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> with Ticker
   final ScrollController _scrollController = ScrollController();
   late AnimationController _hideFabAnimation;
   final CalendarView _calendarView = CalendarView.day;
-  int _selectedIndex = 0;
 
 
   @override
@@ -69,7 +69,6 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> with Ticker
   Widget build(BuildContext context) {
 
 
-    final screenHeight = MediaQuery.of(context).size.height;
     final data1 = ref.watch(timeTableProvider);
     data1.when(data: (data) {
       for (var element in data) {
@@ -146,12 +145,53 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> with Ticker
                 icon: const Icon(Icons.arrow_back),
               ),
               // leading: ,
-              title: const Text(
-                "Classroom",
-                style: TextStyle(
-                  fontFamily: 'IBMPlexMono',
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
+              // title: const Text(
+              //   "Classroom",
+              //   style: TextStyle(
+              //     fontFamily: 'IBMPlexMono',
+              //     fontSize: 30,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text(
+                  "Classroom",
+                  style: TextStyle(
+                    fontFamily: 'IBMPlexMono',
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+                expandedTitleScale: 1.2,
+                background: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    borderRadius: BorderRadius.circular(20),
+                    image: const DecorationImage(
+                      image: AssetImage('assets/images/empty.png'),
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
+                  child: ClipRRect(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Theme.of(context).colorScheme.surface.withOpacity(0.5),
+                              Theme.of(context).colorScheme.surface.withOpacity(0.6),
+                              Theme.of(context).colorScheme.surface,
+                            ],
+                            stops: const [0.0, 0.5 ,1.0],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -159,23 +199,23 @@ class _ScheduledClassesState extends ConsumerState<ScheduledClasses> with Ticker
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                  Container(
-                  height: screenHeight * 0.2,
-                  width: double.infinity,
-                  margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Theme.of(context).colorScheme.outline,
-                    ),
-                    color:
-                    Theme.of(context).colorScheme.secondaryContainer,
-                    borderRadius: BorderRadius.circular(20),
-                    image: const DecorationImage(
-                      image: AssetImage('assets/images/empty.png'),
-                      fit: BoxFit.fitWidth,
-                      ),
-                    )
-                  ),
+                  // Container(
+                  // height: screenHeight * 0.2,
+                  // width: double.infinity,
+                  // margin: const EdgeInsets.all(10),
+                  // decoration: BoxDecoration(
+                  //   border: Border.all(
+                  //     color: Theme.of(context).colorScheme.outline,
+                  //   ),
+                  //   color:
+                  //   Theme.of(context).colorScheme.secondaryContainer,
+                  //   borderRadius: BorderRadius.circular(20),
+                  //   image: const DecorationImage(
+                  //     image: AssetImage('assets/images/empty.png'),
+                  //     fit: BoxFit.fitWidth,
+                  //     ),
+                  //   )
+                  // ),
                     //A card showing all the classes that are scheduled for the day
                     const SizedBox(
                       height: 0,
