@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cliff/screens/alumni/widgets/alumni_card.dart';
 import 'package:flutter/material.dart';
 
@@ -40,8 +42,6 @@ class _AlumniScreenState extends State<AlumniScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -52,13 +52,57 @@ class _AlumniScreenState extends State<AlumniScreen> {
                 Navigator.of(context).pop();
               },
             ),
-            title: const Text(
-              "Alumni",
-              style: TextStyle(
-                fontFamily: 'IBMPlexMono',
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                // color: textColor,
+            // title: const Text(
+            //   "Alumni",
+            //   style: TextStyle(
+            //     fontFamily: 'IBMPlexMono',
+            //     fontSize: 30,
+            //     fontWeight: FontWeight.bold,
+            //     // color: textColor,
+            //   ),
+            // ),
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text(
+                "Alumni",
+                style: TextStyle(
+                  fontFamily: 'IBMPlexMono',
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.onSurface,
+                  // color: textColor,
+                ),
+              ),
+              expandedTitleScale: 1.2,
+              background: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.secondaryContainer,
+                  borderRadius: BorderRadius.circular(20),
+                  image: const DecorationImage(
+                    image: AssetImage('assets/images/alumni_page.png'),
+                    fit: BoxFit.fitWidth,
+                  ),
+                ),
+                child: ClipRRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Theme.of(context)
+                                .colorScheme
+                                .surface
+                                .withOpacity(0.5),
+                            Theme.of(context).colorScheme.surface,
+                          ],
+                          stops: const [0.0, 1.4],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -68,21 +112,22 @@ class _AlumniScreenState extends State<AlumniScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //event image container, this will not change (probably)
-                    Container(
-                        height: screenHeight * 0.2,
-                        width: screenWidth,
-                        margin: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.secondaryContainer,
-                          border: Border.all(
-                            color: Theme.of(context).colorScheme.outline,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                          image: const DecorationImage(
-                            image: AssetImage('assets/images/alumni_page.png'),
-                            fit: BoxFit.fitWidth,
-                          ),
-                        )),
+                    // Container(
+                    //     height: screenHeight * 0.2,
+                    //     width: screenWidth,
+                    //     margin: const EdgeInsets.all(10),
+                    //     decoration: BoxDecoration(
+                    //       color: Theme.of(context).colorScheme.secondaryContainer,
+                    //       border: Border.all(
+                    //         color: Theme.of(context).colorScheme.outline,
+                    //       ),
+                    //       borderRadius: BorderRadius.circular(20),
+                    //       image: const DecorationImage(
+                    //         image: AssetImage('assets/images/alumni_page.png'),
+                    //         fit: BoxFit.fitWidth,
+                    //       ),
+                    //     )
+                    // ),
 
                     //Drop down menus
                     Row(

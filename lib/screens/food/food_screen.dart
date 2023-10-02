@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cliff/provider/food_provider.dart';
 import 'package:cliff/screens/food/widgets/food_card.dart';
 import 'package:cliff/widgets/foodwidget/plate_icon_button.dart';
@@ -24,7 +26,6 @@ class _FoodScreenState extends ConsumerState<FoodScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     // List categories = fetchAndSetCategories(ref);
 
     return Scaffold(
@@ -37,12 +38,51 @@ class _FoodScreenState extends ConsumerState<FoodScreen> {
                 Navigator.of(context).pop();
               },
             ),
-            title: const Text(
-              "Food",
-              style: TextStyle(
-                fontFamily: 'IBMPlexMono',
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
+            // title: const Text(
+            //   "Food",
+            //   style: TextStyle(
+            //     fontFamily: 'IBMPlexMono',
+            //     fontSize: 30,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text(
+                "Food",
+                style: TextStyle(
+                  fontFamily: 'IBMPlexMono',
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+              expandedTitleScale: 1.2,
+              background: Container(
+                decoration: BoxDecoration(
+                  image: const DecorationImage(
+                    image: AssetImage('assets/images/image4.png'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: ClipRRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Theme.of(context).colorScheme.surface.withOpacity(0.5),
+                            Theme.of(context).colorScheme.surface.withOpacity(0.6),
+                            Theme.of(context).colorScheme.surface,
+                          ],
+                          stops: const [0.0, 0.5 ,1.0],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
             actions: const [
@@ -54,22 +94,22 @@ class _FoodScreenState extends ConsumerState<FoodScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  height: screenHeight * 0.2,
-                  width: double.infinity,
-                  margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.secondaryContainer,
-                    border: Border.all(
-                      color: Theme.of(context).colorScheme.outline,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                    image: const DecorationImage(
-                      image: AssetImage('assets/images/image4.png'),
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                ),
+                // Container(
+                //   height: screenHeight * 0.2,
+                //   width: double.infinity,
+                //   margin: const EdgeInsets.all(10),
+                //   decoration: BoxDecoration(
+                //     color: Theme.of(context).colorScheme.secondaryContainer,
+                //     border: Border.all(
+                //       color: Theme.of(context).colorScheme.outline,
+                //     ),
+                //     borderRadius: BorderRadius.circular(20),
+                //     image: const DecorationImage(
+                //       image: AssetImage('assets/images/image4.png'),
+                //       fit: BoxFit.fitWidth,
+                //     ),
+                //   ),
+                // ),
                 SizedBox(
                   height: 60,
                   width: double.infinity,
