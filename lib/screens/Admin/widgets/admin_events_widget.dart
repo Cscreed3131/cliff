@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cliff/screens/Admin/create_event_screens.dart';
 import 'package:flutter/material.dart';
 
@@ -54,6 +56,7 @@ class _AdminEventsWidgetState extends State<AdminEventsWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
+
             Center(
               child: Text(
                 '08',
@@ -65,6 +68,7 @@ class _AdminEventsWidgetState extends State<AdminEventsWidget> {
                 ),
               ),
             ),
+
             Center(
               child: Text(
                 'club events this month',
@@ -184,33 +188,105 @@ class _AdminEventsWidgetState extends State<AdminEventsWidget> {
                   if(selectedFilter == 'all' || events[i].status == selectedFilter)
                     Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: Chip(
-                        side: BorderSide.none,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                        label: Column(
-                          children: [
-                            Text(
-                              events[i].name,
-                              style: TextStyle(
-                                fontFamily: 'IBMPlexMono',
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      child: Card(
+                        child: Container(
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Theme.of(context).colorScheme.primary,
+                            image: DecorationImage(
+                              //random image
+                              image: NetworkImage('https://picsum.photos/20$i/300'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          child: ClipRRect(
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Theme.of(context).colorScheme.background.withOpacity(0.5),
+                                      Theme.of(context).colorScheme.background,
+                                    ],
+                                    stops: const [0.0, 1.4],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                  ),
+                                ),
+                                child: ListTile(
+                                  isThreeLine: events[i].status == 'Ongoing' ? true : false,
+                                  title: Text(
+                                    events[i].name,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                      fontFamily: 'IBMPlexMono',
+                                    ),
+                                  ),
+                                  subtitle: events[i].status == 'Ongoing' ?
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        events[i].status,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.yellow.shade800,
+                                          fontFamily: 'IBMPlexMono',
+                                        ),
+                                      ),
+                                      Text(
+                                        'Scheduled: 20/10/2021',
+                                        style: TextStyle(
+                                          fontFamily: 'IBMPlexMono',
+                                        ),
+                                      ),
+                                      Text(
+                                        'Registered: 200',
+                                        style: TextStyle(
+                                          fontFamily: 'IBMPlexMono',
+                                        ),
+                                      ),
+                                    ],
+                                  ) :
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        events[i].status,
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'IBMPlexMono',
+                                        ),
+                                      ),
+                                      Text(
+                                        'Date: 20/10/2021',
+                                        style: TextStyle(
+                                          fontFamily: 'IBMPlexMono',
+                                        ),
+                                      ),
+                                      Text(
+                                        'Registered: 200',
+                                        style: TextStyle(
+                                          fontFamily: 'IBMPlexMono',
+                                        ),
+                                      ),
+                                    ],
+
+                                  ),
+                                  trailing: events[i].status == 'Ongoing' ? IconButton(
+                                    icon: Icon(Icons.edit),
+                                    onPressed: () {},
+                                  ) : null,
+                                ),
                               ),
                             ),
-                            Text(
-                              events[i].status,
-                              style: TextStyle(
-                                fontFamily: 'IBMPlexMono',
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                        backgroundColor: Theme.of(context)
-                            .colorScheme
-                            .primaryContainer.withOpacity(0.5),
-                      ),
+                      )
                     ),
               ]
             )

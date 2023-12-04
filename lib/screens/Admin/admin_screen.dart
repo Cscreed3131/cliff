@@ -3,9 +3,11 @@ import 'package:cliff/screens/Admin/add_designs_screen.dart';
 import 'package:cliff/screens/Admin/add_food_item_screen.dart';
 import 'package:cliff/screens/Admin/create_announcement.dart';
 import 'package:cliff/screens/Admin/create_event_screens.dart';
+import 'package:cliff/screens/Admin/widgets/admin_add_food_widget.dart';
 import 'package:cliff/screens/Admin/widgets/admin_announce_widget.dart';
 import 'package:cliff/screens/Admin/widgets/admin_events_widget.dart';
 import 'package:cliff/screens/Admin/widgets/admin_merch_widget.dart';
+import 'package:cliff/screens/Admin/widgets/admin_timetable_widget.dart';
 import 'package:flutter/material.dart';
 
 class ListItem {
@@ -60,6 +62,12 @@ class AdminScreenState extends State<AdminScreen> with SingleTickerProviderState
       body: CustomScrollView(
         slivers: [
           SliverAppBar.large(
+            leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.arrow_back),
+            ),
             title: const Text('Admin Panel',
                 style: TextStyle(fontFamily: 'IBMPlexMono')),
             actions: [
@@ -169,12 +177,8 @@ class AdminScreenState extends State<AdminScreen> with SingleTickerProviderState
                         AdminEventsWidget(),
                         AdminMerchWidget(),
                         AdminAnnounceWidget(),
-                        Container(
-                          child: const Text("4"),
-                        ),
-                        Container(
-                          child: const Text("H5llo"),
-                        ),
+                        AdminAddFoodWidget(),
+                        AdminTimetableWidget(),
                       ],
                     ),
                   )
