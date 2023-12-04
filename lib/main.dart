@@ -3,6 +3,8 @@ import 'package:cliff/screens/Admin/add_class_timetable.dart';
 import 'package:cliff/screens/Admin/add_food_item_screen.dart';
 import 'package:cliff/screens/Admin/create_announcement.dart';
 import 'package:cliff/screens/Home/announcements_screen.dart';
+import 'package:cliff/screens/Home/home_screen.dart';
+import 'package:cliff/screens/Home/test_nav_bar.dart';
 import 'package:cliff/screens/classroom/scheduled_classes.dart';
 import 'package:cliff/screens/placements/placement_details.dart';
 import 'package:cliff/screens/placements/placement_screen.dart';
@@ -88,7 +90,7 @@ class MyApp extends ConsumerWidget {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return const HomePage();
+                return const TestNavBar();
               }
               return const AuthScreen();
             },

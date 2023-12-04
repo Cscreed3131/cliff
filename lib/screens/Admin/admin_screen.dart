@@ -3,6 +3,11 @@ import 'package:cliff/screens/Admin/add_designs_screen.dart';
 import 'package:cliff/screens/Admin/add_food_item_screen.dart';
 import 'package:cliff/screens/Admin/create_announcement.dart';
 import 'package:cliff/screens/Admin/create_event_screens.dart';
+import 'package:cliff/screens/Admin/widgets/admin_add_food_widget.dart';
+import 'package:cliff/screens/Admin/widgets/admin_announce_widget.dart';
+import 'package:cliff/screens/Admin/widgets/admin_events_widget.dart';
+import 'package:cliff/screens/Admin/widgets/admin_merch_widget.dart';
+import 'package:cliff/screens/Admin/widgets/admin_timetable_widget.dart';
 import 'package:flutter/material.dart';
 
 class ListItem {
@@ -29,97 +34,162 @@ class AdminScreen extends StatefulWidget {
   State<AdminScreen> createState() => AdminScreenState();
 }
 
-class AdminScreenState extends State<AdminScreen> {
+class AdminScreenState extends State<AdminScreen> with SingleTickerProviderStateMixin{
+
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 5, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final containerBorderRadius = BorderRadius.circular(screenHeight * 0.02);
     //final font30 = screenHeight * 0.05;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Admin Panel',
-            style: TextStyle(fontFamily: 'IBMPlexMono')),
-        centerTitle: true,
-      ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 1, // Adjust the number of columns here
-          mainAxisSpacing: 10.0,
-          crossAxisSpacing: 10.0,
-          childAspectRatio: 1.0,
-          mainAxisExtent: 185,
-        ),
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          final item = items[index];
-          return GestureDetector(
-            onTap: () {
-              // Handle tap event for the grid tile
-              if (item.id == 1) {
-                Navigator.of(context).pushNamed(CreateEventScreen.routeName);
-              } else if (item.id == 2) {
-                Navigator.of(context).pushNamed(AddDesignsScreen.routeName);
-              } else if (item.id == 3) {
-                Navigator.of(context).pushNamed(CreateAnnouncement.routeName);
-              } else if (item.id == 4) {
-                Navigator.of(context).pushNamed(AddFoodItems.routeName);
-              } else if (item.id == 5) {
-                Navigator.of(context).pushNamed(AddClassTimeTable.routeName);
-              }
-            },
-            child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: ClipRRect(
-                  borderRadius: containerBorderRadius,
 
-                  //a card showing the options for admin
-                  child: Card(
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    shadowColor: Colors.transparent,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .primaryContainer
-                        .withOpacity(0.5),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 10).copyWith(top: 10),
-                          height: screenHeight * 0.1,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            image: DecorationImage(
-                              image: AssetImage(item.imgUrl),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        ListTile(
-                          leading: Icon(
-                            item.icon,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          title: Text(
-                            item.value,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'IBMPlexMono',
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                        )
-                      ],
-                    )
-                  ),
-                )
+
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar.large(
+            leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.arrow_back),
             ),
-          );
-        },
+            title: const Text('Admin Panel',
+                style: TextStyle(fontFamily: 'IBMPlexMono')),
+            actions: [
+              //drop down menu with help and faq option
+              PopupMenuButton(
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    child: ListTile(
+                      leading: Icon(Icons.help),
+                      title: Text('Help'),
+                    ),
+
+                  ),
+                  PopupMenuItem(
+                    child: ListTile(
+                      leading: Icon(Icons.question_answer),
+                      title: Text('FAQ'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+
+
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Saronik Sarkar',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontFamily: 'IBMPlexMono',
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  //chip saying club lead
+                  Row(
+                    children: [
+
+                      Chip(
+                        side: BorderSide.none,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        label: Text('Club Lead', style: TextStyle(
+                          fontFamily: 'IBMPlexMono',
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),),
+                        backgroundColor: Theme.of(context)
+                            .colorScheme
+                            .primary.withOpacity(0.7),
+                      ),
+
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.add),
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ],
+                  ),
+
+                  //tabview
+                  DefaultTabController(
+                    length: 5,
+                    child: TabBar(
+                      controller: _tabController,
+                      isScrollable: true,
+                      labelColor: Theme.of(context).colorScheme.primary,
+                      unselectedLabelColor: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+                      indicatorColor: Theme.of(context).colorScheme.primary,
+                      tabs: [
+                        Tab(
+                          text: 'Events',
+                        ),
+                        Tab(
+                          text: 'Merch',
+                        ),
+                        Tab(
+                          text: 'Announcements',
+                        ),
+
+                        Tab(
+                          text: 'Food',
+                        ),
+                        Tab(
+                          text: 'Timetable',
+                        ),
+
+                      ],
+                    ),
+
+                  ),
+
+                  //tabview content
+                  SizedBox(
+                    height: screenHeight * 0.8,
+                    child: TabBarView(
+                      physics: NeverScrollableScrollPhysics(),
+                      controller: _tabController,
+                      children: [
+                        AdminEventsWidget(),
+                        AdminMerchWidget(),
+                        AdminAnnounceWidget(),
+                        AdminAddFoodWidget(),
+                        AdminTimetableWidget(),
+                      ],
+                    ),
+                  )
+
+                ],
+              ),
+            ),
+          )
+
+
+        ],
       ),
     );
   }

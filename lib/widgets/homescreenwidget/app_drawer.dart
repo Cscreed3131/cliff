@@ -83,10 +83,25 @@ class AppDrawer extends ConsumerWidget {
                           ),
                         ),
                         if (data.roles.contains('admin'))
-                          const Chip(
+                          //Chip with an admin logo and admin as the label, it is green with green border
+
+                          Chip(
+                            avatar: const CircleAvatar(
+                              backgroundColor: Colors.white,
+                              child: Icon(
+                                Icons.admin_panel_settings_rounded,
+                                color: Colors.green,
+                              ),
+                            ),
+
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            //light green surface tint color
+                            backgroundColor: Colors.lightGreen[300],
                             label: Text(
                               'Adminstrator',
-                              style: TextStyle(fontSize: 15),
+                              style: TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.background),
                             ),
                             // backgroundColor: Colors.teal,
                             elevation: 20,
@@ -117,6 +132,8 @@ class AppDrawer extends ConsumerWidget {
                 Navigator.of(context).pushReplacementNamed(HomePage.routeName);
               },
             ),
+
+            //admin panel tile
             FutureBuilder<List<dynamic>>(
               future: rolesFuture,
               builder: (context, snapshot) {
@@ -147,6 +164,8 @@ class AppDrawer extends ConsumerWidget {
                 return Container(); // Return an empty container if not admin
               },
             ),
+
+            //contact us tile
             ListTile(
               leading: const Icon(
                 Icons.contact_mail,
@@ -172,6 +191,7 @@ class AppDrawer extends ConsumerWidget {
               onTap: () {},
             ),
             const Divider(),
+            //logout tile
             ListTile(
               leading: const Icon(
                 Icons.exit_to_app_rounded,
@@ -240,6 +260,8 @@ class AppDrawer extends ConsumerWidget {
                 }
               },
             ),
+
+            //exit tile
             ListTile(
               leading: const Icon(
                 Icons.arrow_back_rounded,
@@ -254,6 +276,8 @@ class AppDrawer extends ConsumerWidget {
                 SystemNavigator.pop();
               },
             ),
+            //info tile
+
             ListTile(
               leading: const Icon(
                 Icons.info,
