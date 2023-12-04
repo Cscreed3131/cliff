@@ -73,7 +73,7 @@ class _PlacementDetailsState extends State<PlacementDetails> with TickerProvider
             slivers: [
               SliverAppBar(
                 floating: true,
-                expandedHeight: MediaQuery.of(context).size.height * 0.25,
+                expandedHeight: MediaQuery.of(context).size.height * 0.27,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
                     decoration: BoxDecoration(
