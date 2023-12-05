@@ -181,6 +181,7 @@ class ProfileDialog extends ConsumerWidget{
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         behavior: SnackBarBehavior.floating,
+
                         content: Text(
                           error.message ?? 'You ran into an unexpected error',
                         ),
