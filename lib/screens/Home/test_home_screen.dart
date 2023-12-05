@@ -227,7 +227,7 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
                         margin: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: NetworkImage('https://picsum.photos/200/300'),
+                            image: NetworkImage('https://picsum.photos/20$index/300'),
                             fit: BoxFit.cover,
                           ),
                           borderRadius: BorderRadius.circular(10),
@@ -290,8 +290,9 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
                               width: 120,
                               margin: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
+
                                 image: DecorationImage(
-                                  image: NetworkImage('https://picsum.photos/300/300'),
+                                  image: NetworkImage('https://picsum.photos/30$index/300'),
                                   fit: BoxFit.cover,
                                 ),
                                 borderRadius: BorderRadius.circular(10),
