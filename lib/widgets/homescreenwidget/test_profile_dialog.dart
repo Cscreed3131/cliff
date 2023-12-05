@@ -1,3 +1,4 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,7 +31,7 @@ class ProfileDialog extends ConsumerWidget{
 
     final rolesFuture = checkRole();
 
-    return Container(
+    return ? Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.background,
@@ -45,7 +46,7 @@ class ProfileDialog extends ConsumerWidget{
                 children: [
                   CircleAvatar(
                     radius: 25,
-                    backgroundImage: NetworkImage(data.imageUrl),
+                    backgroundImage:NetworkImage(data.imageUrl),
                   ),
                   const SizedBox(width: 10,),
                   SizedBox(
@@ -199,6 +200,11 @@ class ProfileDialog extends ConsumerWidget{
           return const CircularProgressIndicator();
         },
       )
+    ) : Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.background,
+        borderRadius: BorderRadius.circular(30),
+      ),
     );
 }
 }

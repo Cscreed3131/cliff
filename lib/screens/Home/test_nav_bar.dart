@@ -7,6 +7,8 @@ import '../alumni/alumni_screen.dart';
 class TestNavBar extends StatefulWidget {
   const TestNavBar({super.key});
 
+  static const routeName = '/test-nav-bar';
+
   @override
   State<TestNavBar> createState() => _TestNavBarState();
 }

@@ -39,6 +39,7 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        toolbarHeight: MediaQuery.of(context).size.height * 0.08,
         // title: const Text(
         //   'Cliff',
         //   style: TextStyle(
@@ -48,90 +49,92 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
         // ),
 
         //Title will be a search bar with the text "Cliff" in it
-        title: Container(
+        title: SafeArea(
+          child: Container(
 
-          height: 50,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceVariant,
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: Center(
-            child: TextFormField(
-              textAlign: TextAlign.center,
-              onTap: () {
-                setState(() {
-                  showHintText = false;
-                });
-              },
+            height: 50,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceVariant,
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: Center(
+              child: TextFormField(
+                textAlign: TextAlign.center,
+                onTap: () {
+                  setState(() {
+                    showHintText = false;
+                  });
+                },
 
-              decoration: InputDecoration(
-                hintText: showHintText ? 'Cliff' : '',
-                hintStyle: TextStyle(
-                  fontFamily: 'IBMPlexMono',
-                  fontWeight: FontWeight.bold,
-                ),
+                decoration: InputDecoration(
+                  hintText: showHintText ? 'Cliff' : '',
+                  hintStyle: TextStyle(
+                    fontFamily: 'IBMPlexMono',
+                    fontWeight: FontWeight.bold,
+                  ),
 
-                border: InputBorder.none,
+                  border: InputBorder.none,
 
 
-                //TODO: add a badge to the icon
-                prefixIcon: AnnouncementIconButton(),
-               // suffixIcon: Icon(Icons.account_circle, color: Colors.teal, size: 40,),
-                //show a dialog box when pressed
 
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
+                  prefixIcon: AnnouncementIconButton(),
+                 // suffixIcon: Icon(Icons.account_circle, color: Colors.teal, size: 40,),
+                  //show a dialog box when pressed
 
-                          insetPadding: EdgeInsets.zero,
-                          title: Row(
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.close),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.15
-                              ),
-                              Center(
-                                child: const Text(
-                                  'Cliff',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'IBMPlexMono',
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+
+                            insetPadding: EdgeInsets.zero,
+                            title: Row(
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.close),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * 0.15
+                                ),
+                                Center(
+                                  child: const Text(
+                                    'Cliff',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'IBMPlexMono',
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
+                              ],
+                            ),
 
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ProfileDialog(),
-                              const SizedBox(height: 10,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text('Privacy Policy', style: TextStyle(color: Colors.grey.shade400),),
-                                  const SizedBox(width: 10,),
-                                  CircleAvatar(radius: 1, foregroundColor: Colors.grey, backgroundColor: Colors.grey,),
-                                  const SizedBox(width: 10,),
-                                  Text('Terms of Service', style: TextStyle(color: Colors.grey.shade400),),
-                                ],
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  icon: const Icon(Icons.account_circle, color: Colors.lightBlueAccent, size: 30,),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ProfileDialog(),
+                                const SizedBox(height: 10,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Privacy Policy', style: TextStyle(color: Colors.grey.shade400),),
+                                    const SizedBox(width: 10,),
+                                    CircleAvatar(radius: 1, foregroundColor: Colors.grey, backgroundColor: Colors.grey,),
+                                    const SizedBox(width: 10,),
+                                    Text('Terms of Service', style: TextStyle(color: Colors.grey.shade400),),
+                                  ],
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    icon: const Icon(Icons.account_circle, color: Colors.lightBlueAccent, size: 30,),
+                  ),
                 ),
               ),
             ),
@@ -142,7 +145,7 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-
+            const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 20.0),
               child: ImageSlider()

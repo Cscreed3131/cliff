@@ -1,3 +1,4 @@
+import 'package:cliff/screens/Home/test_nav_bar.dart';
 import 'package:cliff/widgets/homescreenwidget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -74,17 +75,17 @@ class _AuthScreenState extends State<AuthScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Theme.of(context).colorScheme.primaryContainer,
-              Theme.of(context).colorScheme.secondaryContainer,
-              Theme.of(context).colorScheme.tertiaryContainer,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
+        // decoration: BoxDecoration(
+        //   gradient: LinearGradient(
+        //     colors: [
+        //       Theme.of(context).colorScheme.primaryContainer,
+        //       Theme.of(context).colorScheme.secondaryContainer,
+        //       Theme.of(context).colorScheme.tertiaryContainer,
+        //     ],
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.bottomRight,
+        //   ),
+        // ),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -92,30 +93,45 @@ class _AuthScreenState extends State<AuthScreen> {
               SizedBox(
                 height: screenHeight * 0.1,
               ),
-              CircleAvatar(
-                radius: screenHeight * 0.035,
-                backgroundImage: const AssetImage('assets/icon/icon.png'),
-              ),
-              Text(
-                'Cliff',
-                style: TextStyle(
-                  fontFamily: 'IBMPlexMono',
-                  fontWeight: FontWeight.w900,
-                  fontSize: screenHeight * 0.07,
-                ),
-              ),
-              SizedBox(
-                height: screenHeight * 0.07,
-              ),
               Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: screenHeight * 0.025,
+                padding: const EdgeInsets.only(left : 16.0),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: screenHeight * 0.025,
+                      backgroundImage: const AssetImage('assets/icon/icon.png'),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'Cliff',
+                      style: TextStyle(
+                        fontFamily: 'IBMPlexMono',
+                        fontWeight: FontWeight.w300,
+                        fontSize: screenHeight * 0.05,
+                      ),
+                    ),
+                  ],
                 ),
-                child: Text(
-                  'Hello, \nWelcome to Silicon Institute of Technology',
-                  style: TextStyle(
-                    fontSize: screenHeight * 0.038,
-                    fontWeight: FontWeight.bold,
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    bottom: screenHeight * 0.025,
+                    left: screenHeight * 0.025,
+                  ),
+                  child: Text(
+                    'Sign In',
+
+                    style: TextStyle(
+                      height: 0.9,
+                      fontSize: screenHeight * 0.07,
+                      fontFamily: 'IBMPlexMono',
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
                 ),
               ),
@@ -184,7 +200,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     onPressed: () async {
                                       if (await _submit()) {
                                         Navigator.of(context).popAndPushNamed(
-                                            HomePage.routeName);
+                                            TestNavBar.routeName);
                                       }
                                     },
                                     child: Text(
