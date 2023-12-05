@@ -30,28 +30,20 @@ class AnnouncementIconButton extends ConsumerWidget {
         );
       },
       icon: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(0.0),
         child: Stack(
           children: [
+
+
+
             const Icon(
               Icons.campaign,
               size: 35,
             ),
-            // if (updatesList!.isNotEmpty)
-            Positioned(
-              right: 0,
-              bottom: 10,
-              child: Container(
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                constraints: const BoxConstraints(
-                  minWidth: 16,
-                  minHeight: 16,
-                ),
-                child: Text(
+            if (updatesCount > 0)
+              Badge(
+                backgroundColor: Colors.red,
+                label: Text(
                   updatesCount.toString(),
                   style: const TextStyle(
                     color: Colors.white,
@@ -59,8 +51,35 @@ class AnnouncementIconButton extends ConsumerWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
+                child: const Icon(
+                  Icons.campaign,
+                  size: 35,
+                ),
               ),
-            ),
+            // if (updatesList!.isNotEmpty)
+            // Positioned(
+            //   right: 0,
+            //   bottom: 10,
+            //   child: Container(
+            //     padding: const EdgeInsets.all(2),
+            //     decoration: BoxDecoration(
+            //       color: Colors.red,
+            //       borderRadius: BorderRadius.circular(10),
+            //     ),
+            //     constraints: const BoxConstraints(
+            //       minWidth: 16,
+            //       minHeight: 16,
+            //     ),
+            //     child: Text(
+            //       updatesCount.toString(),
+            //       style: const TextStyle(
+            //         color: Colors.white,
+            //         fontSize: 10,
+            //       ),
+            //       textAlign: TextAlign.center,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

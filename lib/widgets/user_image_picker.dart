@@ -37,7 +37,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
       children: [
         CircleAvatar(
           radius: 53,
-          // backgroundImage: AssetImage(),
+          backgroundImage: AssetImage('assets/images/default_profile_pic.png'),
           backgroundColor: Colors.grey,
           foregroundImage:
               _pickedImageFile != null ? FileImage(_pickedImageFile!) : null,

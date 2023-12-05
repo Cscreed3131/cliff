@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 class AlumniCard extends StatefulWidget {
   final String selectedDepartment;
   final int selectedYear;
+  final bool? isVertical;
   const AlumniCard(
       {super.key,
       required this.selectedDepartment,
-      required this.selectedYear});
+      required this.selectedYear, this.isVertical});
 
   @override
   State<AlumniCard> createState() => _AlumniCardState();
@@ -21,6 +22,7 @@ class _AlumniCardState extends State<AlumniCard> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
@@ -37,109 +39,187 @@ class _AlumniCardState extends State<AlumniCard> {
             ),
           ),
         ),
-        child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: alumniDetails.length,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return widget.selectedDepartment == 'All' &&
-                        widget.selectedYear == alumniDetails[index].year ||
-                    widget.selectedDepartment == alumniDetails[index].branch &&
-                        widget.selectedYear == alumniDetails[index].year
-                ? FadeIn(
-                    child: Container(
-                    height: screenHeight * 0.22,
-                    // width: screenWidth * 0.21,
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.secondaryContainer,
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.outline,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: screenHeight * 0.2,
-                          width: screenHeight * 0.165,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .secondaryContainer,
-                            border: Border.all(
-                              color: Theme.of(context).colorScheme.outline,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                            image: DecorationImage(
-                              image: AssetImage(alumniDetails[index].imgUrl),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+        child: SizedBox(
+          height: widget.isVertical == null ? screenHeight * 0.22 : alumniDetails.length * 40.0,
+          child: widget.isVertical == null ?
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: alumniDetails.length,
+            physics: const AlwaysScrollableScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return widget.selectedDepartment == 'All' &&
+                          widget.selectedYear == alumniDetails[index].year ||
+                      widget.selectedDepartment == alumniDetails[index].branch &&
+                          widget.selectedYear == alumniDetails[index].year
+                  ? FadeIn(
+                      child: Container(
+                          width: 170,
+                          height: 100,
+                      margin:
+                          const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                      padding: const EdgeInsets.only(left : 10),
+                      // decoration: BoxDecoration(
+                      //   color: Theme.of(context).colorScheme.secondaryContainer,
+                      //   border: Border.all(
+                      //     color: Theme.of(context).colorScheme.outline,
+                      //   ),
+                      //   borderRadius: BorderRadius.circular(20),
+                      // ),
+                      child: Card(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 165,
-                              child: Text(
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 5),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              CircleAvatar(
+                                radius: 30,
+                                backgroundImage: AssetImage(
+                                  alumniDetails[index].imgUrl,
+                                ),
+                              ),
+                              Text(
                                 alumniDetails[index].name,
-                                maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                                 style: const TextStyle(
                                   fontFamily: 'IBMPlexMono',
-                                  fontSize: 20,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  alumniDetails[index].branch+" ",
-                                  style: const TextStyle(
-                                    fontFamily: 'IBMPlexMono',
-                                    fontSize: 15,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    alumniDetails[index].branch,
+                                    style: const TextStyle(
+                                      fontFamily: 'IBMPlexMono',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                CircleAvatar(
-                                  radius: 2,
-                                  backgroundColor:
-                                      Theme.of(context).colorScheme.outline,
-                                ),
-                                Text(
-                                  " "+alumniDetails[index].year.toString(),
-                                  style: const TextStyle(
-                                    fontFamily: 'IBMPlexMono',
-                                    fontSize: 15,
+                                  const SizedBox(width: 5),
+                                  CircleAvatar(
+                                    radius: 2,
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .outline,
                                   ),
-                                ),
-                              ],
-                            ),
-                            //const Spacer(),
-                            FilledButton.icon(
-                              onPressed: () {},
-                              label: const Text('LinkedIn'),
-                              icon: const Icon(Icons.link),
-                            ),
-
-                            FilledButton.icon(
-                              onPressed: () {},
-                              label: const Text('E-Mail'),
-                              icon: const Icon(Icons.mail_outlined),
-                            ),
-                          ],
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    alumniDetails[index].year.toString(),
+                                    style: const TextStyle(
+                                      fontFamily: 'IBMPlexMono',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                      ),
+                        )
+                    )))
+                  : const SizedBox();
+            },
+          ) :
+          ListView.builder(
+            itemCount: alumniDetails.length,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index){
+              return widget.selectedDepartment == 'All' &&
+                          widget.selectedYear == alumniDetails[index].year ||
+                      widget.selectedDepartment == alumniDetails[index].branch &&
+                          widget.selectedYear == alumniDetails[index].year
+                  ? FadeIn(
+                      child: Container(
+                          width: screenWidth * 0.9,
+                          height: 100,
+                      margin:
+                          const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
+                      padding: const EdgeInsets.only(left : 10),
+                      // decoration: BoxDecoration(
+                      //   color: Theme.of(context).colorScheme.secondaryContainer,
+                      //   border: Border.all(
+                      //     color: Theme.of(context).colorScheme.outline,
+                      //   ),
+                      //   borderRadius: BorderRadius.circular(20),
+                      // ),
+                      child: Card(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                      ],
-                    ),
-                  ))
-                : const SizedBox();
-          },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 30,
+                                backgroundImage: AssetImage(
+                                  alumniDetails[index].imgUrl,
+                                ),
+                              ),
+                              const SizedBox(width: 10,),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    alumniDetails[index].name,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: const TextStyle(
+                                      fontFamily: 'IBMPlexMono',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        alumniDetails[index].branch,
+                                        style: const TextStyle(
+                                          fontFamily: 'IBMPlexMono',
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      CircleAvatar(
+                                        radius: 2,
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .outline,
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        alumniDetails[index].year.toString(),
+                                        style: const TextStyle(
+                                          fontFamily: 'IBMPlexMono',
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),]),
+                            ],
+                          ),
+                        )
+                    )))
+                  : const SizedBox();
+
+            },
+
+          ),
         ),
       ),
     );

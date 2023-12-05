@@ -15,18 +15,11 @@ class _OrderPageState extends State<OrderPage> {
     final screenHeight = MediaQuery.of(context).size.height;
     final font20 = screenHeight * 0.02;
     return Scaffold(
-      drawer: AppDrawer(),
+      //drawer: AppDrawer(),
       body: CustomScrollView(
         slivers: [
           SliverAppBar.large(
-            leading: Builder(
-              builder: (context) => IconButton(
-                icon: const Icon(
-                  Icons.menu,
-                ),
-                onPressed: () => Scaffold.of(context).openDrawer(),
-              ),
-            ),
+
             title: const Text(
               'Orders',
               style: TextStyle(
