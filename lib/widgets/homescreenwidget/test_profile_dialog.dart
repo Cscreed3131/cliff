@@ -31,7 +31,7 @@ class ProfileDialog extends ConsumerWidget{
 
     final rolesFuture = checkRole();
 
-    return ? Container(
+    return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.background,
@@ -200,11 +200,6 @@ class ProfileDialog extends ConsumerWidget{
           return const CircularProgressIndicator();
         },
       )
-    ) : Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.background,
-        borderRadius: BorderRadius.circular(30),
-      ),
     );
 }
 }
