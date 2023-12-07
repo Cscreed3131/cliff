@@ -1,6 +1,7 @@
 import 'package:cliff/provider/user_data_provider.dart';
 import 'package:cliff/screens/Admin/add_class_timetable.dart';
 import 'package:cliff/screens/Admin/add_food_item_screen.dart';
+import 'package:cliff/screens/Admin/company_data_screen.dart';
 import 'package:cliff/screens/Admin/create_announcement.dart';
 import 'package:cliff/screens/Home/announcements_screen.dart';
 import 'package:cliff/screens/Home/home_screen.dart';
@@ -168,6 +169,7 @@ class MyApp extends ConsumerWidget {
             PlacementDetails.routeName: (ctx) => const PlacementDetails(),
             PlacementsTrainer.routeName: (ctx) => const PlacementsTrainer(),
             PlacementsQuiz.routeName: (ctx) => const PlacementsQuiz(),
+            AddCompanyData.routeName: (ctx) => const AddCompanyData(),
           },
         );
       },

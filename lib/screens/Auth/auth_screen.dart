@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cliff/screens/Auth/singup_screen.dart';
 
-// import '../../global_varibales.dart';
-
 final _firebase = FirebaseAuth.instance;
 
 class AuthScreen extends StatefulWidget {
@@ -94,7 +92,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 height: screenHeight * 0.1,
               ),
               Padding(
-                padding: const EdgeInsets.only(left : 16.0),
+                padding: const EdgeInsets.only(left: 16.0),
                 child: Row(
                   children: [
                     CircleAvatar(
@@ -124,7 +122,6 @@ class _AuthScreenState extends State<AuthScreen> {
                   ),
                   child: Text(
                     'Sign In',
-
                     style: TextStyle(
                       height: 0.9,
                       fontSize: screenHeight * 0.07,
