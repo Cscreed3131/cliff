@@ -47,6 +47,10 @@ class _BuildFormState extends ConsumerState<BuildForm> {
     Completer<bool> completer = Completer<bool>();
 
     showModalBottomSheet(
+      constraints: BoxConstraints.loose(Size(
+          MediaQuery.of(context).size.width,
+          MediaQuery.of(context).size.height * 0.4)), // <= this is set to 3/4 of screen size.
+      isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
         return Container(
@@ -55,23 +59,145 @@ class _BuildFormState extends ConsumerState<BuildForm> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text('Entered Information',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  style: TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold,
+                      fontFamily: 'IBMPlexMono'
+                  )
+              ),
               SizedBox(height: 16),
-              Text('Company Name: ${companyNameController.text}'),
-              Text('Company Details: ${companyDetailsController.text}'),
-              Text('Job Description: ${jobDescriptionController.text}'),
-              Text('Allowed Branches: ${selectedOptions.join(', ')}'),
-              Text('Arrival Date: ${dateController.text}'),
-              Text('Minimum CGPA: ${cgpaController.text}'),
-              Text('Maximum Backlogs: ${backlogsController.text}'),
-              Text('Stipend: ${stipendController.text}'),
-              Text('CTC: ${ctcController.text}'),
-              Text('Bond: ${bondController.text}'),
+              // Text('Company Name: ${companyNameController.text}'),
+              // //Text('Company Details: ${companyDetailsController.text}'),
+              // //Text('Job Description: ${jobDescriptionController.text}'),
+              // Text('Allowed Branches: ${selectedOptions.join(', ')}'),
+              // Text('Arrival Date: ${dateController.text}'),
+              // Text('Minimum CGPA: ${cgpaController.text}'),
+              // Text('Maximum Backlogs: ${backlogsController.text}'),
+              // Text('Stipend: ${stipendController.text}'),
+              // Text('CTC: ${ctcController.text}'),
+              // Text('Bond: ${bondController.text}'),
+
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+
+                  //Column with company name and company details descriptors
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Company Name:' ,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'IBMPlexMono',
+                        ),
+                      ),
+                      Text('Allowed Branches:' ,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'IBMPlexMono',
+                        ),
+                      ),
+                      Text('Arrival Date:' ,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'IBMPlexMono',
+                        ),
+                      ),
+                      Text('Minimum CGPA:' ,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'IBMPlexMono',
+                        ),
+                      ),
+                      Text('Maximum Backlogs:' ,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'IBMPlexMono',
+                        ),
+                      ),
+                      Text('Stipend:' ,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'IBMPlexMono',
+                        ),
+                      ),
+                      Text('CTC:' ,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'IBMPlexMono',
+                        ),
+                      ),
+                      Text('Bond:' ,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'IBMPlexMono',
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  //Column with company name and company details
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('${companyNameController.text}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'IBMPlexMono',
+                        ),
+                      ),
+                      Text('${selectedOptions.join(', ')}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'IBMPlexMono',
+                        ),
+                      ),
+                      Text('${dateController.text}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'IBMPlexMono',
+                        ),
+                      ),
+                      Text('${cgpaController.text}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'IBMPlexMono',
+                        ),
+                      ),
+                      Text('${backlogsController.text}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'IBMPlexMono',
+                        ),
+                      ),
+                      Text('${stipendController.text}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'IBMPlexMono',
+                        ),
+                      ),
+                      Text('${ctcController.text}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'IBMPlexMono',
+                        ),
+                      ),
+                      Text('${bondController.text}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'IBMPlexMono',
+                        ),
+                      ),
+                    ],
+                  )
+
+                ],
+              ),
               SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ElevatedButton(
+                  FilledButton(
                     onPressed: () {
                       // Save button pressed
                       completer.complete(true);
@@ -79,7 +205,7 @@ class _BuildFormState extends ConsumerState<BuildForm> {
                     },
                     child: Text('Save'),
                   ),
-                  ElevatedButton(
+                  OutlinedButton(
                     onPressed: () {
                       // Cancel button pressed
                       completer.complete(false);
@@ -110,6 +236,7 @@ class _BuildFormState extends ConsumerState<BuildForm> {
       // Save data to the database or perform other actions
       _formKey.currentState!.save();
       await _submit(); // Assuming _submit is asynchronous
+      Navigator.pop(context);
     }
     // If cancel button is pressed, do nothing or handle as needed
   }
@@ -175,7 +302,7 @@ class _BuildFormState extends ConsumerState<BuildForm> {
             FormBuilderTextField(
               name: 'Company name',
               maxLines: 1,
-              controller: companyNameController, // text editing coontroller
+              controller: companyNameController, // text editing controller
               decoration: InputDecoration(
                 labelText: 'Company name',
                 alignLabelWithHint: true,
@@ -350,8 +477,8 @@ class _BuildFormState extends ConsumerState<BuildForm> {
             Text(
               "Eligibilty Criteria",
               style: TextStyle(
-                fontSize: 30,
-                fontFamily: "GarogierRegular",
+                fontSize: MediaQuery.of(context).size.width * 0.05,
+                fontFamily: "IBMPLexMono",
               ),
             ),
             SizedBox(
@@ -424,8 +551,8 @@ class _BuildFormState extends ConsumerState<BuildForm> {
             Text(
               "Compensation",
               style: TextStyle(
-                fontSize: 30,
-                fontFamily: "GarogierRegular",
+                fontSize: MediaQuery.of(context).size.width * 0.05,
+                fontFamily: "IBMPLexMono",
               ),
             ),
             FormBuilderTextField(
@@ -524,11 +651,18 @@ class _BuildFormState extends ConsumerState<BuildForm> {
             SizedBox(
               height: 10,
             ),
-            ElevatedButton(
-              onPressed: () async {
-                await validateAndSaveForm();
-              },
-              child: Text('Save'),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  child: FilledButton(
+                    onPressed: () async {
+                      await validateAndSaveForm();
+                    },
+                    child: Text('Save'),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
