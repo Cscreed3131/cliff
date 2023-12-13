@@ -38,6 +38,62 @@ final realTimeUserDataProvider =
   }
 });
 
+// final realTimeUserDataProvider =
+//     StreamProvider.autoDispose<UserDetails>((ref) async* {
+//   ref.keepAlive();
+//   final auth = FirebaseAuth.instance;
+//   await for (final user in auth.authStateChanges()) {
+//     if (user != null) {
+//       // User is logged in, fetch user details
+//       FirebaseFirestore.instance
+//           .collection('users')
+//           .where('userid', isEqualTo: user.uid)
+//           .snapshots()
+//           .map(
+//         (querySnapshot) {
+//           return querySnapshot.docs.map(
+//             (doc) {
+//               Map<String, dynamic> data = doc.data();
+//               return UserDetails(
+//                 name: data['name'],
+//                 sic: data['sic'],
+//                 branch: data['branch'],
+//                 email: data['email'],
+//                 year: data['year'],
+//                 phoneNumber: int.parse(data['phoneNumber']),
+//                 imageUrl: data['image_url'],
+//                 likedProducts: data['likedproducts'],
+//                 registeredEvents: data['events_registered'],
+//                 cart: data['cart'],
+//                 roles: data['role'],
+//               );
+//             },
+//           );
+//         },
+//       );
+
+      // final data = await userDoc.first;
+      // if (data.docs.isNotEmpty) {
+      //   final userData = data.docs.first.data();
+      //   final userDetails = UserDetails(
+      //     name: userData['name'],
+      //     sic: userData['sic'],
+      //     branch: userData['branch'],
+      //     email: userData['email'],
+      //     year: userData['year'],
+      //     phoneNumber: int.parse(userData['phoneNumber']),
+      //     imageUrl: userData['image_url'],
+      //     likedProducts: userData['likedproducts'],
+      //     registeredEvents: userData['events_registered'],
+      //     cart: userData['cart'],
+      //     roles: userData['user_role'],
+      //   );
+      //   yield userDetails;
+      // }
+//     }
+//   }
+// });
+
 // class UserDataProvider {
 //   Future<String> getUserData() async {
 //     String userId = '';

@@ -197,7 +197,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                     onPressed: () async {
                                       if (await _submit()) {
                                         Navigator.of(context).popAndPushNamed(
-                                            TestNavBar.routeName);
+                                            TestNavBar
+                                                .routeName); // gives error when loggin(route problem)
                                       }
                                     },
                                     child: Text(
