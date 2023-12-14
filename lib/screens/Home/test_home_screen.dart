@@ -1,17 +1,17 @@
-import 'package:carousel_slider/carousel_options.dart';
+// import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cliff/screens/Events/screens/event_screen.dart';
 import 'package:cliff/screens/placements/placement_screen.dart';
 import 'package:cliff/widgets/homescreenwidget/announcements_icon_button.dart';
-import 'package:cliff/widgets/homescreenwidget/image_slider.dart';
+// import 'package:cliff/widgets/homescreenwidget/image_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../provider/image_slider_images.dart';
-import '../../widgets/homescreenwidget/classroom_widget.dart';
+// import '../../widgets/homescreenwidget/classroom_widget.dart';
 import '../../widgets/homescreenwidget/test_profile_dialog.dart';
-import '../Admin/admin_screen.dart';
+// import '../Admin/admin_screen.dart';
 import '../Merch/screens/buy_merch_screen.dart';
 import '../classroom/providers/class_timetable_provider.dart';
 import '../classroom/scheduled_classes.dart';
