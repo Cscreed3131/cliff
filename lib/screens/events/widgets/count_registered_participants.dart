@@ -1,5 +1,5 @@
 import 'package:cliff/models/event.dart';
-import 'package:cliff/provider/event_details_provider.dart';
+import 'package:cliff/screens/Events/provider/event_details_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

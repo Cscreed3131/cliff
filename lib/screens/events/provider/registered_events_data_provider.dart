@@ -1,5 +1,5 @@
 import 'package:cliff/models/event.dart';
-import 'package:cliff/provider/event_details_provider.dart';
+import 'package:cliff/screens/Events/provider/event_details_provider.dart';
 import 'package:cliff/provider/user_data_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

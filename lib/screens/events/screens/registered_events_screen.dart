@@ -1,5 +1,5 @@
-import 'package:cliff/provider/event_details_provider.dart';
-import 'package:cliff/provider/registered_events_data_provider.dart';
+import 'package:cliff/screens/Events/provider/registered_events_data_provider.dart';
+import 'package:cliff/screens/Events/provider/event_details_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -12,7 +12,7 @@ class RegisteredEventsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    final font38 = screenWidth * 0.07;
+    // final font38 = screenWidth * 0.07;
 
     return Scaffold(
         body: CustomScrollView(

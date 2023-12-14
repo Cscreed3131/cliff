@@ -1,6 +1,6 @@
 import 'package:cliff/models/merch.dart';
 import 'package:cliff/provider/user_data_provider.dart';
-import 'package:cliff/screens/Merch/merch_details_screen.dart';
+import 'package:cliff/screens/Merch/screens/merch_details_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

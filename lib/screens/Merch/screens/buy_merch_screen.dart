@@ -1,15 +1,14 @@
 import 'dart:ui';
 
-import 'package:cliff/screens/Events/widgets/event_schedule_icon_button.dart';
-import 'package:cliff/widgets/eventswidget/event_widget.dart';
+import 'package:cliff/screens/Merch/widgets/cart_icon_widget.dart';
+import 'package:cliff/screens/Merch/widgets/merch_widget.dart';
 import 'package:flutter/material.dart';
 
-class EventsScreen extends StatelessWidget {
-  const EventsScreen({super.key});
-  static const routeName = '/events-screens';
+class BuyMerchScreen extends StatelessWidget {
+  const BuyMerchScreen({super.key});
+  static const routeName = '/merch';
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -21,7 +20,7 @@ class EventsScreen extends StatelessWidget {
               icon: const Icon(Icons.arrow_back),
             ),
             // title: const Text(
-            //   "Events",
+            //   "Merch",
             //   style: TextStyle(
             //     fontFamily: 'IBMPlexMono',
             //     fontSize: 30,
@@ -31,12 +30,12 @@ class EventsScreen extends StatelessWidget {
             // ),
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
-                "Events",
+                "Merch",
                 style: TextStyle(
                   fontFamily: 'IBMPlexMono',
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.onSurface
+                  color: Theme.of(context).colorScheme.onSurface,
                   // color: textColor,
                 ),
               ),
@@ -45,7 +44,7 @@ class EventsScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: const DecorationImage(
-                    image: AssetImage('assets/images/events.png'),
+                    image: AssetImage('assets/images/merch.png'),
                     fit: BoxFit.fitWidth,
                   ),
                 ),
@@ -56,23 +55,25 @@ class EventsScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Theme.of(context).colorScheme.surface.withOpacity(0.5),
+                            Theme.of(context)
+                                .colorScheme
+                                .surface
+                                .withOpacity(0.5),
                             Theme.of(context).colorScheme.surface,
                           ],
-                          stops: const [0.0, 1.4],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                         ),
                       ),
-                      alignment: Alignment.center,
                     ),
                   ),
                 ),
               ),
             ),
             actions: const [
-              EventScheduleIconButton(),
-            ],
+              CartIconWidget(),
+            ], // icon button which has a badge in it to show the quantity of
+            //items in cart which updates upon adding and delete items from cart
           ),
           SliverToBoxAdapter(
             child: SingleChildScrollView(
@@ -85,13 +86,13 @@ class EventsScreen extends StatelessWidget {
                   //   width: double.infinity,
                   //   margin: const EdgeInsets.all(10),
                   //   decoration: BoxDecoration(
+                  //     color: Theme.of(context).colorScheme.secondaryContainer,
                   //     border: Border.all(
                   //       color: Theme.of(context).colorScheme.outline,
                   //     ),
-                  //     color: Theme.of(context).colorScheme.secondaryContainer,
                   //     borderRadius: BorderRadius.circular(20),
                   //     image: const DecorationImage(
-                  //       image: AssetImage('assets/images/events.png'),
+                  //       image: AssetImage('assets/images/merch.png'),
                   //       fit: BoxFit.fitWidth,
                   //     ),
                   //   ),
@@ -100,12 +101,11 @@ class EventsScreen extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-
-                  const EventsWidget(),
+                  const MerchWidget(),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );

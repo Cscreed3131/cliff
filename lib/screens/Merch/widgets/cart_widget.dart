@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:cliff/models/cart.dart';
-import 'package:cliff/provider/cart_data_provider.dart';
+import 'package:cliff/screens/Merch/provider/cart_data_provider.dart';
 import 'package:cliff/provider/user_data_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

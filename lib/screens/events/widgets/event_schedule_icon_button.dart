@@ -1,5 +1,5 @@
-import 'package:cliff/provider/registered_events_data_provider.dart';
-import 'package:cliff/screens/Events/registered_events_screen.dart';
+import 'package:cliff/screens/Events/provider/registered_events_data_provider.dart';
+import 'package:cliff/screens/Events/screens/registered_events_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_animation_transition/animations/right_to_left_faded_transition.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:page_animation_transition/animations/right_to_left_faded_transition.dart';
 import 'package:page_animation_transition/page_animation_transition.dart';
 
-import '../../screens/Merch/merch_details_screen.dart';
+import '../screens/merch_details_screen.dart';
 
 class MerchForSale extends StatefulWidget {
   final List<Merchandise> isForSaleList;

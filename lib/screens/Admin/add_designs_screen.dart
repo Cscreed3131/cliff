@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:cliff/screens/Merch/buy_merch_screen.dart';
+import 'package:cliff/screens/Merch/screens/buy_merch_screen.dart';
 import 'package:cliff/widgets/event_image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

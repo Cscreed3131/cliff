@@ -1,4 +1,4 @@
-import 'package:cliff/widgets/merchwidget/cart_widget.dart';
+import 'package:cliff/screens/Merch/widgets/cart_widget.dart';
 import 'package:flutter/material.dart';
 
 class CartScreen extends StatefulWidget {

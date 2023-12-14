@@ -1,10 +1,10 @@
-import 'package:cliff/provider/cart_data_provider.dart';
+import 'package:cliff/screens/Merch/provider/cart_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_animation_transition/animations/right_to_left_faded_transition.dart';
 import 'package:page_animation_transition/page_animation_transition.dart';
 
-import '../../screens/Merch/cart_screen.dart';
+import '../screens/cart_screen.dart';
 
 class CartIconWidget extends ConsumerWidget {
   const CartIconWidget({super.key});

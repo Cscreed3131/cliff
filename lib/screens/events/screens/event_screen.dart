@@ -1,12 +1,12 @@
 import 'dart:ui';
 
-import 'package:cliff/widgets/merchwidget/cart_icon_widget.dart';
-import 'package:cliff/widgets/merchwidget/merch_widget.dart';
+import 'package:cliff/screens/Events/widgets/event_schedule_icon_button.dart';
+import 'package:cliff/screens/Events/widgets/event_widget.dart';
 import 'package:flutter/material.dart';
 
-class BuyMerchScreen extends StatelessWidget {
-  const BuyMerchScreen({super.key});
-  static const routeName = '/merch';
+class EventsScreen extends StatelessWidget {
+  const EventsScreen({super.key});
+  static const routeName = '/events-screens';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +20,7 @@ class BuyMerchScreen extends StatelessWidget {
               icon: const Icon(Icons.arrow_back),
             ),
             // title: const Text(
-            //   "Merch",
+            //   "Events",
             //   style: TextStyle(
             //     fontFamily: 'IBMPlexMono',
             //     fontSize: 30,
@@ -30,21 +30,21 @@ class BuyMerchScreen extends StatelessWidget {
             // ),
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
-                "Merch",
+                "Events",
                 style: TextStyle(
-                  fontFamily: 'IBMPlexMono',
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.onSurface,
-                  // color: textColor,
-                ),
+                    fontFamily: 'IBMPlexMono',
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.onSurface
+                    // color: textColor,
+                    ),
               ),
               expandedTitleScale: 1.2,
               background: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: const DecorationImage(
-                    image: AssetImage('assets/images/merch.png'),
+                    image: AssetImage('assets/images/events.png'),
                     fit: BoxFit.fitWidth,
                   ),
                 ),
@@ -61,19 +61,20 @@ class BuyMerchScreen extends StatelessWidget {
                                 .withOpacity(0.5),
                             Theme.of(context).colorScheme.surface,
                           ],
+                          stops: const [0.0, 1.4],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                         ),
                       ),
+                      alignment: Alignment.center,
                     ),
                   ),
                 ),
               ),
             ),
             actions: const [
-              CartIconWidget(),
-            ], // icon button which has a badge in it to show the quantity of
-            //items in cart which updates upon adding and delete items from cart
+              EventScheduleIconButton(),
+            ],
           ),
           SliverToBoxAdapter(
             child: SingleChildScrollView(
@@ -86,13 +87,13 @@ class BuyMerchScreen extends StatelessWidget {
                   //   width: double.infinity,
                   //   margin: const EdgeInsets.all(10),
                   //   decoration: BoxDecoration(
-                  //     color: Theme.of(context).colorScheme.secondaryContainer,
                   //     border: Border.all(
                   //       color: Theme.of(context).colorScheme.outline,
                   //     ),
+                  //     color: Theme.of(context).colorScheme.secondaryContainer,
                   //     borderRadius: BorderRadius.circular(20),
                   //     image: const DecorationImage(
-                  //       image: AssetImage('assets/images/merch.png'),
+                  //       image: AssetImage('assets/images/events.png'),
                   //       fit: BoxFit.fitWidth,
                   //     ),
                   //   ),
@@ -101,11 +102,12 @@ class BuyMerchScreen extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  const MerchWidget(),
+
+                  const EventsWidget(),
                 ],
               ),
             ),
-          ),
+          )
         ],
       ),
     );

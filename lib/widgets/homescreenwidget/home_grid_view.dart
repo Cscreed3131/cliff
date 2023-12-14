@@ -1,6 +1,6 @@
 import 'package:cliff/screens/alumni/alumni_screen.dart';
-import 'package:cliff/screens/Merch/buy_merch_screen.dart';
-import 'package:cliff/screens/Events/event_screen.dart';
+import 'package:cliff/screens/Merch/screens/buy_merch_screen.dart';
+import 'package:cliff/screens/Events/screens/event_screen.dart';
 import 'package:cliff/screens/classroom/scheduled_classes.dart';
 import 'package:cliff/screens/food/food_screen.dart';
 // import 'package:cliff/screens/memories.dart';

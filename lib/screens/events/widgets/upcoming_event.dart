@@ -3,7 +3,7 @@ import 'package:cliff/models/event.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../screens/Events/event_details_screen.dart';
+import '../screens/event_details_screen.dart';
 
 class UpComingEventsWidgets extends StatelessWidget {
   const UpComingEventsWidgets({

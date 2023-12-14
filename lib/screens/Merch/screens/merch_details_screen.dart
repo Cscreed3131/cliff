@@ -1,5 +1,5 @@
-import 'package:cliff/screens/Merch/cart_screen.dart';
-import 'package:cliff/widgets/merchwidget/cart_icon_widget.dart';
+import 'package:cliff/screens/Merch/screens/cart_screen.dart';
+import 'package:cliff/screens/Merch/widgets/cart_icon_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

@@ -1,7 +1,7 @@
 import 'package:cliff/models/event.dart';
-import 'package:cliff/provider/event_details_provider.dart';
+import 'package:cliff/screens/Events/provider/event_details_provider.dart';
 import 'package:cliff/provider/user_data_provider.dart';
-import 'package:cliff/screens/Events/get_team_details_screen.dart';
+import 'package:cliff/screens/Events/screens/get_team_details_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
