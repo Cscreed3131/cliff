@@ -1,7 +1,7 @@
 // import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cliff/screens/Events/screens/event_screen.dart';
-import 'package:cliff/screens/placements/placement_screen.dart';
+import 'package:cliff/screens/placements/screens/placement_screen.dart';
 import 'package:cliff/widgets/homescreenwidget/announcements_icon_button.dart';
 // import 'package:cliff/widgets/homescreenwidget/image_slider.dart';
 import 'package:flutter/foundation.dart';

@@ -8,7 +8,7 @@ import 'package:cliff/screens/Home/announcements_screen.dart';
 import 'package:cliff/screens/Home/test_nav_bar.dart';
 import 'package:cliff/screens/classroom/scheduled_classes.dart';
 import 'package:cliff/screens/placements/placement_details.dart';
-import 'package:cliff/screens/placements/placement_screen.dart';
+import 'package:cliff/screens/placements/screens/placement_screen.dart';
 import 'package:cliff/screens/placements/placements_quiz.dart';
 import 'package:cliff/screens/placements/placements_trainer.dart';
 import 'package:flutter/material.dart';

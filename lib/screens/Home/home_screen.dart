@@ -5,7 +5,7 @@ import 'package:cliff/widgets/homescreenwidget/home_grid_view.dart';
 import 'package:cliff/widgets/homescreenwidget/image_slider.dart';
 import 'package:flutter/material.dart';
 
-import '../placements/placement_screen.dart';
+import '../placements/screens/placement_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,9 +14,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -76,7 +73,6 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
                 Padding(
                   padding: EdgeInsets.only(top: 30, bottom: 20),
                   child: ImageSlider(),
@@ -116,7 +112,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               ListTile(
-                                onTap: () => Navigator.of(context).pushNamed(PlacementsScreen.routeName),
+                                onTap: () => Navigator.of(context)
+                                    .pushNamed(PlacementsScreen.routeName),
                                 leading: Icon(
                                   Icons.work_outline,
                                   color: Theme.of(context).colorScheme.primary,
@@ -141,7 +138,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                         .onPrimaryContainer,
                                   ),
                                 ),
-
                                 trailing: Icon(
                                   Icons.arrow_forward,
                                   color: Theme.of(context).colorScheme.primary,
@@ -168,7 +164,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-
               ],
             ),
           )),

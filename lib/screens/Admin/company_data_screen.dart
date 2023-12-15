@@ -49,7 +49,8 @@ class _BuildFormState extends ConsumerState<BuildForm> {
     showModalBottomSheet(
       constraints: BoxConstraints.loose(Size(
           MediaQuery.of(context).size.width,
-          MediaQuery.of(context).size.height * 0.4)), // <= this is set to 3/4 of screen size.
+          MediaQuery.of(context).size.height *
+              0.4)), // <= this is set to 3/4 of screen size.
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
@@ -60,74 +61,69 @@ class _BuildFormState extends ConsumerState<BuildForm> {
             children: [
               Text('Entered Information',
                   style: TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold,
-                      fontFamily: 'IBMPlexMono'
-                  )
-              ),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'IBMPlexMono')),
               SizedBox(height: 16),
-              // Text('Company Name: ${companyNameController.text}'),
-              // //Text('Company Details: ${companyDetailsController.text}'),
-              // //Text('Job Description: ${jobDescriptionController.text}'),
-              // Text('Allowed Branches: ${selectedOptions.join(', ')}'),
-              // Text('Arrival Date: ${dateController.text}'),
-              // Text('Minimum CGPA: ${cgpaController.text}'),
-              // Text('Maximum Backlogs: ${backlogsController.text}'),
-              // Text('Stipend: ${stipendController.text}'),
-              // Text('CTC: ${ctcController.text}'),
-              // Text('Bond: ${bondController.text}'),
-
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-
                   //Column with company name and company details descriptors
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Company Name:' ,
+                      Text(
+                        'Company Name:',
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'IBMPlexMono',
                         ),
                       ),
-                      Text('Allowed Branches:' ,
+                      Text(
+                        'Allowed Branches:',
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'IBMPlexMono',
                         ),
                       ),
-                      Text('Arrival Date:' ,
+                      Text(
+                        'Arrival Date:',
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'IBMPlexMono',
                         ),
                       ),
-                      Text('Minimum CGPA:' ,
+                      Text(
+                        'Minimum CGPA:',
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'IBMPlexMono',
                         ),
                       ),
-                      Text('Maximum Backlogs:' ,
+                      Text(
+                        'Maximum Backlogs:',
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'IBMPlexMono',
                         ),
                       ),
-                      Text('Stipend:' ,
+                      Text(
+                        'Stipend:',
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'IBMPlexMono',
                         ),
                       ),
-                      Text('CTC:' ,
+                      Text(
+                        'CTC:',
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'IBMPlexMono',
                         ),
                       ),
-                      Text('Bond:' ,
+                      Text(
+                        'Bond:',
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'IBMPlexMono',
@@ -140,49 +136,57 @@ class _BuildFormState extends ConsumerState<BuildForm> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('${companyNameController.text}',
+                      Text(
+                        '${companyNameController.text}',
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'IBMPlexMono',
                         ),
                       ),
-                      Text('${selectedOptions.join(', ')}',
+                      Text(
+                        '${selectedOptions.join(', ')}',
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'IBMPlexMono',
                         ),
                       ),
-                      Text('${dateController.text}',
+                      Text(
+                        '${dateController.text}',
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'IBMPlexMono',
                         ),
                       ),
-                      Text('${cgpaController.text}',
+                      Text(
+                        '${cgpaController.text}',
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'IBMPlexMono',
                         ),
                       ),
-                      Text('${backlogsController.text}',
+                      Text(
+                        '${backlogsController.text}',
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'IBMPlexMono',
                         ),
                       ),
-                      Text('${stipendController.text}',
+                      Text(
+                        '${stipendController.text}',
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'IBMPlexMono',
                         ),
                       ),
-                      Text('${ctcController.text}',
+                      Text(
+                        '${ctcController.text}',
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'IBMPlexMono',
                         ),
                       ),
-                      Text('${bondController.text}',
+                      Text(
+                        '${bondController.text}',
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'IBMPlexMono',
@@ -190,7 +194,6 @@ class _BuildFormState extends ConsumerState<BuildForm> {
                       ),
                     ],
                   )
-
                 ],
               ),
               SizedBox(height: 16),
@@ -245,21 +248,21 @@ class _BuildFormState extends ConsumerState<BuildForm> {
     try {
       FirebaseFirestore.instance
           .collection('placement')
-          .doc('companyDetails')
+          .doc('CompanyDetails')
           .set(
         {
           '${companyNameController.text}': {
             'companyName': companyNameController.text,
-            'CompanyDetails': companyDetailsController.text,
+            'companyDetails': companyDetailsController.text,
             'jobDescription': jobDescriptionController.text,
             'vacancies': int.parse(vacanciesController.text),
             'allowedBranches': selectedOptions,
             'arrivalDate': dateController.text,
-            'minimumCgpa': int.parse(cgpaController.text),
+            'minimumCgpa': num.parse(cgpaController.text),
             'maximumBacklogs': int.parse(backlogsController.text),
-            'stipend': int.parse(stipendController.text),
-            'ctc': int.parse(ctcController.text),
-            'bond': int.parse(bondController.text),
+            'stipend': num.parse(stipendController.text),
+            'ctc': num.parse(ctcController.text),
+            'bond': num.parse(bondController.text),
           }
         },
         SetOptions(merge: true),
