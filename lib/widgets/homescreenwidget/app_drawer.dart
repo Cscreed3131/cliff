@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:cliff/screens/Auth/auth_screen.dart';
-import 'package:cliff/screens/Admin/admin_screen.dart';
+import 'package:cliff/sub_sections/Auth/auth_screen.dart';
+import 'package:cliff/sub_sections/Admin/admin_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AppDrawer extends ConsumerWidget {
@@ -47,7 +47,6 @@ class AppDrawer extends ConsumerWidget {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.secondaryContainer,
-
               ),
               child: Center(
                 child: userDetails.when(
@@ -101,7 +100,10 @@ class AppDrawer extends ConsumerWidget {
                             backgroundColor: Colors.lightGreen[300],
                             label: Text(
                               'Adminstrator',
-                              style: TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.background),
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color:
+                                      Theme.of(context).colorScheme.background),
                             ),
                             // backgroundColor: Colors.teal,
                             elevation: 20,

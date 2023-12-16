@@ -1,6 +1,6 @@
 import 'package:cliff/models/announcements.dart';
 import 'package:cliff/provider/announcements_provider.dart';
-import 'package:cliff/screens/Home/announcements_screen.dart';
+import 'package:cliff/sub_sections/Home/announcements_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_animation_transition/animations/right_to_left_faded_transition.dart';
@@ -33,9 +33,6 @@ class AnnouncementIconButton extends ConsumerWidget {
         padding: const EdgeInsets.all(0.0),
         child: Stack(
           children: [
-
-
-
             const Icon(
               Icons.campaign,
               size: 35,

@@ -1,19 +1,19 @@
-import 'package:cliff/sub_sections/history/history_screen.dart';
+import 'package:cliff/sub_sections/Home/test_home_screen.dart';
 import 'package:cliff/sub_sections/orders/order_page.dart';
 import 'package:flutter/material.dart';
 
-import '../../sub_sections/Home/home_screen.dart';
+import '../alumni/alumni_screen.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class TestNavBar extends StatefulWidget {
+  const TestNavBar({super.key});
 
-  static const routeName = '/home';
+  static const routeName = '/test-nav-bar';
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<TestNavBar> createState() => _TestNavBarState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _TestNavBarState extends State<TestNavBar> {
   int _selectedIndex = 0;
   NavigationDestinationLabelBehavior labelBehavior =
       NavigationDestinationLabelBehavior.alwaysShow;
@@ -26,9 +26,10 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> _buildScreens() {
     return [
-      const HomeScreen(),
-      const OrderPage(),
-      const HistoryScreen(),
+      const TestHomeScreen(),
+      const AlumniScreen(),
+      const Center(child: Text('Forums')),
+      const OrderPage()
     ];
   }
 
@@ -51,17 +52,24 @@ class _HomePageState extends State<HomePage> {
             ),
             label: "Home",
           ),
+          //connect
           NavigationDestination(
             icon: Icon(
-              Icons.receipt_long,
+              Icons.connect_without_contact,
             ),
-            label: "Orders",
+            label: "Connect",
+          ),
+          NavigationDestination(
+            icon: Icon(
+              Icons.comment_bank_outlined,
+            ),
+            label: "Forum",
           ),
           NavigationDestination(
             icon: Icon(
               Icons.history,
             ),
-            label: "History",
+            label: "Orders",
           ),
         ],
       ),

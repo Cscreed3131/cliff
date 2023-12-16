@@ -1,8 +1,8 @@
-import 'package:cliff/screens/alumni/alumni_screen.dart';
-import 'package:cliff/screens/Merch/screens/buy_merch_screen.dart';
-import 'package:cliff/screens/Events/screens/event_screen.dart';
-import 'package:cliff/screens/classroom/scheduled_classes.dart';
-import 'package:cliff/screens/food/food_screen.dart';
+import 'package:cliff/sub_sections/alumni/alumni_screen.dart';
+import 'package:cliff/sub_sections/Merch/screens/buy_merch_screen.dart';
+import 'package:cliff/sub_sections/Events/screens/event_screen.dart';
+import 'package:cliff/sub_sections/classroom/scheduled_classes.dart';
+import 'package:cliff/sub_sections/food/food_screen.dart';
 // import 'package:cliff/screens/memories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

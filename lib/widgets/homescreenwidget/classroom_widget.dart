@@ -1,15 +1,16 @@
-import 'package:cliff/screens/classroom/scheduled_classes.dart';
+import 'package:cliff/sub_sections/classroom/scheduled_classes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../screens/classroom/providers/class_timetable_provider.dart';
+import '../../sub_sections/classroom/providers/class_timetable_provider.dart';
 
 class ClassroomWidget extends ConsumerStatefulWidget {
   const ClassroomWidget({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ClassroomWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _ClassroomWidgetState();
 }
 
 class _ClassroomWidgetState extends ConsumerState<ClassroomWidget> {
@@ -23,9 +24,8 @@ class _ClassroomWidgetState extends ConsumerState<ClassroomWidget> {
       final timetableData = ref.watch(timeTableProvider);
       final List<TodaysScheduledClass> todaysScheduledClass = [];
       timetableData.when(data: (data) {
-
         for (var element in data) {
-          if(element.className != "Lunch"){
+          if (element.className != "Lunch") {
             numberOfClassesToday++;
             todaysScheduledClass.add(
               TodaysScheduledClass(
@@ -43,7 +43,6 @@ class _ClassroomWidgetState extends ConsumerState<ClassroomWidget> {
           print(error);
           print(stackTrace);
         }
-
       }, loading: () {
         if (kDebugMode) {
           print('loading');
@@ -52,11 +51,9 @@ class _ClassroomWidgetState extends ConsumerState<ClassroomWidget> {
       // print("PRINTING FROM SCHEDULED CLASSESD");
       // print(_todaysScheduledClass);
       return todaysScheduledClass;
-
     }
 
     getTodaysScheduledClass(ref);
-
 
     return Padding(
         padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
@@ -69,10 +66,8 @@ class _ClassroomWidgetState extends ConsumerState<ClassroomWidget> {
               borderRadius: BorderRadius.circular(15),
             ),
             //shadowColor: Colors.transparent,
-            color: Theme.of(context)
-                .colorScheme
-                .primaryContainer
-                .withOpacity(0.5),
+            color:
+                Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
             child: Container(
                 decoration: BoxDecoration(
                     // border: Border.all(
@@ -83,7 +78,8 @@ class _ClassroomWidgetState extends ConsumerState<ClassroomWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ListTile(
-                      onTap: () => Navigator.of(context).pushNamed(ScheduledClasses.routeName),
+                      onTap: () => Navigator.of(context)
+                          .pushNamed(ScheduledClasses.routeName),
                       leading: Icon(
                         Icons.person_pin_outlined,
                         color: Theme.of(context).colorScheme.primary,
@@ -99,15 +95,14 @@ class _ClassroomWidgetState extends ConsumerState<ClassroomWidget> {
                             fontWeight: FontWeight.bold),
                       ),
                       subtitle: Text(
-                        numberOfClassesToday > 0 ?
-                        'You have $numberOfClassesToday classes' :
-                        'No classes. Enjoy your day!',
+                        numberOfClassesToday > 0
+                            ? 'You have $numberOfClassesToday classes'
+                            : 'No classes. Enjoy your day!',
                         style: TextStyle(
                           fontFamily: 'IBMPlexMono',
                           fontSize: screenWidth * 0.04,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onPrimaryContainer,
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
                         ),
                       ),
                       trailing: Icon(
@@ -116,41 +111,43 @@ class _ClassroomWidgetState extends ConsumerState<ClassroomWidget> {
                       ),
                     ),
                     //A list of chips consisting of items from the getTodaysScheduledClass() function, wrapped
-                    numberOfClassesToday > 0 ?  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0).copyWith(bottom: 10),
-                      child: Wrap(
-                        spacing: 10,
-                        children: [
-                          for (var element in getTodaysScheduledClass(ref))
-                            Chip(
-                              side: BorderSide.none,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              // shape: RoundedRectangleBorder(
-                              //   borderRadius: BorderRadius.circular(50),
-                              // ),
-                              label: Text(
-                                element.className,
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              backgroundColor: element.classColor.withOpacity(0.8),
+                    numberOfClassesToday > 0
+                        ? Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0)
+                                    .copyWith(bottom: 10),
+                            child: Wrap(
+                              spacing: 10,
+                              children: [
+                                for (var element
+                                    in getTodaysScheduledClass(ref))
+                                  Chip(
+                                    side: BorderSide.none,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    // shape: RoundedRectangleBorder(
+                                    //   borderRadius: BorderRadius.circular(50),
+                                    // ),
+                                    label: Text(
+                                      element.className,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    backgroundColor:
+                                        element.classColor.withOpacity(0.8),
+                                  ),
+                              ],
                             ),
-                        ],),
-                    ) : const SizedBox(),
-
+                          )
+                        : const SizedBox(),
                   ],
-                )
-            ),
+                )),
           ),
-        )
-    );
+        ));
   }
-
-
 }
 
 class TodaysScheduledClass {
