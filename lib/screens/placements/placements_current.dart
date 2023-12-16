@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:cliff/screens/placements/models/company_data.dart';
 import 'package:cliff/screens/placements/screens/placement_details_screen.dart';
 import 'package:cliff/screens/placements/provider/company_data_provider.dart';
 import 'package:flutter/material.dart';

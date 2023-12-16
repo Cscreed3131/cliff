@@ -171,8 +171,8 @@ class MyApp extends ConsumerWidget {
               );
             },
             PlacementDetails.routeName: (ctx) {
-              final CompanyData args =
-                  ModalRoute.of(ctx)!.settings.arguments as CompanyData;
+              final CompanyData args = ModalRoute.of(ctx)!.settings.arguments
+                  as CompanyData; // a far better approch so the main looks clean and clear might do this for every thing in the future.
               return PlacementDetails(data: args);
             },
           },
