@@ -1,5 +1,5 @@
 import 'package:cliff/screens/Home/test_nav_bar.dart';
-import 'package:cliff/widgets/homescreenwidget/bottom_navigation_bar.dart';
+// import 'package:cliff/widgets/homescreenwidget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cliff/screens/Auth/singup_screen.dart';

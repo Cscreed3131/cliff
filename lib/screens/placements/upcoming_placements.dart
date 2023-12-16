@@ -1,5 +1,5 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:cliff/screens/placements/placement_details.dart';
+import 'package:cliff/screens/placements/screens/placement_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class UpcomingPlacements extends StatelessWidget {
@@ -30,7 +30,6 @@ class UpcomingPlacements extends StatelessWidget {
           return FadeIn(
             duration: Duration(milliseconds: 100 * (index + 1)),
             child: InkWell(
-
               //navigate to placements details screen
               onTap: () {
                 Navigator.of(context).pushNamed(
@@ -47,7 +46,6 @@ class UpcomingPlacements extends StatelessWidget {
                     .primaryContainer
                     .withOpacity(0.2),
                 child: Container(
-
                   decoration: BoxDecoration(
                       border: Border.all(
                         color: Theme.of(context).colorScheme.primary,
@@ -79,14 +77,13 @@ class UpcomingPlacements extends StatelessWidget {
                               ),
                             ),
                           ),
-
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-
                               //Company name text
                               Padding(
-                                padding: const EdgeInsets.only(left: 10.0, top: 10),
+                                padding:
+                                    const EdgeInsets.only(left: 10.0, top: 10),
                                 child: Text(
                                   "Company Name",
                                   maxLines: 1,
@@ -99,13 +96,13 @@ class UpcomingPlacements extends StatelessWidget {
                                         .onPrimaryContainer,
                                     // color: textColor,
                                   ),
-
                                 ),
                               ),
 
                               //An person icon followed by the number of students
                               Padding(
-                                padding: const EdgeInsets.only(left: 10.0, top: 10),
+                                padding:
+                                    const EdgeInsets.only(left: 10.0, top: 10),
                                 child: Row(
                                   children: [
                                     const Icon(
@@ -130,7 +127,8 @@ class UpcomingPlacements extends StatelessWidget {
 
                               //Two Chips saying internship and full time/part time
                               Padding(
-                                padding: const EdgeInsets.only(left: 10.0, top: 10),
+                                padding:
+                                    const EdgeInsets.only(left: 10.0, top: 10),
                                 child: Row(
                                   children: [
                                     Chip(
@@ -149,7 +147,9 @@ class UpcomingPlacements extends StatelessWidget {
                                     Chip(
                                       side: BorderSide.none,
                                       label: Text(
-                                        index.isEven ? "Full Time" : "Part Time",
+                                        index.isEven
+                                            ? "Full Time"
+                                            : "Part Time",
                                         style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           //color: Colors.white,

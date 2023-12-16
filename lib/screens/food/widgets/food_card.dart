@@ -237,7 +237,6 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                     // color: textColor,
                   ),
                 ),
-
                 Text(
                   widget.description,
                   overflow: TextOverflow.ellipsis,
@@ -296,12 +295,6 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                   ],
                 ),
               ),
-              // const Spacer(),
-              // const Text('hey'),
-              // const Spacer(),
-              // Chip(
-              //   label: Text('${widget.price * count}'),
-              // ),
               Padding(
                 padding: const EdgeInsets.only(right: 16, left: 16),
                 child: FilledButton.icon(

@@ -4,10 +4,9 @@ import 'package:cliff/screens/Admin/add_food_item_screen.dart';
 import 'package:cliff/screens/Admin/company_data_screen.dart';
 import 'package:cliff/screens/Admin/create_announcement.dart';
 import 'package:cliff/screens/Home/announcements_screen.dart';
-// import 'package:cliff/screens/Home/home_screen.dart';
 import 'package:cliff/screens/Home/test_nav_bar.dart';
 import 'package:cliff/screens/classroom/scheduled_classes.dart';
-import 'package:cliff/screens/placements/placement_details.dart';
+import 'package:cliff/screens/placements/screens/placement_details_screen.dart';
 import 'package:cliff/screens/placements/screens/placement_screen.dart';
 import 'package:cliff/screens/placements/placements_quiz.dart';
 import 'package:cliff/screens/placements/placements_trainer.dart';
@@ -37,6 +36,8 @@ import 'package:cliff/screens/Events/screens/registered_events_screen.dart';
 import 'package:cliff/screens/Merch/screens/cart_screen.dart';
 import 'package:cliff/screens/food/food_details_page.dart';
 import 'package:cliff/screens/history/history_screen.dart';
+
+import 'screens/placements/models/company_data.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -114,6 +115,14 @@ class MyApp extends ConsumerWidget {
             AddDesignsScreen.routeName: (ctx) => const AddDesignsScreen(),
             CartScreen.routeName: (ctx) => const CartScreen(),
             CreateAnnouncement.routeName: (ctx) => const CreateAnnouncement(),
+            AnnouncementScreen.routeName: (cxt) => const AnnouncementScreen(),
+            AddFoodItems.routeName: (ctx) => const AddFoodItems(),
+            ScheduledClasses.routeName: (ctx) => const ScheduledClasses(),
+            AddClassTimeTable.routeName: (ctx) => const AddClassTimeTable(),
+            PlacementsScreen.routeName: (ctx) => const PlacementsScreen(),
+            PlacementsTrainer.routeName: (ctx) => const PlacementsTrainer(),
+            PlacementsQuiz.routeName: (ctx) => const PlacementsQuiz(),
+            AddCompanyData.routeName: (ctx) => const AddCompanyData(),
             MerchDetails.routeName: (ctx) {
               final Map<String, dynamic>? args = ModalRoute.of(ctx)!
                   .settings
@@ -161,15 +170,11 @@ class MyApp extends ConsumerWidget {
                 description: args?['description'] ?? 'Default Description',
               );
             },
-            AnnouncementScreen.routeName: (cxt) => const AnnouncementScreen(),
-            AddFoodItems.routeName: (ctx) => const AddFoodItems(),
-            ScheduledClasses.routeName: (ctx) => const ScheduledClasses(),
-            AddClassTimeTable.routeName: (ctx) => const AddClassTimeTable(),
-            PlacementsScreen.routeName: (ctx) => const PlacementsScreen(),
-            PlacementDetails.routeName: (ctx) => const PlacementDetails(),
-            PlacementsTrainer.routeName: (ctx) => const PlacementsTrainer(),
-            PlacementsQuiz.routeName: (ctx) => const PlacementsQuiz(),
-            AddCompanyData.routeName: (ctx) => const AddCompanyData(),
+            PlacementDetails.routeName: (ctx) {
+              final CompanyData args =
+                  ModalRoute.of(ctx)!.settings.arguments as CompanyData;
+              return PlacementDetails(data: args);
+            },
           },
         );
       },

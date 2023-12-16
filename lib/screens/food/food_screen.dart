@@ -38,14 +38,6 @@ class _FoodScreenState extends ConsumerState<FoodScreen> {
                 Navigator.of(context).pop();
               },
             ),
-            // title: const Text(
-            //   "Food",
-            //   style: TextStyle(
-            //     fontFamily: 'IBMPlexMono',
-            //     fontSize: 30,
-            //     fontWeight: FontWeight.bold,
-            //   ),
-            // ),
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 "Food",
@@ -71,11 +63,17 @@ class _FoodScreenState extends ConsumerState<FoodScreen> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Theme.of(context).colorScheme.surface.withOpacity(0.5),
-                            Theme.of(context).colorScheme.surface.withOpacity(0.6),
+                            Theme.of(context)
+                                .colorScheme
+                                .surface
+                                .withOpacity(0.5),
+                            Theme.of(context)
+                                .colorScheme
+                                .surface
+                                .withOpacity(0.6),
                             Theme.of(context).colorScheme.surface,
                           ],
-                          stops: const [0.0, 0.5 ,1.0],
+                          stops: const [0.0, 0.5, 1.0],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                         ),
@@ -94,22 +92,6 @@ class _FoodScreenState extends ConsumerState<FoodScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Container(
-                //   height: screenHeight * 0.2,
-                //   width: double.infinity,
-                //   margin: const EdgeInsets.all(10),
-                //   decoration: BoxDecoration(
-                //     color: Theme.of(context).colorScheme.secondaryContainer,
-                //     border: Border.all(
-                //       color: Theme.of(context).colorScheme.outline,
-                //     ),
-                //     borderRadius: BorderRadius.circular(20),
-                //     image: const DecorationImage(
-                //       image: AssetImage('assets/images/image4.png'),
-                //       fit: BoxFit.fitWidth,
-                //     ),
-                //   ),
-                // ),
                 SizedBox(
                   height: 60,
                   width: double.infinity,

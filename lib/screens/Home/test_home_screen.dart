@@ -365,7 +365,7 @@ class _ImageSliderState extends ConsumerState<ImageSlider> {
   Widget build(BuildContext context) {
     final imageItems = ref.watch(imageItemsProvider);
     final screenHeight = MediaQuery.of(context).size.height;
-    final containerBorderRadius = BorderRadius.circular(screenHeight * 0.02);
+    // final containerBorderRadius = BorderRadius.circular(screenHeight * 0.02);
     final font30 = screenHeight * 0.03;
 
     int _current = 0;
