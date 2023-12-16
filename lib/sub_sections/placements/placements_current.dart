@@ -195,7 +195,9 @@ class _CurrentPlacementsState extends ConsumerState<CurrentPlacements> {
         child: Text("Error Occured"),
       );
     }, loading: () {
-      return CircularProgressIndicator.adaptive();
+      return Center(
+        child: CircularProgressIndicator.adaptive(),
+      );
     });
   }
 }
