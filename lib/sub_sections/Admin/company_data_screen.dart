@@ -59,11 +59,13 @@ class _BuildFormState extends ConsumerState<BuildForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('Entered Information',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'IBMPlexMono')),
+              Text(
+                'Entered Information',
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'IBMPlexMono'),
+              ),
               SizedBox(height: 16),
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -148,6 +150,7 @@ class _BuildFormState extends ConsumerState<BuildForm> {
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'IBMPlexMono',
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Text(
@@ -247,23 +250,21 @@ class _BuildFormState extends ConsumerState<BuildForm> {
   bool _submit() {
     try {
       FirebaseFirestore.instance
-          .collection('placement')
-          .doc('CompanyDetails')
+          .collection('companies')
+          .doc('${companyNameController.text}')
           .set(
         {
-          '${companyNameController.text}': {
-            'companyName': companyNameController.text,
-            'companyDetails': companyDetailsController.text,
-            'jobDescription': jobDescriptionController.text,
-            'vacancies': int.parse(vacanciesController.text),
-            'allowedBranches': selectedOptions,
-            'arrivalDate': dateController.text,
-            'minimumCgpa': num.parse(cgpaController.text),
-            'maximumBacklogs': int.parse(backlogsController.text),
-            'stipend': num.parse(stipendController.text),
-            'ctc': num.parse(ctcController.text),
-            'bond': num.parse(bondController.text),
-          }
+          'companyName': companyNameController.text,
+          'companyDetails': companyDetailsController.text,
+          'jobDescription': jobDescriptionController.text,
+          'vacancies': int.parse(vacanciesController.text),
+          'allowedBranches': selectedOptions,
+          'arrivalDate': dateController.text,
+          'minimumCgpa': num.parse(cgpaController.text),
+          'maximumBacklogs': int.parse(backlogsController.text),
+          'stipend': num.parse(stipendController.text),
+          'ctc': num.parse(ctcController.text),
+          'bond': num.parse(bondController.text),
         },
         SetOptions(merge: true),
       );
