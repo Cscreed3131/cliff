@@ -1,8 +1,4 @@
-// import 'package:cliff/screens/Admin/add_class_timetable.dart';
-// import 'package:cliff/screens/Admin/add_designs_screen.dart';
-// import 'package:cliff/screens/Admin/add_food_item_screen.dart';
-// import 'package:cliff/screens/Admin/create_announcement.dart';
-// import 'package:cliff/screens/Admin/create_event_screens.dart';
+import 'package:cliff/provider/user_data_provider.dart';
 import 'package:cliff/sub_sections/Admin/widgets/admin_add_food_widget.dart';
 import 'package:cliff/sub_sections/Admin/widgets/admin_add_placement_data.dart';
 import 'package:cliff/sub_sections/Admin/widgets/admin_announce_widget.dart';
@@ -10,6 +6,7 @@ import 'package:cliff/sub_sections/Admin/widgets/admin_events_widget.dart';
 import 'package:cliff/sub_sections/Admin/widgets/admin_merch_widget.dart';
 import 'package:cliff/sub_sections/Admin/widgets/admin_timetable_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ListItem {
   final int id;
@@ -28,14 +25,14 @@ final List<ListItem> items = [
   ListItem(5, 'Add Timetable', "assets/images/empty.png", Icons.timelapse),
 ];
 
-class AdminScreen extends StatefulWidget {
+class AdminScreen extends ConsumerStatefulWidget {
   const AdminScreen({super.key});
   static const routeName = '/add-event';
   @override
-  State<AdminScreen> createState() => AdminScreenState();
+  ConsumerState<AdminScreen> createState() => _AdminScreenState();
 }
 
-class AdminScreenState extends State<AdminScreen>
+class _AdminScreenState extends ConsumerState<AdminScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -55,8 +52,11 @@ class AdminScreenState extends State<AdminScreen>
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     // final containerBorderRadius = BorderRadius.circular(screenHeight * 0.02);
-    //final font30 = screenHeight * 0.05;
-
+    // final font30 = screenHeight * 0.05;
+    final userData = ref.watch(realTimeUserDataProvider);
+    final admin = userData.value!.name;
+    final adminRole = userData.value!.roles;
+    print(adminRole);
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -96,7 +96,7 @@ class AdminScreenState extends State<AdminScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Saronik Sarkar',
+                    admin,
                     style: TextStyle(
                       fontSize: 30,
                       fontFamily: 'IBMPlexMono',
@@ -104,27 +104,34 @@ class AdminScreenState extends State<AdminScreen>
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
-                  //chip saying club lead
+                  //chip specifying admin role
+                  // I want to fetch user roles from my provider which i know is list of strings and then generate chips based on that.
+
                   Row(
                     children: [
-                      Chip(
-                        side: BorderSide.none,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        label: Text(
-                          'Club Lead',
-                          style: TextStyle(
-                            fontFamily: 'IBMPlexMono',
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.onPrimary,
+                      for (var role in adminRole)
+                        Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Chip(
+                            side: BorderSide.none,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                            ),
+                            label: Text(
+                              '${role.toString().toUpperCase()}',
+                              style: TextStyle(
+                                fontFamily: 'IBMPlexMono',
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                            ),
+                            backgroundColor: Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withOpacity(0.7),
                           ),
                         ),
-                        backgroundColor: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(0.7),
-                      ),
                       IconButton(
                         onPressed: () {},
                         icon: Icon(Icons.add),

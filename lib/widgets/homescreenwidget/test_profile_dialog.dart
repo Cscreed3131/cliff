@@ -72,7 +72,8 @@ class ProfileDialog extends ConsumerWidget {
                     Icons.admin_panel_settings,
                     color: Colors.green.shade700,
                   ),
-                  label: const Text('Admin'),
+                  label: const Text(
+                      'Admin'), // this will contain userrole which will be dynamic and will be fetched by user
                 ),
                 const Divider(
                   indent: 10,
@@ -161,6 +162,7 @@ class ProfileDialog extends ConsumerWidget {
                                   Navigator.of(context).pop();
                                   await FirebaseAuth.instance.signOut();
                                   ref.invalidate(realTimeUserDataProvider);
+                                  print('logged out');
                                   await Navigator.of(context)
                                       .popAndPushNamed(AuthScreen.routeName);
                                 },

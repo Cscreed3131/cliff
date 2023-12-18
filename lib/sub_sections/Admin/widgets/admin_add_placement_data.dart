@@ -1,24 +1,34 @@
 import 'package:cliff/sub_sections/Admin/company_data_screen.dart';
+import 'package:cliff/sub_sections/placements/provider/company_data_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AdminAddPlacementsData extends StatefulWidget {
+class AdminAddPlacementsData extends ConsumerStatefulWidget {
   const AdminAddPlacementsData({super.key});
 
   @override
-  State<AdminAddPlacementsData> createState() => _AdminAddPlacementsDataState();
+  ConsumerState<AdminAddPlacementsData> createState() =>
+      _AdminAddPlacementsDataState();
 }
 
-class _AdminAddPlacementsDataState extends State<AdminAddPlacementsData> {
+class _AdminAddPlacementsDataState
+    extends ConsumerState<AdminAddPlacementsData> {
   @override
   Widget build(BuildContext context) {
-    //names of random companies
-    List<String> companies = [
-      'Google',
-      'Twitter',
-      'Uber',
-      'Zomato',
-    ];
-
+    final companyData = ref.watch(companyDataProvider);
+    final numberOfCompanies = companyData.when(
+      data: (data) {
+        return "${data.length} companies";
+      },
+      error: (error, stackTrace) {
+        print(error);
+        print(stackTrace);
+        return 'Error loading data';
+      },
+      loading: () {
+        return 'Loading...';
+      },
+    );
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -126,7 +136,7 @@ class _AdminAddPlacementsDataState extends State<AdminAddPlacementsData> {
 
           ListTile(
             title: Text(
-              '4 companies ',
+              numberOfCompanies, // this will contain the number of companies fetched from the provider.
               style: TextStyle(
                 fontSize: MediaQuery.of(context).size.width * 0.05,
                 fontFamily: 'IBMPlexMono',
@@ -146,6 +156,7 @@ class _AdminAddPlacementsDataState extends State<AdminAddPlacementsData> {
             trailing: FilledButton.icon(
               icon: Icon(Icons.add),
               onPressed: () {
+                //add company data screen
                 Navigator.of(context).pushNamed(AddCompanyData.routeName);
               },
               label: Text('Add Company'),
@@ -153,68 +164,85 @@ class _AdminAddPlacementsDataState extends State<AdminAddPlacementsData> {
           ),
 
           //list of companies
-          ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: companies.length,
-            itemBuilder: (context, index) {
-              return Card(
-                child: ListTile(
-                  isThreeLine: true,
-                  title: Text(
-                    companies[index],
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * 0.05,
-                      fontFamily: 'IBMPlexMono',
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  subtitle: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        '₹ 10 LPA ',
-                        style: TextStyle(
-                          //fontSize: MediaQuery.of(context).size.width * 0.05,
-                          fontFamily: 'IBMPlexMono',
-                          //color: Theme.of(context).colorScheme.primary,
-                          //fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      CircleAvatar(
-                        radius: 1.5,
-                        backgroundColor: Colors.grey,
-                      ),
-                      Text(
-                        ' 🤵 100 ',
-                        style: TextStyle(
-                          //fontSize: MediaQuery.of(context).size.width * 0.05,
-                          fontFamily: 'IBMPlexMono',
-                          //color: Theme.of(context).colorScheme.primary,
-                          //fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.edit),
-                        onPressed: () {},
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                ),
+          companyData.when(data: (data) {
+            if (data.isEmpty) {
+              return Center(
+                child: Text('No data available'),
               );
-            },
-          ),
+            } else {
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: ListTile(
+                      isThreeLine: true,
+                      title: Text(
+                        data[index].companyName,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                          fontFamily: 'IBMPlexMono',
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            '₹ ${data[index].ctc} ', // this will contain the ctc of the company fetched from the provider.
+                            style: TextStyle(
+                              //fontSize: MediaQuery.of(context).size.width * 0.05,
+                              fontFamily: 'IBMPlexMono',
+                              //color: Theme.of(context).colorScheme.primary,
+                              //fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          CircleAvatar(
+                            radius: 1.5,
+                            backgroundColor: Colors.grey,
+                          ),
+                          Text(
+                            ' Vac: ${data[index].vacancy}  ', // this will contain the students who are placed in the company.
+                            // for now this contain the number of vacancies in the company.
+                            style: TextStyle(
+                              //fontSize: MediaQuery.of(context).size.width * 0.05,
+                              fontFamily: 'IBMPlexMono',
+                              //color: Theme.of(context).colorScheme.primary,
+                              //fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.edit),
+                            onPressed: () {},
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
+          }, error: (error, stackTrace) {
+            return Text(error.toString());
+          }, loading: () {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }),
+
+          //list of companies
         ],
       ),
     );

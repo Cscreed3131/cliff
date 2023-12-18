@@ -110,6 +110,7 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
+                                      // this will be a textbutton.
                                       Text(
                                         'Privacy Policy',
                                         style: TextStyle(
@@ -126,10 +127,13 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
                                       const SizedBox(
                                         width: 10,
                                       ),
+
+                                      // this will also be a textbutton.
                                       Text(
                                         'Terms of Service',
                                         style: TextStyle(
-                                            color: Colors.grey.shade400),
+                                          color: Colors.grey.shade400,
+                                        ),
                                       ),
                                     ],
                                   )

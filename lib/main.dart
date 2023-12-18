@@ -98,6 +98,7 @@ class MyApp extends ConsumerWidget {
             },
           ),
           routes: {
+            TestNavBar.routeName: (ctx) => const TestNavBar(),
             SignUpScreen.routeName: (ctx) => const SignUpScreen(),
             AuthScreen.routeName: (ctx) => const AuthScreen(),
             EventsScreen.routeName: (ctx) => const EventsScreen(),

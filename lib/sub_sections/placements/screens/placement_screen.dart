@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cliff/provider/user_data_provider.dart';
 import 'package:cliff/sub_sections/placements/placements_current.dart';
 import 'package:cliff/sub_sections/placements/upcoming_placements.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,18 @@ class PlacementsScreen extends ConsumerStatefulWidget {
 class _PlacementsScreenState extends ConsumerState<PlacementsScreen> {
   @override
   Widget build(BuildContext context) {
+    final userdata = ref.watch(realTimeUserDataProvider);
+    userdata.when(
+      data: (data) {
+        print(data.roles);
+      },
+      error: (error, stackTrace) {
+        print(error);
+      },
+      loading: () {
+        print("loading");
+      },
+    );
     return Scaffold(
       body: CustomScrollView(
         slivers: [

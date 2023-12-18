@@ -1,11 +1,12 @@
 import 'dart:async';
+import 'package:intl/intl.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AddCompanyData extends StatefulWidget {
   const AddCompanyData({super.key});
@@ -47,10 +48,10 @@ class _BuildFormState extends ConsumerState<BuildForm> {
     Completer<bool> completer = Completer<bool>();
 
     showModalBottomSheet(
-      constraints: BoxConstraints.loose(Size(
-          MediaQuery.of(context).size.width,
-          MediaQuery.of(context).size.height *
-              0.4)), // <= this is set to 3/4 of screen size.
+      constraints: BoxConstraints.loose(
+        Size(MediaQuery.of(context).size.width,
+            MediaQuery.of(context).size.height * 0.4),
+      ), // <= this is set to 3/4 of screen size.
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
@@ -75,6 +76,7 @@ class _BuildFormState extends ConsumerState<BuildForm> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      //Column with company name and company details descriptors
                       Text(
                         'Company Name:',
                         style: TextStyle(
@@ -241,8 +243,33 @@ class _BuildFormState extends ConsumerState<BuildForm> {
     if (savePressed) {
       // Save data to the database or perform other actions
       _formKey.currentState!.save();
-      await _submit(); // Assuming _submit is asynchronous
-      Navigator.pop(context);
+      await _submit();
+      // Show a success message to the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Company data saved successfully\nEnter another company details or exit',
+            style: TextStyle(
+              fontSize: 16,
+              fontFamily: 'IBMPlexMono', // font family
+            ),
+          ),
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 2), // duration of the snackbar
+        ), //
+      );
+      // reset fields
+      companyNameController.clear();
+      companyDetailsController.clear();
+      jobDescriptionController.clear();
+      vacanciesController.clear();
+      cgpaController.clear();
+      backlogsController.clear();
+      stipendController.clear();
+      ctcController.clear();
+      bondController.clear();
+      dateController.clear();
+      selectedOptions.clear();
     }
     // If cancel button is pressed, do nothing or handle as needed
   }
