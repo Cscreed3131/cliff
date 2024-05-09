@@ -33,7 +33,7 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          toolbarHeight: MediaQuery.of(context).size.height * 0.08,
+          toolbarHeight: MediaQuery.of(context).size.height * 0.1,
           // title: const Text(
           //   'Cliff',
           //   style: TextStyle(
@@ -43,111 +43,109 @@ class _TestHomeScreenState extends State<TestHomeScreen> {
           // ),
 
           //Title will be a search bar with the text "Cliff" in it
-          title: SafeArea(
-            child: Container(
-              height: 50,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceVariant,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Center(
-                child: TextFormField(
-                  textAlign: TextAlign.center,
-                  onTap: () {
-                    setState(() {
-                      showHintText = false;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    hintText: showHintText ? 'Cliff' : '',
-                    hintStyle: TextStyle(
-                      fontFamily: 'IBMPlexMono',
-                      fontWeight: FontWeight.bold,
-                    ),
+          title: Container(
+            height: 50,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceVariant,
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: Center(
+              child: TextFormField(
+                textAlign: TextAlign.center,
+                onTap: () {
+                  setState(() {
+                    showHintText = false;
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: showHintText ? 'Cliff' : '',
+                  hintStyle: TextStyle(
+                    fontFamily: 'IBMPlexMono',
+                    fontWeight: FontWeight.bold,
+                  ),
 
-                    border: InputBorder.none,
+                  border: InputBorder.none,
 
-                    prefixIcon: AnnouncementIconButton(),
-                    // suffixIcon: Icon(Icons.account_circle, color: Colors.teal, size: 40,),
-                    //show a dialog box when pressed
+                  prefixIcon: AnnouncementIconButton(),
+                  // suffixIcon: Icon(Icons.account_circle, color: Colors.teal, size: 40,),
+                  //show a dialog box when pressed
 
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              insetPadding: EdgeInsets.zero,
-                              title: Row(
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.close),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.15),
-                                  Center(
-                                    child: const Text(
-                                      'Cliff',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'IBMPlexMono',
-                                      ),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            insetPadding: EdgeInsets.zero,
+                            title: Row(
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.close),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.15),
+                                Center(
+                                  child: const Text(
+                                    'Cliff',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'IBMPlexMono',
                                     ),
                                   ),
-                                ],
-                              ),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ProfileDialog(),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      // this will be a textbutton.
-                                      Text(
-                                        'Privacy Policy',
-                                        style: TextStyle(
-                                            color: Colors.grey.shade400),
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      CircleAvatar(
-                                        radius: 1,
-                                        foregroundColor: Colors.grey,
-                                        backgroundColor: Colors.grey,
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
+                                ),
+                              ],
+                            ),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ProfileDialog(),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    // this will be a textbutton.
+                                    Text(
+                                      'Privacy Policy',
+                                      style: TextStyle(
+                                          color: Colors.grey.shade400),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    CircleAvatar(
+                                      radius: 1,
+                                      foregroundColor: Colors.grey,
+                                      backgroundColor: Colors.grey,
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
 
-                                      // this will also be a textbutton.
-                                      Text(
-                                        'Terms of Service',
-                                        style: TextStyle(
-                                          color: Colors.grey.shade400,
-                                        ),
+                                    // this will also be a textbutton.
+                                    Text(
+                                      'Terms of Service',
+                                      style: TextStyle(
+                                        color: Colors.grey.shade400,
                                       ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      icon: const Icon(
-                        Icons.account_circle,
-                        color: Colors.lightBlueAccent,
-                        size: 30,
-                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.account_circle,
+                      color: Colors.lightBlueAccent,
+                      size: 30,
                     ),
                   ),
                 ),

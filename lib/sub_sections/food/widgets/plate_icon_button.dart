@@ -10,7 +10,9 @@ class PlateIconButton extends ConsumerWidget {
     // final cartDataAsyncValue = ref.watch(cartDataStreamProvider);
 
     return IconButton(
-        onPressed: () {}, icon: const Icon(Icons.fastfood_rounded));
+      onPressed: () {},
+      icon: const Icon(Icons.fastfood_rounded),
+    );
 //     cartDataAsyncValue.when(
 //       data: (value) {
 //         return IconButton(

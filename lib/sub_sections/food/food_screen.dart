@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:cliff/provider/food_provider.dart';
 import 'package:cliff/sub_sections/food/widgets/food_card.dart';
-import 'package:cliff/widgets/foodwidget/plate_icon_button.dart';
+import 'package:cliff/sub_sections/food/widgets/plate_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -38,6 +38,9 @@ class _FoodScreenState extends ConsumerState<FoodScreen> {
                 Navigator.of(context).pop();
               },
             ),
+            actions: const [
+              PlateIconButton(),
+            ],
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 "Food",
@@ -83,9 +86,6 @@ class _FoodScreenState extends ConsumerState<FoodScreen> {
                 ),
               ),
             ),
-            actions: const [
-              PlateIconButton(),
-            ],
           ),
           SliverToBoxAdapter(
             child: Column(
